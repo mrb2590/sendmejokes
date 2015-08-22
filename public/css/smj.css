@@ -1,0 +1,127 @@
+/*******************************************************************
+* ---LAYOUT---
+*******************************************************************/
+html, body {
+    /*
+    background: url(images/bg.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    */
+    background-color: #6c48a2;
+    height: 100%;
+}
+
+/************************************************
+* ---LAYOUT - sidebar--
+************************************************/
+.sidebar {
+    float: right;
+    height: 100%;
+    background-color: #473168;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    width: 0px;
+    z-index: 900;
+    -webkit-box-shadow: 0 0 30px 1px #333;
+            box-shadow: 0 0 30px 1px #333;
+    -webkit-transition: all 0.6s ease;
+       -moz-transition: all 0.6s ease;
+        -ms-transition: all 0.6s ease;
+         -o-transition: all 0.6s ease;
+            transition: all 0.6s ease;
+}
+    .sidebar.sidebar-open {
+        width: 300px;
+        max-width: 100%;
+        opacity: 100;
+    }
+    .sidebar .sidebar-head {
+        position: fixed;
+        color: #f9f7da;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+        margin: 0 15px;
+        line-height: 100px;
+        opacity: 100;
+        -webkit-transition: all 0.6s ease;
+           -moz-transition: all 0.6s ease;
+            -ms-transition: all 0.6s ease;
+             -o-transition: all 0.6s ease;
+                transition: all 0.6s ease;
+    }
+    .sidebar .sidebar-head-hidden {
+        opacity: 0;
+    }
+    .sidebar .list-group {
+        margin-top: 100px;
+        position: fixed;
+        width: 100%;
+    }
+        .sidebar .list-group .list-group-item {
+            background-color: rgba(0, 0, 0, 0);
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+            padding: 15px 30px;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            font-size: 20px;
+            color: #f9f7da;
+            -webkit-transition: all 0.2s ease;
+               -moz-transition: all 0.2s ease;
+                -ms-transition: all 0.2s ease;
+                 -o-transition: all 0.2s ease;
+                    transition: all 0.2s ease;
+        }
+        .sidebar .list-group .list-group-item:hover {
+            background-color: #f9f7da;
+            color: #333;
+        }
+
+/************************************************
+* ---LAYOUT - logo & menu button--
+************************************************/
+.logo {
+    height: 130px;
+    width: auto;
+    float: left;
+    display: inline-block;
+}
+    .logo .logo-anchor {
+        height: 130px;
+        width: auto;
+    }
+    .logo .logo-img {
+        height: 130px;
+        width: auto;
+    }
+
+.browse-button {
+    float: right;
+    display: inline-block;
+    z-index: 1000;
+}
+/*******************************************************************
+* ---COMING-SOON---
+*******************************************************************/
+.middle-align-out {
+    position: relative;
+    height: 100%;
+}
+
+.middle-align-in {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}
+    .logo-img {
+        height: 130px;
+        width: auto;
+    }
