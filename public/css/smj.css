@@ -42,28 +42,38 @@ html, body {
         position: fixed;
         color: #f9f7da;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-        margin: 0 15px;
-        line-height: 100px;
         opacity: 100;
+        padding: 26px;
         -webkit-transition: all 0.6s ease;
            -moz-transition: all 0.6s ease;
             -ms-transition: all 0.6s ease;
              -o-transition: all 0.6s ease;
                 transition: all 0.6s ease;
     }
-    .sidebar .sidebar-head-hidden {
-        opacity: 0;
-    }
+            .sidebar .sidebar-head .username {
+                font-size: 22px;
+            }
+            .sidebar .sidebar-head .user-option {
+                font-size: 12px;
+            }
+        .sidebar .sidebar-head.sidebar-head-hidden {
+            opacity: 0;
+        }
     .sidebar .list-group {
-        margin-top: 100px;
+        margin-top: 118px;
         position: fixed;
+        height: calc(100% - 118px);
         width: 100%;
+        overflow: auto;
+        border-radius: 0;
+        border-top: 1px solid #f9f7da;
     }
         .sidebar .list-group .list-group-item {
             background-color: rgba(0, 0, 0, 0);
             border-radius: 0;
             border-left: none;
             border-right: none;
+            border-color: #f9f7da;
             padding: 15px 30px;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
             cursor: pointer;
@@ -75,10 +85,19 @@ html, body {
                  -o-transition: all 0.2s ease;
                     transition: all 0.2s ease;
         }
+            .sidebar .list-group .list-group-item:first-child {
+                border-top: none;
+            }
         .sidebar .list-group .list-group-item:hover {
             background-color: #f9f7da;
             color: #333;
         }
+
+@media (max-width: 768px) { 
+    .sidebar.sidebar-open {
+        width: 100%;
+    }
+}
 
 /************************************************
 * ---LAYOUT - logo & menu button--
@@ -103,6 +122,7 @@ html, body {
     display: inline-block;
     z-index: 1000;
 }
+
 /*******************************************************************
 * ---COMING-SOON---
 *******************************************************************/

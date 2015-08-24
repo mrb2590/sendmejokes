@@ -6,7 +6,12 @@
 .full-height {
     height: 100%;
 }
-h1.light {
+h1.light,
+h2.light,
+h3.light,
+h4.light,
+h5.light,
+h6.light {
     color: #f9f7da;
 }
 .btn-default,

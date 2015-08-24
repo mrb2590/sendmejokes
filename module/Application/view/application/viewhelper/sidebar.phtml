@@ -1,5 +1,9 @@
 <div class="sidebar">
-    <h3 class="sidebar-head sidebar-head-hidden">BROWSE</h3>
+    <div class="sidebar-head sidebar-head-hidden">
+        <div class="username">Username</div>
+        <div class="user-option">Update Preferences</div>
+        <div class="user-option">Sign Out</div>
+    </div><!-- /.sidebar-head -->
     <div class="list-group">
         <?php foreach($categories as $category): ?>
             <a class="list-group-item"><?php echo $category->name ?></a>
