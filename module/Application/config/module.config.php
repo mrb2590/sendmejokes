@@ -8,8 +8,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Route',
-                        //'action'     => 'home',
-                        'action'     => 'coming-soon',
+                        'action'     => 'home',
                     ),
                 ),
             ),
@@ -53,6 +52,11 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'sidebar' => 'Application\View\Helper\Sidebar',
         ),
     ),
     // Placeholder for console routes
