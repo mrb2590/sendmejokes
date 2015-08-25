@@ -109,4 +109,12 @@ class RouteController extends AbstractActionController
             'categories' => $userPostCategories
         ));
     }
+    
+    public function signoutAction()
+    {
+        $this->session = new SessionContainer('user');
+        unset($this->session->user);
+        
+        return $this->redirect()->toUrl('/');
+    }
 }

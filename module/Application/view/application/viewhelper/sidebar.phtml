@@ -1,9 +1,11 @@
 <div class="sidebar">
     <div class="sidebar-head sidebar-head-hidden">
-    <?php if($session->user->id != null && $session->user->id != ''): ?>
+    <?php if(isset($session->user->id)): ?>
         <div class="username"><?php echo $session->user->email ?></div>
-        <div class="user-option">Update Preferences</div>
-        <div class="user-option">Sign Out</div>
+        <a class="user-option" href="<?php echo $this->url('home') ?>">Update Preferences</a>
+        <a class="user-option" href="<?php echo $this->url('signout') ?>">Sign Out</a>
+    <?php else: ?>
+        <a class="user-option" href="<?php echo $this->url('home') ?>">Sign In</a>
     <?php endif ?>
     </div><!-- /.sidebar-head -->
     <div class="list-group">

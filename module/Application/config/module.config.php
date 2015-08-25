@@ -22,6 +22,16 @@ return array(
                     ),
                 ),
             ),
+            'signout' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/signout',
+                    'defaults' => array(
+                        'controller'    => 'Application\Controller\Route',
+                        'action'        => 'signout',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
