@@ -22,7 +22,6 @@ html, body {
     background-color: #473168;
     position: absolute;
     right: 0;
-    opacity: 0;
     width: 0px;
     z-index: 900;
     -webkit-box-shadow: 0 0 30px 1px #333;
@@ -79,11 +78,11 @@ html, body {
             cursor: pointer;
             font-size: 20px;
             color: #f9f7da;
-            -webkit-transition: all 0.2s ease;
-               -moz-transition: all 0.2s ease;
-                -ms-transition: all 0.2s ease;
-                 -o-transition: all 0.2s ease;
-                    transition: all 0.2s ease;
+            -webkit-transition: all 0.15s ease;
+               -moz-transition: all 0.15s ease;
+                -ms-transition: all 0.15s ease;
+                 -o-transition: all 0.15s ease;
+                    transition: all 0.15s ease;
         }
             .sidebar .list-group .list-group-item:first-child {
                 border-top: none;
@@ -102,18 +101,12 @@ html, body {
 /************************************************
 * ---LAYOUT - logo & menu button--
 ************************************************/
-.logo {
-    height: 130px;
-    width: auto;
-    float: left;
-    display: inline-block;
+
+.logo-anchor {
 }
-    .logo .logo-anchor {
-        height: 130px;
-        width: auto;
-    }
-    .logo .logo-img {
-        height: 130px;
+    .logo-anchor .logo-img {
+        padding: 15px 0;
+        height: 118px;
         width: auto;
     }
 
@@ -121,6 +114,36 @@ html, body {
     float: right;
     display: inline-block;
     z-index: 1000;
+    margin-top: -9px;
+    margin-right: -15px;
+}
+
+/*******************************************************************
+* ---HOME---
+*******************************************************************/
+.home.middle-align-out {
+    position: relative;
+    height: 100%;
+    margin-top: -118px;
+}
+
+.home .middle-align-in {
+    text-align: center;
+    position: absolute;
+    max-width: 320px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}
+
+.home .btn-default {
+    width: 100%;
+}
+
+.home input.form-control {
+    text-align: center;
 }
 
 /*******************************************************************

@@ -1,6 +1,8 @@
 <?php
 namespace Application;
 
+use Application\Model\User;
+use Application\Model\UserTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
 use Zend\Mvc\ModuleRouteListener;
@@ -39,6 +41,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         return array(
             'factories' => array(
+                'Application\Model\UserTable' =>  function($sm) {
+                    $tableGateway = $sm->get('UserTableGateway');
+                    $table = new UserTable($tableGateway);
+                    return $table;
+                },
+                'UserTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new User());
+                    return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
+                },
                 'Application\Model\CategoryTable' =>  function($sm) {
                     $tableGateway = $sm->get('CategoryTableGateway');
                     $table = new CategoryTable($tableGateway);

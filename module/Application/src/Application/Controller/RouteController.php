@@ -13,6 +13,13 @@ class RouteController extends AbstractActionController
 
     public function homeAction()
     {
-        return new ViewModel();
+        $sm = $this->getServiceLocator();
+        $categoryTable = $sm->get('Application\Model\UserTable');
+        $users = $categoryTable->fetchAll();
+        return new ViewModel(
+            array(
+                'users' => $users
+            )
+        );
     }
 }

@@ -12,6 +12,7 @@
                         ->prependStylesheet($this->basePath() . '/css/smj-theme.css')
                         ->prependStylesheet($this->basePath() . '/css/transformicon.css')
                         ->prependStylesheet($this->basePath() . '/css/animate.css')
+                        ->prependStylesheet('https://fonts.googleapis.com/css?family=Open+Sans:400')
                         ->prependStylesheet($this->basePath() . '/css/font-awesome.min.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') 
         ?>
@@ -21,11 +22,9 @@
         <div class="full-height container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="logo hidden-xs hidden-sm">
-                        <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
-                            <img class="logo-img" src="/img/logo-light.png">
-                        </a>
-                    </div><!-- /.logo -->
+                    <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
+                        <img class="logo-img" src="/img/logo-light.png">
+                    </a>
                     <div class="browse-button">
                         <button class="c-hamburger c-hamburger--htx">
                             <span>toggle menu</span>
