@@ -124,26 +124,47 @@ html, body {
 .home.middle-align-out {
     position: relative;
     height: 100%;
+    min-height: 430px;
     margin-top: -118px;
 }
+    .home.middle-align-out .middle-align-in {
+        text-align: center;
+        position: absolute;
+        max-width: 320px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+    }
 
-.home .middle-align-in {
-    text-align: center;
-    position: absolute;
-    max-width: 320px;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-}
-
-.home .btn-default {
+.home .btn-primary {
     width: 100%;
 }
 
 .home input.form-control {
     text-align: center;
+}
+
+#home-signup-modal {
+    z-index: 5000 !important;
+}
+
+#home-signup-modal .modal-title {
+    text-align: center;
+}
+
+#home-signup-modal .modal-content {
+    border-radius: 0;
+    background-color: #ddd;
+}
+
+#home-signup-modal .modal-header {
+    border-bottom: 1px solid #6c48a2;
+}
+
+#home-signup-modal .modal-footer {
+    border-top: none;
 }
 
 /*******************************************************************

@@ -42,9 +42,9 @@ function bindEventHandlers() {
     /*******************************************************************
     * submit event - opens sign up pref modal
     *******************************************************************/
-    //$('#sign-up-form-email').on('submit', function(e) {
-    //    e.preventDefault();
-    //    $('#home-signup-modal').modal('show');
-    //    $('#sign-up-pref-form [name="email"]').val($('#sign-up-form-email [name="email"]').val());
-    //});
+    $('#sign-up-form-email').on('submit', function(e) {
+        e.preventDefault();
+        $('#home-signup-modal').modal('show');
+        $('#sign-up-pref-form [name="email"]').val($('#sign-up-form-email [name="email"]').val());
+    });
 }

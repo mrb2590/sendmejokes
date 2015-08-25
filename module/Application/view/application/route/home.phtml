@@ -5,10 +5,61 @@
             <div class="form-group">
                 <label for="email" class="light">Enter your email address</label>
                 <input type="text" class="form-control" name="email" id="email" value="">
-            </div>
+            </div><!-- /.form-group -->
             <div class="form-group">
-                <button type="submit" name="submit" id="submitbutton" class="btn btn-default">Send Me Jokes!</button>
-            </div>
+                <button type="submit" name="submit" id="submitbutton" class="btn btn-primary">Send Me Jokes!</button>
+            </div><!-- /.form-group -->
         </form>
     </div><!-- /.middle-align-in -->
 </div><!-- /.middle-align-out -->
+
+<form id="sign-up-pref-form" action="/user/create-user" method="POST">
+    <div id="home-signup-modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Choose Your Preferences</h4>
+                </div><!-- /.modal-header -->
+                <div class="modal-body">
+                        <input type="hidden" name="email" value="">
+                        <?php $i = 0 ?>
+                        <?php foreach($categories as $category): ?>
+                            <?php if ($i % 4 === 0): ?>
+                                <?php if ($i !== 0): ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="row">
+                            <?php endif; ?>
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
+                                        </label>
+                                    </div><!-- /.checkbox -->
+                                </div>
+                            <?php $i++ ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="password">Enter your password:</label>
+                                    <input id="password" class="form-control" type="password" value="" name="password">
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="password-check">Re-Enter your password:</label>
+                                    <input id="password-check" class="form-control" type="password" value="" name="password-check">
+                                </div><!-- /.form-group -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                </div><!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button name="submit" type="submit" value="submit" class="btn btn-primary">Sign Me Up!</button>
+                </div><!-- /.modal-footer -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+
+
