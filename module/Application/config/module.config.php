@@ -12,6 +12,16 @@ return array(
                     ),
                 ),
             ),
+            'thankyou' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/thankyou',
+                    'defaults' => array(
+                        'controller'    => 'Application\Controller\Route',
+                        'action'        => 'thankyou',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(

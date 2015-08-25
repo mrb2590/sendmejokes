@@ -1,0 +1,25 @@
+<div class="thank-you">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <h1><?php echo $message ?></h1>
+                    </div>
+                </div>
+                <?php if($categories !== false): ?>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3>You will being receiving emails for jokes from these categories</h3>
+                        </div>
+                        <div class="panel-body">
+                            <?php foreach($categories as $name => $id): ?>
+                                <h5><?php echo $name ?></h5>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+</div>

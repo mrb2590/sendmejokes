@@ -55,6 +55,7 @@ class UserTable
             $user = $row;
             $this->session->auth = false;
             $this->session->emailAlreadyExists = true;
+            throw new \Exception("Email already exists");
         } else {
             $this->tableGateway->insert($data);
             $rowset = $this->tableGateway->select(array('email' => $user->email));

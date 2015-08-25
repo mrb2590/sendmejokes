@@ -1,8 +1,10 @@
 <div class="sidebar">
     <div class="sidebar-head sidebar-head-hidden">
-        <div class="username">Username</div>
+    <?php if($session->user->id != null && $session->user->id != ''): ?>
+        <div class="username"><?php echo $session->user->email ?></div>
         <div class="user-option">Update Preferences</div>
         <div class="user-option">Sign Out</div>
+    <?php endif ?>
     </div><!-- /.sidebar-head -->
     <div class="list-group">
         <?php foreach($categories as $category): ?>

@@ -5,6 +5,10 @@ use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
+use Application\Model\UserCategory;
+use Application\Model\UserCategoriesTable;
+use Application\Model\ViewUserCategory;
+use Application\Model\ViewUserCategoriesTable;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
@@ -62,6 +66,28 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Category());
                     return new TableGateway('category', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\UserCategoriesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('UserCategoriesTableGateway');
+                    $table = new UserCategoriesTable($tableGateway);
+                    return $table;
+                },
+                'UserCategoriesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new UserCategory());
+                    return new TableGateway('user_categories', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\ViewUserCategoriesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('ViewUserCategoriesTableGateway');
+                    $table = new ViewUserCategoriesTable($tableGateway);
+                    return $table;
+                },
+                'ViewUserCategoriesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new ViewUserCategory());
+                    return new TableGateway('view_user_categories', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
