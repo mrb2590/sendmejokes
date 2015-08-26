@@ -1,11 +1,23 @@
 <div class="sidebar">
     <div class="sidebar-head sidebar-head-hidden">
-    <?php if(isset($session->user->id)): ?>
+    <?php if(isset($session->user->user_id)): ?>
         <div class="username"><?php echo $session->user->email ?></div>
         <a class="user-option" href="<?php echo $this->url('home') ?>">Update Preferences</a>
-        <a class="user-option" href="<?php echo $this->url('signout') ?>">Sign Out</a>
+        <a class="user-option" href="<?php echo $this->url('user', array('action' => 'sign-out')) ?>">Sign Out</a>
     <?php else: ?>
-        <a class="user-option" href="<?php echo $this->url('home') ?>">Sign In</a>
+        <form id="sign-in-form" action="/user/sign-in" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" class="form-control" type="text" value="" name="email">
+            </div><!-- /.form-group -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input id="password" class="form-control" type="password" value="" name="password">
+            </div><!-- /.form-group -->
+            <div class="form-group">
+                <button name="submit" type="submit" value="submit" class="btn btn-primary">Sign In</button>
+            </div><!-- /.form-group -->
+        </form>
     <?php endif ?>
     </div><!-- /.sidebar-head -->
     <div class="list-group">

@@ -3,32 +3,29 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type'    => 'Literal',
+                'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/[:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
                     'defaults' => array(
-                        'controller'    => 'Application\Controller\Route',
-                        'action'        => 'home',
+                        'controller' => 'Application\Controller\Route',
+                        'action'     => 'home',
                     ),
                 ),
             ),
-            'thankyou' => array(
-                'type'    => 'Literal',
+            'user' => array(
+                'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/thankyou',
-                    'defaults' => array(
-                        'controller'    => 'Application\Controller\Route',
-                        'action'        => 'thankyou',
+                    'route'    => '/user[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
                     ),
-                ),
-            ),
-            'signout' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/signout',
                     'defaults' => array(
-                        'controller'    => 'Application\Controller\Route',
-                        'action'        => 'signout',
+                        'controller' => 'Application\Controller\User',
+                        //'action'     => 'view-users',
                     ),
                 ),
             ),
@@ -55,7 +52,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Route' => 'Application\Controller\RouteController'
+            'Application\Controller\Route' => 'Application\Controller\RouteController',
+            'Application\Controller\User'  => 'Application\Controller\UserController'
         ),
     ),
     'view_manager' => array(

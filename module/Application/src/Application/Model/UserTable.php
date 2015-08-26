@@ -20,15 +20,28 @@ class UserTable
         return $resultSet;
     }
 
-    public function getUser($id)
+    public function verifyUser(User $currentUser)
     {
-        $id  = (int) $id;
-        $rowset = $this->tableGateway->select(array('id' => $id));
-        $row = $rowset->current();
-        if (!$row) {
-            throw new \Exception("Could not find row $id");
+        $success = false;
+        $bcrypt = new Bcrypt();
+
+        //check if email exists and if so, return the user
+        $rowset = $this->tableGateway->select(array('email' => $currentUser->email));
+        $user = $rowset->current();
+
+        if (!$user) {
+            $success = false;
+            throw new \Exception("Email does not exist");
         }
-        return $row;
+
+        if ($bcrypt->verify($currentUser->password, $user->password)) {
+            $success = true;
+        } else {
+            $success = false;
+            throw new \Exception("Invalid password");
+        }
+
+        return $user;
     }
 
     public function createUser(User $user)
@@ -43,35 +56,23 @@ class UserTable
             'password'  => $user->password,
         );
 
-        $id = (int) $user->id;
-
         //check if email already exists
         $rowset = $this->tableGateway->select(array('email' => $user->email));
         $row = $rowset->current();
-
-        $this->session = new SessionContainer('user');
         
         if ($row) {
             $user = $row;
-            $this->session->auth = false;
-            $this->session->emailAlreadyExists = true;
             throw new \Exception("Email already exists");
         } else {
             $this->tableGateway->insert($data);
             $rowset = $this->tableGateway->select(array('email' => $user->email));
             $user = $rowset->current();
-
-            $this->session->auth = true;
-            $this->session->user = new User();
-            $this->session->user->email = $user->email;
-            $this->session->user->id = $user->user_id;
-            $this->session->emailAlreadyExists = false;
         }
         return $user;
     }
 
-    public function deleteUser($id)
+    public function deleteUser($email)
     {
-        $this->tableGateway->delete(array('id' => (int) $id));
+        $this->tableGateway->delete(array('email' => $email));
     }
 }

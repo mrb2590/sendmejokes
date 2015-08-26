@@ -9,16 +9,25 @@ class Sidebar extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+    protected $categoryTable;
+
+    public function getCategoryTable()
+    {
+        if (!$this->categoryTable) {
+            $sm = $this->getServiceLocator()->getServiceLocator();
+            $this->categoryTable = $sm->get('Application\Model\CategoryTable');
+        }
+        return $this->categoryTable;
+    }
+
     public function __invoke()
     {
         $this->session = new SessionContainer('user');
         
-        $sm = $this->getServiceLocator()->getServiceLocator();
-        $categoryTable = $sm->get('Application\Model\CategoryTable');
-        $categories = $categoryTable->fetchAll();
+        $categories = $this->getCategoryTable()->fetchAll();
         return $this->getView()->render('application/viewhelper/sidebar', array(
-            'categories' => $categories,
-            'session'    => $this->session
+            'categories'   => $categories,
+            'session' => $this->session
         ));
     }
 }
