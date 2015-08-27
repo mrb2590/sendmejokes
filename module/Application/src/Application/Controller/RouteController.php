@@ -9,7 +9,19 @@ use Zend\Session\Container as SessionContainer;
 
 class RouteController extends AbstractActionController
 {
+    protected $jokeTable;
     protected $categoryTable;
+    protected $viewJokeCategoriesTable;
+
+
+    public function getJokeTable()
+    {
+        if (!$this->jokeTable) {
+            $sm = $this->getServiceLocator();
+            $this->jokeTable = $sm->get('Application\Model\JokeTable');
+        }
+        return $this->jokeTable;
+    }
 
     public function getCategoryTable()
     {
@@ -19,6 +31,16 @@ class RouteController extends AbstractActionController
         }
         return $this->categoryTable;
     }
+
+    public function getViewJokeCategoriesTable()
+    {
+        if (!$this->viewJokeCategoriesTable) {
+            $sm = $this->getServiceLocator();
+            $this->viewJokeCategoriesTable = $sm->get('Application\Model\ViewJokeCategoriesTable');
+        }
+        return $this->viewJokeCategoriesTable;
+    }
+
     
     public function comingSoonAction()
     {
@@ -30,6 +52,16 @@ class RouteController extends AbstractActionController
         $categories = $this->getCategoryTable()->fetchAll();
         return new ViewModel(array(
             'categories' => $categories
+        ));
+    }
+    
+    public function jokesAction()
+    {
+        $jokes = $this->getJokeTable()->fetchAll();
+        $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
+        return new ViewModel(array(
+            'jokes'          => $jokes,
+            'jokeCategories' => $jokeCategories
         ));
     }
 }

@@ -121,7 +121,7 @@ html, body {
     float: right;
     display: inline-block;
     z-index: 1000;
-    margin-top: -9px;
+    margin-top: 10px;
     margin-right: -15px;
 }
 
@@ -179,3 +179,10 @@ html, body {
         height: 130px;
         width: auto;
     }
+
+/*******************************************************************
+* ---JOKES---
+*******************************************************************/
+.categoy-name-joke-view {
+    margin-left: 5px;
+}

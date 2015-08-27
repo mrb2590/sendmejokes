@@ -15,12 +15,13 @@ class ViewJokeCategoriesTable
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
+        $resultSet->buffer();
         return $resultSet;
     }
 
     public function getJokeCategories(Joke $joke)
     {
-        $resultSet = $this->tableGateway->select(array('joke' => $joke->joke));
+        $resultSet = $this->tableGateway->select(array('joke_id' => $joke->joke_id));
         return $resultSet;
     }
 }
