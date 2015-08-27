@@ -1,14 +1,20 @@
 <?php
 namespace Application;
 
+use Application\Model\Joke;
+use Application\Model\JokeTable;
 use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
 use Application\Model\UserCategory;
 use Application\Model\UserCategoriesTable;
+use Application\Model\JokeCategory;
+use Application\Model\JokeCategoriesTable;
 use Application\Model\ViewUserCategory;
 use Application\Model\ViewUserCategoriesTable;
+use Application\Model\ViewJokeCategory;
+use Application\Model\ViewJokeCategoriesTable;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
@@ -56,6 +62,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype->setArrayObjectPrototype(new User());
                     return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
                 },
+                'Application\Model\JokeTable' =>  function($sm) {
+                    $tableGateway = $sm->get('JokeTableGateway');
+                    $table = new JokeTable($tableGateway);
+                    return $table;
+                },
+                'JokeTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Joke());
+                    return new TableGateway('joke', $dbAdapter, null, $resultSetPrototype);
+                },
                 'Application\Model\CategoryTable' =>  function($sm) {
                     $tableGateway = $sm->get('CategoryTableGateway');
                     $table = new CategoryTable($tableGateway);
@@ -78,6 +95,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype->setArrayObjectPrototype(new UserCategory());
                     return new TableGateway('user_categories', $dbAdapter, null, $resultSetPrototype);
                 },
+                'Application\Model\JokeCategoriesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('JokeCategoriesTableGateway');
+                    $table = new JokeCategoriesTable($tableGateway);
+                    return $table;
+                },
+                'JokeCategoriesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new JokeCategory());
+                    return new TableGateway('joke_categories', $dbAdapter, null, $resultSetPrototype);
+                },
                 'Application\Model\ViewUserCategoriesTable' =>  function($sm) {
                     $tableGateway = $sm->get('ViewUserCategoriesTableGateway');
                     $table = new ViewUserCategoriesTable($tableGateway);
@@ -88,6 +116,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new ViewUserCategory());
                     return new TableGateway('view_user_categories', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\ViewJokeCategoriesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('ViewJokeCategoriesTableGateway');
+                    $table = new ViewJokeCategoriesTable($tableGateway);
+                    return $table;
+                },
+                'ViewJokeCategoriesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new ViewJokeCategory());
+                    return new TableGateway('view_joke_categories', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
