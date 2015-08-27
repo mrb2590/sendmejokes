@@ -56,7 +56,7 @@ function bindEventHandlers() {
     });
 
     /*******************************************************************
-    * submit event - ajax call to sign out
+    * click event - ajax call to sign out
     *******************************************************************/
     $('#signout-link').on('click', function(e) {
         e.preventDefault();
@@ -74,6 +74,45 @@ function bindEventHandlers() {
             }
         });
     });
+
+    /*******************************************************************
+    * submit event - ajax call to create user
+    *******************************************************************/
+    $('#sign-up-pref-form').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/user/create-user',
+            data: $('#sign-up-pref-form').serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response != "Success") {
+                    $('#home-signup-modal #password').val('');
+                    $('#home-signup-modal #password2').val('');
+                    $('#home-signup-modal .modal-alert').html(response);
+                    $('#home-signup-modal .modal-alert').slideDown();
+                    setTimeout(function() {
+                        $('#signin-modal .modal-alert').slideUp();
+                    }, 5000);
+                } else {
+                    $('.sidebar-head').load(location.pathname + " .sidebar-head>*", function() {
+                        reBindEventHandlers();
+                        $('#home-signup-modal').modal('hide');
+                        $('#home-signup-modal #email').val('');
+                        $('#home-signup-modal #password').val('');
+                        $('#home-signup-modal #password2').val('');
+                        $('#home-signup-modal input[type="checkbox"]').attr('checked', false);
+                        $('#sign-up-form-email #email').val('');
+                        $('#home-signup-modal .modal-alert').hide();
+                        $('#home-thankyou-modal').modal('show');
+                    });
+                }
+            }
+        });
+    });
 }
 
 /*******************************************************************
@@ -84,6 +123,7 @@ function reBindEventHandlers() {
     $('#sign-up-form-email').off();
     $('#signin-form').off();
     $('#signout-link').off();
+    $('#sign-up-pref-form').off();
 
     bindEventHandlers();
 }
