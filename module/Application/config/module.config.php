@@ -11,7 +11,7 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Route',
-                        'action'     => 'coming-soon',
+                        'action'     => 'home',
                     ),
                 ),
             ),
