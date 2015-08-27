@@ -61,16 +61,16 @@ class UserController extends AbstractActionController
         //validate
         if ($submit != 'submit') {
             $valid = false;
-            $message = "Fail - Invalid request";
+            $message = "Invalid request";
         } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
             $valid = false;
-            $message = "Fail - Invalid email";
+            $message = "Invalid email address";
         } elseif (strlen(utf8_decode($password)) < 6) {
             $valid = false;
-            $message = "Fail - Password too short, must be at least six characters";
+            $message = "Password too short, must be at least six characters";
         } elseif ($password != $password2) {
             $valid = false;
-            $message = "Fail - Passwords do not match";
+            $message = "Passwords do not match";
         } else {
             $valid = true;
         }
@@ -143,20 +143,20 @@ class UserController extends AbstractActionController
         //validate
         if ($submit != 'submit') {
             $valid = false;
-            $message = "Fail - Invalid request";
+            $message = "Invalid request";
         } elseif (strpos($user->email, '@') === false || strpos($user->email, '.') === false) {
             $valid = false;
-            $message = "Fail - Invalid email";
+            $message = "Invalid email address";
         } else {
             $valid = true;
         }
 
         if($valid) {
             try {
-                $user = $this->getUserTable()->verifyUser($user);
+                $user = $this->getUserTable()->verifyUser($user); //returns user object with user_id from db
 
                 if (!$user) {
-                    $message = "Fail - Invalid Credentials";
+                    $message = "Invalid Credentials";
                 } else {
                     $message = "Success";
                     $this->session->auth = true;
@@ -168,8 +168,9 @@ class UserController extends AbstractActionController
                     $this->session->user->user_id = $user->user_id;
                 }
             } catch (\Exception $e) {
-                $message = 'Fail - ' . $e->getMessage();
-                $this->session->auth = true;
+                //$message = 'Fail - ' . $e->getMessage();
+                $message = "Invalid Credentials";
+                $this->session->auth = false;
                 if (isset($this->session->user)) {
                     unset($this->session->user);
                 }

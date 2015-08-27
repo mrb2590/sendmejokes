@@ -14,44 +14,54 @@
 </div><!-- /.middle-align-out -->
 
 <form id="sign-up-pref-form" action="/user/create-user" method="POST">
-    <div id="home-signup-modal" class="modal fade">
+    <div id="home-signup-modal" class="modal fade" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Choose Your Preferences</h4>
+                    <h4 class="modal-title">Sign Up</h4>
                 </div><!-- /.modal-header -->
                 <div class="modal-body">
-                        <input type="hidden" name="email" value="">
-                        <?php $i = 0 ?>
-                        <?php foreach($categories as $category): ?>
-                            <?php if ($i % 4 === 0): ?>
-                                <?php if ($i !== 0): ?>
-                                    </div>
-                                <?php endif; ?>
-                                <div class="row">
-                            <?php endif; ?>
-                                <div class="col-sm-3">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
-                                        </label>
-                                    </div><!-- /.checkbox -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Choose which categories you'd like to recieve jokes from</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <input type="hidden" name="email" value="">
+                    <?php $i = 0 ?>
+                    <?php foreach($categories as $category): ?>
+                        <?php if ($i % 4 === 0): ?>
+                            <?php if ($i !== 0): ?>
                                 </div>
-                            <?php $i++ ?>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="password">Create your password:</label>
-                                    <input id="password" class="form-control" type="password" value="" name="password">
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <label for="password2">Enter your new password again:</label>
-                                    <input id="password2" class="form-control" type="password" value="" name="password2">
-                                </div><!-- /.form-group -->
+                            <?php endif; ?>
+                            <div class="row">
+                        <?php endif; ?>
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
+                                    </label>
+                                </div><!-- /.checkbox -->
                             </div><!-- /.col -->
-                        </div><!-- /.row -->
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Create your password</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input id="password" class="form-control" type="password" value="" name="password">
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label for="password2">Confirm password:</label>
+                                <input id="password2" class="form-control" type="password" value="" name="password2">
+                            </div><!-- /.form-group -->
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
                 </div><!-- /.modal-body -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -19,7 +19,9 @@
     </head>
     <body>
         <?php echo $this->sidebar() ?>
+
         <div class="full-height container-fluid">
+
             <div class="row">
                 <div class="col-sm-12">
                     <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
@@ -32,7 +34,36 @@
                     </div><!-- /.browse-button -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
+
             <?php echo $this->content ?>
+
+            <form id="signin-form">
+                <div id="signin-modal" class="modal fade">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Sign In</h4>
+                            </div><!-- /.modal-header -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input id="email" class="form-control" type="text" value="" name="email">
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input id="password" class="form-control" type="password" value="" name="password">
+                                </div><!-- /.form-group -->
+                                <div class="modal-alert">text</div>
+                            </div><!-- /.modal-body -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button name="submit" type="submit" value="submit" class="btn btn-primary">Sign In</button>
+                            </div><!-- /.modal-footer -->
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </form>
+
         </div><!-- /.container-fluid -->
         <?php echo $this->headScript()
                         ->prependFile($this->basePath() . '/js/smj.js')

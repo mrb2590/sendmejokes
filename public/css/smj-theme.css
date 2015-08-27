@@ -51,6 +51,31 @@ input::-moz-focus-inner {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(249, 247, 218, 0.6);
     outline: 0 none;
 }
+.modal {
+    z-index: 5000 !important;
+}
+.modal .modal-title {
+    text-align: center;
+}
+.modal .modal-content {
+    border-radius: 0;
+    background-color: #ddd;
+}
+.modal .modal-header {
+    border-bottom: 1px solid #6c48a2;
+}
+.modal .modal-footer {
+    border-top: 1px solid #6c48a2;
+}
+.modal .category {
+    border-bottom: 1px solid #6c48a2;
+}
+.modal .modal-alert {
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    display: none;
+}
 .btn-default,
 .btn-primary,
 .btn-success,

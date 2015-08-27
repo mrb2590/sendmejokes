@@ -101,7 +101,6 @@ html, body {
 /************************************************
 * ---LAYOUT - logo & menu button--
 ************************************************/
-
 .logo-anchor {
 }
     .logo-anchor .logo-img {
@@ -146,25 +145,8 @@ html, body {
     text-align: center;
 }
 
-#home-signup-modal {
-    z-index: 5000 !important;
-}
-
-#home-signup-modal .modal-title {
-    text-align: center;
-}
-
-#home-signup-modal .modal-content {
-    border-radius: 0;
-    background-color: #ddd;
-}
-
-#home-signup-modal .modal-header {
+.modal .category {
     border-bottom: 1px solid #6c48a2;
-}
-
-#home-signup-modal .modal-footer {
-    border-top: none;
 }
 
 /*******************************************************************
