@@ -22,6 +22,6 @@ class ViewJokeCategoriesTable
     public function getJokeCategories(Joke $joke)
     {
         $resultSet = $this->tableGateway->select(array('joke_id' => $joke->joke_id));
-        return $resultSet;
+        return $resultSet; 
     }
 }
