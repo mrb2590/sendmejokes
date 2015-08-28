@@ -25,8 +25,8 @@ class UpdatePreferencesModal extends AbstractHelper implements ServiceLocatorAwa
         $this->session = new SessionContainer('user');
         $categories = $this->getCategoryTable()->fetchAll();
         return $this->getView()->render('application/view-helper/update-preferences-modal', array(
-            'categories'   => $categories,
-            'session' => $this->session
+            'categories' => $categories,
+            'session'    => $this->session
         ));
     }
 }

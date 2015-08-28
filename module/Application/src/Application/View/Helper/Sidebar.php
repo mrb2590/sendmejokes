@@ -25,8 +25,8 @@ class Sidebar extends AbstractHelper implements ServiceLocatorAwareInterface
         $this->session = new SessionContainer('user');
         $categories = $this->getCategoryTable()->fetchAll();
         return $this->getView()->render('application/view-helper/sidebar', array(
-            'categories'   => $categories,
-            'session' => $this->session
+            'categories' => $categories,
+            'session'    => $this->session
         ));
     }
 }

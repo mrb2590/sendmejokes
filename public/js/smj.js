@@ -44,7 +44,7 @@ function bindEventHandlers() {
                         $('#signin-modal .modal-alert').slideUp();
                     }, 5000);
                 } else {
-                    $('.sidebar-head').load(location.pathname + " .sidebar-head>*", function() {
+                    refreshPage(function() {
                         reBindEventHandlers();
                         $('#signin-modal').modal('hide');
                         $('#signin-modal #email').val('');
@@ -67,7 +67,7 @@ function bindEventHandlers() {
             },
             success: function(response) {
                 $('html, body, input, textarea').css('cursor', 'auto');
-                $('.sidebar-head').load(location.pathname + " .sidebar-head>*", function() {
+                refreshPage(function() {
                     reBindEventHandlers();
                     hideSidebar();
                 });
@@ -98,7 +98,7 @@ function bindEventHandlers() {
                         $('#home-signup-modal .modal-alert').slideUp();
                     }, 5000);
                 } else {
-                    $('.sidebar-head').load(location.pathname + " .sidebar-head>*", function() {
+                    refreshPage(function() {
                         reBindEventHandlers();
                         $('#home-signup-modal').modal('hide');
                         $('#home-signup-modal #email').val('');
@@ -121,6 +121,26 @@ function bindEventHandlers() {
         e.preventDefault();
         $('#update-pref-modal').modal('show');
     });
+}
+
+/*******************************************************************
+* function - refresh neccessary parts of page after login/out
+*******************************************************************/
+function refreshPage(callback) {
+        $.ajax( {
+            url : location.pathname,
+            type : 'get',                
+            success : function(response) {
+                console.log($('.sidebar-head', response).html());
+                $('.sidebar-head').html($('.sidebar-head', response).html());
+                console.log($('#home-signup-modal', response).html());
+                $('#update-pref-modal').html($('#update-pref-modal', response).html());
+
+                //$('#home-signup-modal').replaceWith($('#home-signup-modal', response).html());
+                callback();
+            }
+        });
+
 }
 
 /*******************************************************************

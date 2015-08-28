@@ -24,8 +24,8 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="category[<?php echo $category->name ?>]"
-                                            <?php foreach($session->userCategories as $cat): ?>
-                                                <?php if($cat->cat_id == $category->cat_id): ?>
+                                            <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                                <?php if($viewUserCategory->name == $category->name): ?>
                                                     checked="true"
                                                 <?php endif ?>
                                             <?php endforeach ?>
@@ -38,18 +38,31 @@
                     </div><!-- /.row -->
                     <div class="row">
                         <div class="col-sm-12">
-                            <h4>If you would like to delete your account check below</h4>
+                            <h4>If you would like to update your email address</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="email">New email address:</label>
+                                <input id="email" class="form-control" type="text" name="email" value="">
+                            </div>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Had enough jokes? You can delete your account here</h4>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="delete-account" value="1"> delete my account
+                                    <input type="checkbox" name="delete-account" value="1"> Delete my account
                                 </label>
                             </div><!-- /.checkbox -->
-                            <div class="modal-alert">text</div>
                         </div><!-- /.col -->
+                            <div class="modal-alert">text</div>
                     </div><!-- /.row -->
                 </div><!-- /.modal-body -->
                 <div class="modal-footer">
