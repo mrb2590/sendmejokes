@@ -221,4 +221,29 @@ class UserController extends AbstractActionController
             'message' => $message
         ));
     }
+    
+    public function updateUserAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $this->session = new SessionContainer('user');
+        
+        $email = $this->getRequest()->getPost('email');
+        $passwordOld = $this->getRequest()->getPost('password-old');
+        $password = $this->getRequest()->getPost('password');
+        $password2 = $this->getRequest()->getPost('password2');
+        
+        $user = new User();
+        $user->user_id = $this->session->user->user_id;
+        
+        if (isset($email)) {
+            $user->email = $email;
+        }
+        $user = $this->getUserTable()->updateUser($user);
+        $message = "Success";
+        
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
 }

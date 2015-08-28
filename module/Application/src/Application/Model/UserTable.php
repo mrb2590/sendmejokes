@@ -71,8 +71,25 @@ class UserTable
         return $user;
     }
 
-    public function deleteUser($email)
+    public function deleteUser($id)
     {
-        $this->tableGateway->delete(array('email' => $email));
+        $this->tableGateway->delete(array('user_id' => $id));
+    }
+
+    public function updateUser(User $user)
+    {
+        if (isset($user->password)) {
+            $bcrypt = new Bcrypt();
+            $user->password = $bcrypt->create($user->password);
+            $data['password'] = $user->password;
+        }
+        
+        if (isset($user->email)) {
+            $data['email'] = $user->email;
+        }
+        
+        $this->tableGateway->update($data, array('user_id' => $user->user_id));
+        
+        return $user;
     }
 }

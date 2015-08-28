@@ -1,4 +1,4 @@
-<form id="update-pref-form" action="/user/update-preferences" method="POST">
+<form id="update-pref-form" action="/user/update-user" method="POST">
     <div id="update-pref-modal" class="modal fade" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,6 +49,27 @@
                                 <label for="email">New email address:</label>
                                 <input id="email" class="form-control" type="text" name="email" value="">
                             </div>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>If you would like to update your password</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="password-old">Old password:</label>
+                                <input id="password-old" class="form-control" type="password" name="password-old" value="">
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label for="password">New password:</label>
+                                <input id="password" class="form-control" type="password" name="password" value="">
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <label for="password2">Repeat new password:</label>
+                                <input id="password2" class="form-control" type="password" name="password2" value="">
+                            </div><!-- /.form-group -->
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                     <div class="row">
