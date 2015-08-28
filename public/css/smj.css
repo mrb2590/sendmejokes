@@ -157,6 +157,10 @@ html, body {
     border-bottom: 1px solid #6c48a2;
 }
 
+#home-thankyou-modal .modal-body {
+    text-align: center;
+}
+
 /*******************************************************************
 * ---COMING-SOON---
 *******************************************************************/
@@ -186,3 +190,17 @@ html, body {
 .categoy-name-joke-view {
     margin-left: 5px;
 }
+
+#joke-accordian .panel .panel-heading {
+    padding: 0;
+}
+    #joke-accordian .panel .panel-heading a {
+        text-decoration: none;
+    }
+    #joke-accordian .panel .panel-heading a:hover,
+    #joke-accordian .panel .panel-heading a:focus {
+        text-decoration: none;
+    }    
+    #joke-accordian .panel .panel-heading .panel-title {
+        padding: 10px 15px;
+    }

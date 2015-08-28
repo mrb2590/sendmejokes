@@ -1,0 +1,62 @@
+<form id="update-pref-form" action="/user/update-preferences" method="POST">
+    <div id="update-pref-modal" class="modal fade" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Preferences</h4>
+                </div><!-- /.modal-header -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Choose which categories you'd like to recieve jokes from. Unchecking all will unsubscribe you from all jokes, but your account will remain</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <input type="hidden" name="email" value="">
+                    <?php $i = 0 ?>
+                    <?php foreach($categories as $category): ?>
+                        <?php if ($i % 4 === 0): ?>
+                            <?php if ($i !== 0): ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="row">
+                        <?php endif; ?>
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="category[<?php echo $category->name ?>]"
+                                            <?php foreach($session->userCategories as $cat): ?>
+                                                <?php if($cat->cat_id == $category->cat_id): ?>
+                                                    checked="true"
+                                                <?php endif ?>
+                                            <?php endforeach ?>
+                                        value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
+                                    </label>
+                                </div><!-- /.checkbox -->
+                            </div><!-- /.col -->
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>If you would like to delete your account check below</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="delete-account" value="1"> delete my account
+                                </label>
+                            </div><!-- /.checkbox -->
+                            <div class="modal-alert">text</div>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button name="submit" type="submit" value="submit" class="btn btn-primary">Update</button>
+                </div><!-- /.modal-footer -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>

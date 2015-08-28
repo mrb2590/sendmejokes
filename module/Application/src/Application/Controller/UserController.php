@@ -3,6 +3,7 @@ namespace Application\Controller;
 
 use Application\Model\User;
 use Application\Model\UserCategory;
+use Application\Model\ViewUserCategory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container as SessionContainer;
@@ -12,6 +13,7 @@ class UserController extends AbstractActionController
     protected $userTable;
     protected $categoryTable;
     protected $userCategoriesTable;
+    protected $viewUserCategoriesTable;
 
     public function getUserTable()
     {
@@ -38,6 +40,46 @@ class UserController extends AbstractActionController
             $this->userCategoriesTable = $sm->get('Application\Model\UserCategoriesTable');
         }
         return $this->userCategoriesTable;
+    }
+
+    public function getViewUserCategoriesTable()
+    {
+        if (!$this->viewUserCategoriesTable) {
+            $sm = $this->getServiceLocator();
+            $this->viewUserCategoriesTable = $sm->get('Application\Model\ViewUserCategoriesTable');
+        }
+        return $this->viewUserCategoriesTable;
+    }
+
+    public function saveUserSession(User $user) {
+        $this->session->auth = true;
+
+        //save user id and email
+        $this->session->user = new User();
+        $this->session->user->email = $user->email;
+        $this->session->user->user_id = $user->user_id;
+
+        //save UserCategories
+        $i = 0;
+        $this->session->userCategories = array();
+        $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
+        foreach ($userCategories as $userCategory) {
+            $this->session->userCategories[$i] = new UserCategory();
+            $this->session->userCategories[$i] = $userCategory;
+            $i++;
+        }
+
+        unset($i);
+
+        //save ViewUserCategories
+        $viewUserCategories = $this->getViewUserCategoriesTable()->getUserCategories($user);
+        $i = 0;
+        $this->session->viewUserCategories = array();
+        foreach ($viewUserCategories as $viewUserCategory) {
+            $this->session->viewUserCategories[$i] = new ViewUserCategory();
+            $this->session->viewUserCategories[$i] = $viewUserCategory;
+            $i++;
+        }
     }
 
     public function createUserAction()
@@ -96,10 +138,9 @@ class UserController extends AbstractActionController
 
                 $message = 'Success';
 
-                $this->session->auth = true;
-                $this->session->user = new User();
-                $this->session->user->email = $user->email;
-                $this->session->user->user_id = $user->user_id;
+                //set session
+                $this->saveUserSession($user);
+
             } catch (\Exception $e) {
                 $message = 'Fail - ' . $e->getMessage();
             }
@@ -118,6 +159,9 @@ class UserController extends AbstractActionController
 
         $this->session = new SessionContainer('user');
         unset($this->session->user);
+        $this->session->auth = false;
+        unset($this->session->userCategories);
+        unset($this->session->viewUserCategories);
 
         return new ViewModel(array(
             'message' => "Success"
@@ -159,13 +203,9 @@ class UserController extends AbstractActionController
                     $message = "Invalid Credentials";
                 } else {
                     $message = "Success";
-                    $this->session->auth = true;
-                    if (isset($this->session->user)) {
-                        unset($this->session->user);
-                    }
-                    $this->session->user = new User();
-                    $this->session->user->email = $user->email;
-                    $this->session->user->user_id = $user->user_id;
+                    
+                    //set session
+                    $this->saveUserSession($user);
                 }
             } catch (\Exception $e) {
                 //$message = 'Fail - ' . $e->getMessage();

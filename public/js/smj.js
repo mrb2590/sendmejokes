@@ -95,7 +95,7 @@ function bindEventHandlers() {
                     $('#home-signup-modal .modal-alert').html(response);
                     $('#home-signup-modal .modal-alert').slideDown();
                     setTimeout(function() {
-                        $('#signin-modal .modal-alert').slideUp();
+                        $('#home-signup-modal .modal-alert').slideUp();
                     }, 5000);
                 } else {
                     $('.sidebar-head').load(location.pathname + " .sidebar-head>*", function() {
@@ -105,13 +105,21 @@ function bindEventHandlers() {
                         $('#home-signup-modal #password').val('');
                         $('#home-signup-modal #password2').val('');
                         $('#home-signup-modal input[type="checkbox"]').attr('checked', false);
+                        $('#home-signup-modal #email').val('');
                         $('#sign-up-form-email #email').val('');
-                        $('#home-signup-modal .modal-alert').hide();
                         $('#home-thankyou-modal').modal('show');
                     });
                 }
             }
         });
+    });
+
+    /*******************************************************************
+    * click event - opens/closes update-pref-modal
+    *******************************************************************/
+    $('#preferences-link').on('click', function(e) {
+        e.preventDefault();
+        $('#update-pref-modal').modal('show');
     });
 }
 
@@ -124,6 +132,7 @@ function reBindEventHandlers() {
     $('#signin-form').off();
     $('#signout-link').off();
     $('#sign-up-pref-form').off();
+    $('#preferences-link').off();
 
     bindEventHandlers();
 }

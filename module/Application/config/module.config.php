@@ -74,7 +74,8 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
-            'sidebar' => 'Application\View\Helper\Sidebar',
+            'sidebar'                => 'Application\View\Helper\Sidebar',
+            'updatePreferencesModal' => 'Application\View\Helper\UpdatePreferencesModal',
         ),
     ),
     // Placeholder for console routes
