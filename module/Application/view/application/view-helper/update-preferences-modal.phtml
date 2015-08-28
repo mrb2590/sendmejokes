@@ -24,11 +24,13 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="category[<?php echo $category->name ?>]"
-                                            <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
-                                                <?php if($viewUserCategory->name == $category->name): ?>
-                                                    checked="true"
-                                                <?php endif ?>
-                                            <?php endforeach ?>
+                                            <?php if(isset($session->viewUserCategories)): ?>
+                                                <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                                    <?php if($viewUserCategory->name == $category->name): ?>
+                                                        checked="true"
+                                                    <?php endif ?>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
                                         value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
                                     </label>
                                 </div><!-- /.checkbox -->
