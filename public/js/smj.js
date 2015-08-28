@@ -127,20 +127,15 @@ function bindEventHandlers() {
 * function - refresh neccessary parts of page after login/out
 *******************************************************************/
 function refreshPage(callback) {
-        $.ajax( {
-            url : location.pathname,
-            type : 'get',                
-            success : function(response) {
-                console.log($('.sidebar-head', response).html());
-                $('.sidebar-head').html($('.sidebar-head', response).html());
-                console.log($('#home-signup-modal', response).html());
-                $('#update-pref-modal').html($('#update-pref-modal', response).html());
-
-                //$('#home-signup-modal').replaceWith($('#home-signup-modal', response).html());
-                callback();
-            }
-        });
-
+	$.ajax( {
+	    url : location.pathname,
+	    type : 'get',                
+	    success : function(response) {
+	        $('.sidebar-head').html($('.sidebar-head', response).html());
+	        $('#update-pref-modal').html($('#update-pref-modal', response).html());
+	        callback();
+	    }
+	});
 }
 
 /*******************************************************************
