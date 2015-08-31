@@ -85,6 +85,9 @@ input::-moz-focus-inner {
     font-size: 12px;
     color: #6c48a2;
 }
+#alert-modal .modal-body {
+    text-align: center;
+}
 .btn-default,
 .btn-primary,
 .btn-success,

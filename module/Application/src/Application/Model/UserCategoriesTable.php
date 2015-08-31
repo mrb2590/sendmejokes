@@ -35,8 +35,13 @@ class UserCategoriesTable
         $this->tableGateway->insert($data);
     }
 
-    public function deleteCategory($id)
+    public function deleteCategoryById($id)
     {
-        $this->tableGateway->delete(array('id' => (int) $id));
+        $this->tableGateway->delete(array('cat_id' => (int) $id));
+    }
+
+    public function deleteCategoryByUserId($id)
+    {
+        $this->tableGateway->delete(array('user_id' => (int) $id));
     }
 }

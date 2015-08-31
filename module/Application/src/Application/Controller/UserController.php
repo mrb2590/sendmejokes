@@ -82,6 +82,14 @@ class UserController extends AbstractActionController
         }
     }
 
+    public function destroyUserSession() {
+        $this->session = new SessionContainer('user');
+        unset($this->session->user);
+        $this->session->auth = false;
+        unset($this->session->userCategories);
+        unset($this->session->viewUserCategories);
+    }
+
     public function createUserAction()
     {
         //set blank layout
@@ -139,7 +147,7 @@ class UserController extends AbstractActionController
                 $message = 'Success';
 
                 //set session
-                $this->saveUserSession($user);
+                $this->saveUserSession($newUser);
 
             } catch (\Exception $e) {
                 $message = 'Fail - ' . $e->getMessage();
@@ -157,11 +165,7 @@ class UserController extends AbstractActionController
         //set blank layout
         $this->layout('layout/blank');
 
-        $this->session = new SessionContainer('user');
-        unset($this->session->user);
-        $this->session->auth = false;
-        unset($this->session->userCategories);
-        unset($this->session->viewUserCategories);
+        $this->destroyUserSession();
 
         return new ViewModel(array(
             'message' => "Success"
@@ -232,16 +236,84 @@ class UserController extends AbstractActionController
         $passwordOld = $this->getRequest()->getPost('password-old');
         $password = $this->getRequest()->getPost('password');
         $password2 = $this->getRequest()->getPost('password2');
-        
-        $user = new User();
-        $user->user_id = $this->session->user->user_id;
-        
-        if (isset($email)) {
-            $user->email = $email;
+        $deleteAccount = $this->getRequest()->getPost('delete-account');
+        $submit = $this->getRequest()->getPost('submit');
+        $categories = $this->getRequest()->getPost('category');
+
+        //validate
+        if ($submit != 'submit') {
+            $valid = false;
+            $message = "Invalid request";
+        } elseif ($email != '' && (strpos($email, '@') === false || strpos($email, '.') === false)) {
+            $valid = false;
+            $message = "Invalid email address";
+        } elseif (isset($password) && $password != $password2) {
+            $valid = false;
+            $message = "Passwords do not match";
+        } else {
+            $valid = true;
         }
-        $user = $this->getUserTable()->updateUser($user);
-        $message = "Success";
         
+        if ($valid) {
+            if (isset($deleteAccount) && $deleteAccount == 1) {
+                //delete all categories first
+                $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);                
+                $this->getUserTable()->deleteUser($this->session->user->user_id);
+                $this->destroyUserSession();
+                $message = "Account deleted";
+            } else {
+                $updateUser = false;
+                
+                //update email or password is input was not blank
+                if ($email != '' || $password != '') {
+                    $user = new User();
+                    $user->user_id = $this->session->user->user_id;
+                    
+                    if ($email != '') {
+                        $user->email = $email;
+                    } else {
+                        $user->email = null;
+                    }
+                    
+                    if ($password != '') {
+                        $user->password = $password;
+                    } else {
+                        $user->password = null;
+                    }
+                    
+                    $updateUser = true;
+                }
+                
+                try {
+                    $updatedUser = new User();
+                    
+                    if ($updateUser) {
+                        $updatedUser = $this->getUserTable()->updateUser($user);
+                    } else {
+                        $updatedUser = $this->getUserTable()->getUser($this->session->user->user_id);
+                    }
+                    
+                    //first delete all user categories, then re-add them as per update form
+                    $this->getUserCategoriesTable()->deleteCategoryByUserId($updatedUser->user_id);
+                    
+                    //add user-categories to db
+                    if ($categories != null) {
+                        foreach ($categories as $name => $cat_id) {
+                            $userCategory = new UserCategory();
+                            $userCategory->user_id = (int) $updatedUser->user_id;
+                            $userCategory->cat_id = (int) $cat_id;
+                            $this->getUserCategoriesTable()->addUserCategory($userCategory);
+                        }
+                    }
+                    
+                    $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
+                    $message = "Success";
+                } catch (\Exception $e) {
+                    $message = $e->getMessage();
+                }
+            }
+        }
+
         return new ViewModel(array(
             'message' => $message
         ));

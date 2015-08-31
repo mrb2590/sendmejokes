@@ -76,8 +76,18 @@ class UserTable
         $this->tableGateway->delete(array('user_id' => $id));
     }
 
+    public function getUser($id)
+    {
+        $id = (int) $id;
+        $resultSet = $this->tableGateway->select(array('user_id' => $id));
+        $user = $resultSet->current();
+        return $user;
+    }
+
     public function updateUser(User $user)
     {
+        $data = array();
+        
         if (isset($user->password)) {
             $bcrypt = new Bcrypt();
             $user->password = $bcrypt->create($user->password);
@@ -86,9 +96,19 @@ class UserTable
         
         if (isset($user->email)) {
             $data['email'] = $user->email;
+            
+            //check if email already exists
+            $rowset = $this->tableGateway->select(array('email' => $user->email));
+            $row = $rowset->current();
+             if ($row) {
+                 throw new \Exception("Email already exists");
+             }
         }
         
         $this->tableGateway->update($data, array('user_id' => $user->user_id));
+        
+        $rowset = $this->tableGateway->select(array('user_id' => $user->user_id));
+        $user = $rowset->current();
         
         return $user;
     }

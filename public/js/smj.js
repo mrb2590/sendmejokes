@@ -105,9 +105,47 @@ function bindEventHandlers() {
                         $('#home-signup-modal #password').val('');
                         $('#home-signup-modal #password2').val('');
                         $('#home-signup-modal input[type="checkbox"]').attr('checked', false);
-                        $('#home-signup-modal #email').val('');
                         $('#sign-up-form-email #email').val('');
-                        $('#home-thankyou-modal').modal('show');
+                        alertModal('Thank you', '<p>Thank you for signing up!</p><p>You will begin recieving jokes shortly!</p><p>Can\'t wait? Go ahead and browse all the jokes we have to offer <a href="/jokes">here</a></p>');
+                    });
+                }
+            }
+        });
+    });
+
+    /*******************************************************************
+    * submit event - ajax call to update user
+    *******************************************************************/
+    $('#update-pref-form').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/user/update-user',
+            data: $('#update-pref-form').serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response != "Success" && response != "Account deleted") {
+                    $('#update-pref-modal #password').val('');
+                    $('#update-pref-modal #password2').val('');
+                    $('#update-pref-modal .modal-alert').html(response);
+                    $('#update-pref-modal .modal-alert').slideDown();
+                    setTimeout(function() {
+                        $('#update-pref-modal .modal-alert').slideUp();
+                    }, 5000);
+                } else {
+                    refreshPage(function() {
+                        reBindEventHandlers();
+                        $('#update-pref-modal').modal('hide');
+                        $('#update-pref-modal #email').val('');
+                        $('#update-pref-modal #password-old').val('');
+                        $('#update-pref-modal #password').val('');
+                        $('#update-pref-modal #password2').val('');
+                        if (response == "Account deleted") {
+                        	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
+                        }
                     });
                 }
             }
@@ -147,6 +185,7 @@ function reBindEventHandlers() {
     $('#signin-form').off();
     $('#signout-link').off();
     $('#sign-up-pref-form').off();
+    $('#update-pref-form').off();
     $('#preferences-link').off();
 
     bindEventHandlers();
@@ -196,4 +235,13 @@ function toggleHamburgerIcon() {
     } else {
         $('.c-hamburger').addClass('is-active');
     }
+}
+
+/*******************************************************************
+* function - toggle alert modal with text
+*******************************************************************/
+function alertModal(title, text) {
+    $('#alert-modal .modal-title').html(title);
+    $('#alert-modal .modal-body').html(text);
+    $('#alert-modal').modal("show");
 }
