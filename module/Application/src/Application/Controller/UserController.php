@@ -263,11 +263,10 @@ class UserController extends AbstractActionController
         } elseif ($passwordOld != null && $passwordOld != '') {
             $tempUser = new User();
             $tempUser = $this->getUserTable()->getUser($this->session->user->user_id);
+            $tempUser->password = $passwordOld;
             try {
                 $tempUser = $this->getUserTable()->verifyUser($tempUser);
-                if($tempUser) {
-                    $valid = true;
-                }
+                $valid = true;
             } catch (\Exception $e) {
                 $valid = false;
                 $message = $e->getMessage();
