@@ -84,8 +84,8 @@ class UserController extends AbstractActionController
 
     public function destroyUserSession() {
         $this->session = new SessionContainer('user');
-        unset($this->session->user);
         $this->session->auth = false;
+        unset($this->session->user);
         unset($this->session->userCategories);
         unset($this->session->viewUserCategories);
     }
@@ -246,16 +246,36 @@ class UserController extends AbstractActionController
         if ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
-        } elseif ($email != '' && (strpos($email, '@') === false || strpos($email, '.') === false)) {
+        } elseif ($email != null && $email != '' && (strpos($email, '@') === false || strpos($email, '.') === false)) {
             $valid = false;
             $message = "Invalid email address";
-        } elseif (isset($password) && $password != $password2) {
+        } elseif ($password !== $password2) {
             $valid = false;
             $message = "Passwords do not match";
+        } elseif ($passwordOld == null || $passwordOld == '') {
+            $valid = false;
+            if ($password != null && $password != '') {
+                $valid = false;
+                $message = "Must enter current password";
+            } else {
+                $valid = true;
+            }
+        } elseif ($passwordOld != null && $passwordOld != '') {
+            $tempUser = new User();
+            $tempUser = $this->getUserTable()->getUser($this->session->user->user_id);
+            try {
+                $tempUser = $this->getUserTable()->verifyUser($tempUser);
+                if($tempUser) {
+                    $valid = true;
+                }
+            } catch (\Exception $e) {
+                $valid = false;
+                $message = $e->getMessage();
+            }
         } else {
             $valid = true;
         }
-        
+
         if ($valid) {
             if (isset($deleteAccount) && $deleteAccount == 1) {
                 //delete all categories first

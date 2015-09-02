@@ -1,22 +1,22 @@
 $(document).ready(function() {
-    bindEventHandlers();
+    bindEventListeners();
 });
 
 /*******************************************************************
-* function to bind all event handlers
+* function to bind all event listeners
 *******************************************************************/
-function bindEventHandlers() {
+function bindEventListeners() {
     /*******************************************************************
     * click event - opens/closes sidebar
     *******************************************************************/
-    $('.c-hamburger').on('click', function() {
+    $('body').on('click', '.c-hamburger', function() {
         toggleSidebar();
     });
 
     /*******************************************************************
     * submit event - opens sign up pref modal
     *******************************************************************/
-    $('#sign-up-form-email').on('submit', function(e) {
+    $('body').on('submit', '#sign-up-form-email', function(e) {
         e.preventDefault();
         $('#home-signup-modal').modal('show');
         $('#sign-up-pref-form [name="email"]').val($('#sign-up-form-email [name="email"]').val());
@@ -25,7 +25,7 @@ function bindEventHandlers() {
     /*******************************************************************
     * submit event - ajax call to sign in
     *******************************************************************/
-    $('#signin-form').on('submit', function(e) {
+    $('body').on('submit', '#signin-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/sign-in',
@@ -45,7 +45,6 @@ function bindEventHandlers() {
                     }, 5000);
                 } else {
                     refreshPage(function() {
-                        reBindEventHandlers();
                         $('#signin-modal').modal('hide');
                         $('#signin-modal #email').val('');
                         $('#signin-modal #password').val('');
@@ -58,7 +57,7 @@ function bindEventHandlers() {
     /*******************************************************************
     * click event - ajax call to sign out
     *******************************************************************/
-    $('#signout-link').on('click', function(e) {
+    $('body').on('click', '#signout-link', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/sign-out',
@@ -68,7 +67,6 @@ function bindEventHandlers() {
             success: function(response) {
                 $('html, body, input, textarea').css('cursor', 'auto');
                 refreshPage(function() {
-                    reBindEventHandlers();
                     hideSidebar();
                 });
             }
@@ -78,7 +76,7 @@ function bindEventHandlers() {
     /*******************************************************************
     * submit event - ajax call to create user
     *******************************************************************/
-    $('#sign-up-pref-form').on('submit', function(e) {
+    $('body').on('submit', '#sign-up-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/create-user',
@@ -99,7 +97,6 @@ function bindEventHandlers() {
                     }, 5000);
                 } else {
                     refreshPage(function() {
-                        reBindEventHandlers();
                         $('#home-signup-modal').modal('hide');
                         $('#home-signup-modal #email').val('');
                         $('#home-signup-modal #password').val('');
@@ -116,7 +113,7 @@ function bindEventHandlers() {
     /*******************************************************************
     * submit event - ajax call to update user
     *******************************************************************/
-    $('#update-pref-form').on('submit', function(e) {
+    $('body').on('submit', '#update-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/update-user',
@@ -137,7 +134,6 @@ function bindEventHandlers() {
                     }, 5000);
                 } else {
                     refreshPage(function() {
-                        reBindEventHandlers();
                         $('#update-pref-modal').modal('hide');
                         $('#update-pref-modal #email').val('');
                         $('#update-pref-modal #password-old').val('');
@@ -155,7 +151,7 @@ function bindEventHandlers() {
     /*******************************************************************
     * click event - opens/closes update-pref-modal
     *******************************************************************/
-    $('#preferences-link').on('click', function(e) {
+    $('body').on('click', '#preferences-link', function(e) {
         e.preventDefault();
         $('#update-pref-modal').modal('show');
     });
@@ -174,21 +170,6 @@ function refreshPage(callback) {
 	        callback();
 	    }
 	});
-}
-
-/*******************************************************************
-* function to re-bind all event handlers
-*******************************************************************/
-function reBindEventHandlers() {
-    $('.c-hamburger').off();
-    $('#sign-up-form-email').off();
-    $('#signin-form').off();
-    $('#signout-link').off();
-    $('#sign-up-pref-form').off();
-    $('#update-pref-form').off();
-    $('#preferences-link').off();
-
-    bindEventHandlers();
 }
 
 /*******************************************************************
