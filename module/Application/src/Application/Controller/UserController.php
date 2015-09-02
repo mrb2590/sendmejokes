@@ -137,11 +137,13 @@ class UserController extends AbstractActionController
                 $newUser = $this->getUserTable()->createUser($user);
 
                 //add user-categories to db
-                foreach ($categories as $name => $cat_id) {
-                    $userCategory = new UserCategory();
-                    $userCategory->user_id = (int) $newUser->user_id;
-                    $userCategory->cat_id = (int) $cat_id;
-                    $this->getUserCategoriesTable()->addUserCategory($userCategory);
+                if (isset($categories)) {
+                    foreach ($categories as $name => $cat_id) {
+                        $userCategory = new UserCategory();
+                        $userCategory->user_id = (int) $newUser->user_id;
+                        $userCategory->cat_id = (int) $cat_id;
+                        $this->getUserCategoriesTable()->addUserCategory($userCategory);
+                    }
                 }
 
                 $message = 'Success';
