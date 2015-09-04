@@ -40,10 +40,11 @@ CREATE TABLE joke_categories (
 ) ENGINE=InnoDB AUTO_INCREMENT=10000000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE joke_votes (
-    id      INT(8)  NOT NULL    AUTO_INCREMENT,
-    joke_id INT(8)  NOT NULL,
-    up      INT(8)  NOT NULL,
-    down    INT(8)  NOT NULL,
+    id         INT(8)  NOT NULL    AUTO_INCREMENT,
+    joke_id    INT(8)  NOT NULL,
+    up_votes   INT(8)  NOT NULL,
+    down_votes INT(8)  NOT NULL,
+    sum_votes  INT(8)  NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (joke_id) REFERENCES joke(joke_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=10000000 DEFAULT CHARSET=utf8;

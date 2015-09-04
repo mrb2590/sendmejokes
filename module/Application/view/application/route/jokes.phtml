@@ -1,38 +1,37 @@
 <div class="container no-padding">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel-group" id="joke-accordian" role="tablist" aria-multiselectable="true">
-
-                <?php $i = 0 ?>
-                <?php foreach($jokes as $joke): ?>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="heading-<?php echo $i ?>">
-                            <a role="button" data-toggle="collapse" data-parent="#joke-accordian" href="#collapse-<?php echo $i ?>" aria-expanded="true" aria-controls="collapse-<?php echo $i ?>">
-                                <h4 class="panel-title"><?php echo (strlen($joke->joke) > 30) ? substr($joke->joke, 0, 27) . '...' : $joke->joke; ?></h4>
-                                <i class="fa fa-thumbs-up"></i>
-                                <i class="fa fa-thumbs-down"></i>
-                            </a>
-                        </div><!-- /.panel-heading -->
-                        <div id="collapse-<?php echo $i ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<?php echo $i ?>">
-                            <div class="panel-body">
-                                <p class="joke"><?php echo $joke->joke ?></p>
-                                <?php if ($joke->answer): ?>
-                                    <p class="joke-answer"><?php echo $joke->answer ?></p>
+            <?php $i = 0 ?>
+            <?php foreach($jokes as $joke): ?>
+                <?php if($i % 3 == 0): ?>
+                    <?php if ($i !== 0): ?>
+                        </div><!-- /.row -->
+                    <?php endif; ?>
+                    <div class="row">
+                <?php endif ?>
+                <div class="col-sm-4">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <p class="joke"><?php echo $joke->joke ?></p>
+                            <?php if ($joke->answer): ?>
+                                <p class="joke-answer"><?php echo $joke->answer ?></p>
+                            <?php endif ?>
+                        </div><!-- /.panel-body -->
+                        <div class="panel-footer">
+                            <?php foreach($jokeCategories as $jokeCategory): ?>
+                                <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
+                                    <span class="categoy-name-joke-view"><?php echo $jokeCategory->name ?></span>
                                 <?php endif ?>
-                                <span class="pull-right">
-                                    <?php foreach($jokeCategories as $jokeCategory): ?>
-                                        <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
-                                            <span class="categoy-name-joke-view"><?php echo $jokeCategory->name ?></span>
-                                        <?php endif ?>
-                                    <?php endforeach ?>
-                                </span>
-                            </div><!-- /.panel-body -->
-                        </div><!-- /.collapse -->
+                            <?php endforeach ?>
+                            <span class="pull-right">
+                                <span class="votes">22</i></span>
+                                <span class="upvote"><i class="fa fa-thumbs-up"></i></span>
+                                <span class="downvote"><i class="fa fa-thumbs-down"></i></span>
+                            </span>
+                        </div><!-- /.panel-footer -->
                     </div><!-- /.panel -->
-                    <?php $i++ ?>
-                <?php endforeach ?>
-
-            </div><!-- /.panel-group -->
-        </div><!-- /.col -->
-    </div><!-- /.row -->
+                </div><!--  /.col -->
+                <?php $i++ ?>
+            <?php endforeach ?>
+            </div><!-- /.row -->
+            
+            
 </div><!-- /.contianer -->
