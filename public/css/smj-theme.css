@@ -714,3 +714,16 @@ fieldset[disabled] .btn-danger.active {
     min-height: 20px;
     padding: 19px;
 }
+.page-header {
+    border-bottom: 1px solid #eee;
+    margin-top: 0;
+}
+    .page-header h1 {
+        margin-top: 0;
+    }
+.page-footer {
+    border-top: 1px solid #eee;
+    padding-top: 9px;
+    margin-top: 0;
+    text-align: center;
+}
