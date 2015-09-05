@@ -1,37 +1,28 @@
-<div class="container no-padding">
-            <?php $i = 0 ?>
-            <?php foreach($jokes as $joke): ?>
-                <?php if($i % 3 == 0): ?>
-                    <?php if ($i !== 0): ?>
-                        </div><!-- /.row -->
-                    <?php endif; ?>
-                    <div class="row">
-                <?php endif ?>
-                <div class="col-sm-4">
-                    <div class="panel">
-                        <div class="panel-body">
-                            <p class="joke"><?php echo $joke->joke ?></p>
-                            <?php if ($joke->answer): ?>
-                                <p class="joke-answer"><?php echo $joke->answer ?></p>
+<div class="container-fluid no-padding">
+    <div class="row masonry">
+        <?php foreach($jokes as $joke): ?>
+            <div class="item">
+                <div class="panel">
+                    <div class="panel-body">
+                        <p class="joke"><?php echo $joke->joke ?></p>
+                        <?php if ($joke->answer): ?>
+                            <p class="joke-answer"><?php echo $joke->answer ?></p>
+                        <?php endif ?>
+                    </div><!-- /.panel-body -->
+                    <div class="panel-footer">
+                        <?php foreach($jokeCategories as $jokeCategory): ?>
+                            <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
+                                <span class="categoy-name-joke-view"><?php echo $jokeCategory->name ?></span>
                             <?php endif ?>
-                        </div><!-- /.panel-body -->
-                        <div class="panel-footer">
-                            <?php foreach($jokeCategories as $jokeCategory): ?>
-                                <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
-                                    <span class="categoy-name-joke-view"><?php echo $jokeCategory->name ?></span>
-                                <?php endif ?>
-                            <?php endforeach ?>
-                            <span class="pull-right">
-                                <span class="votes">22</i></span>
-                                <span class="upvote"><i class="fa fa-thumbs-up"></i></span>
-                                <span class="downvote"><i class="fa fa-thumbs-down"></i></span>
-                            </span>
-                        </div><!-- /.panel-footer -->
-                    </div><!-- /.panel -->
-                </div><!--  /.col -->
-                <?php $i++ ?>
-            <?php endforeach ?>
-            </div><!-- /.row -->
-            
-            
+                        <?php endforeach ?>
+                        <span class="pull-right">
+                            <span class="votes">22</i></span>
+                            <span class="upvote"><i class="fa fa-thumbs-up"></i></span>
+                            <span class="downvote"><i class="fa fa-thumbs-down"></i></span>
+                        </span>
+                    </div><!-- /.panel-footer -->
+                </div><!-- /.panel -->
+            </div><!-- /.item -->
+        <?php endforeach ?>
+    </div><!-- /.row -->
 </div><!-- /.contianer -->

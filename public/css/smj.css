@@ -200,3 +200,16 @@ html, body {
     #joke-accordian .panel .panel-heading .panel-title {
         padding: 10px 15px;
     }
+
+.row.masonry {
+    padding: 15px;
+    -moz-column-width: 18em;
+    -webkit-column-width: 18em;
+    -moz-column-gap: 1em;
+    -webkit-column-gap:1em; 
+}
+    .masonry .item {
+        display: inline-block;
+        padding:  .25rem;
+        width:  100%; 
+    }
