@@ -155,6 +155,18 @@ function bindEventListeners() {
         e.preventDefault();
         $('#update-pref-modal').modal('show');
     });
+
+    /*******************************************************************
+    * click event - checks the checkbox-tile
+    *******************************************************************/
+    $('body').on('click', '.checkbox-tile', function(e) {
+        e.preventDefault();
+        if ($(this).hasClass('checked')) {
+        	$(this).removeClass('checked');
+        } else {
+        	$(this).addClass('checked');
+        }
+    });
 }
 
 /*******************************************************************
