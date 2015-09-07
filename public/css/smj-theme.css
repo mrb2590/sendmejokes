@@ -747,6 +747,7 @@ fieldset[disabled] .btn-danger.active {
     .popover .popover-title {
         background-color: #473168;
         color: #fff;
+        border-radius: 0;
     }
     .popover.right > .arrow::after {
         border-right-color: #6c48a2;
