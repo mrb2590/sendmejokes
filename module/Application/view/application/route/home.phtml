@@ -38,7 +38,9 @@
                             <div class="col-sm-3">
                                 <div class="checkbox-tile">
                                     <span class="checkbox-tile-label"><?php echo $category->name ?></span>
-                                    <input type="hidden"  name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                    <div class="checkbox-tile-hidden">
+                                        <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                    </div><!-- /.checkbox-tile-hidden -->
                                 </div><!--  /.checkbox-tile -->
                             </div><!-- /.col -->
                         <?php $i++ ?>

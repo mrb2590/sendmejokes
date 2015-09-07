@@ -213,3 +213,6 @@ html, body {
         padding:  .25rem;
         width:  100%; 
     }
+        .masonry i {
+            cursor: pointer;
+        }

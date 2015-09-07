@@ -21,9 +21,18 @@
                             <div class="row">
                         <?php endif; ?>
                             <div class="col-sm-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="category[<?php echo $category->name ?>]"
+                                <div class="checkbox-tile
+                                    <?php if(isset($session->viewUserCategories)): ?>
+                                        <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                            <?php if($viewUserCategory->name == $category->name): ?>
+                                                checked
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
+                                    ">
+                                    <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                    <div class="checkbox-tile-hidden">
+                                         <input type="checkbox" name="category[<?php echo $category->name ?>]"
                                             <?php if(isset($session->viewUserCategories)): ?>
                                                 <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
                                                     <?php if($viewUserCategory->name == $category->name): ?>
@@ -31,9 +40,9 @@
                                                     <?php endif ?>
                                                 <?php endforeach ?>
                                             <?php endif ?>
-                                        value="<?php echo $category->cat_id ?>"> <?php echo $category->name ?>
-                                    </label>
-                                </div><!-- /.checkbox -->
+                                        value="<?php echo $category->cat_id ?>">
+                                    </div><!-- /.checkbox-tile-hidden -->
+                                </div><!--  /.checkbox-tile -->
                             </div><!-- /.col -->
                         <?php $i++ ?>
                     <?php endforeach; ?>
@@ -81,7 +90,7 @@
                         <div class="col-sm-12">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="delete-account" value="1"> Delete my account
+                                    <input type="checkbox" id="delete-account" name="delete-account" value="1"> Delete my account
                                 </label>
                             </div><!-- /.checkbox -->
                         </div><!-- /.col -->

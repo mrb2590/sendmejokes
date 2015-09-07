@@ -1,5 +1,3 @@
-
-
 <div class="container-fluid no-padding">
     <div class="page-header">
         <div class="container">
@@ -17,15 +15,23 @@
                         <?php endif ?>
                     </div><!-- /.panel-body -->
                     <div class="panel-footer">
-                        <?php foreach($jokeCategories as $jokeCategory): ?>
-                            <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
-                                <span class="categoy-name-joke-view"><?php echo $jokeCategory->name ?></span>
-                            <?php endif ?>
-                        <?php endforeach ?>
+                        <i class="fa fa-tags" data-toggle="popover" title="Categories" data-content="
+                            <?php $i = 0 ?>
+                            <?php foreach($jokeCategories as $jokeCategory): ?>
+                                <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
+                                    <?php if($i > 0): ?>
+                                        <?php echo " | " . $jokeCategory->name ?>
+                                    <?php else: ?>
+                                        <?php echo $jokeCategory->name ?>
+                                    <?php endif ?>
+                                    <?php $i++ ?>
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        " data-trigger="hover"></i>
                         <span class="pull-right">
                             <span class="votes">22</i></span>
-                            <span class="upvote"><i class="fa fa-thumbs-up"></i></span>
-                            <span class="downvote"><i class="fa fa-thumbs-down"></i></span>
+                            <i class="fa fa-thumbs-up"></i>
+                            <i class="fa fa-thumbs-down"></i>
                         </span>
                     </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->
@@ -33,32 +39,31 @@
         <?php endforeach ?>
     </div><!-- /.row -->
 
-
-<div class="page-footer">
-    <nav>
-        <ul class="pagination pagination-md">
-            <li class="disabled">
-                <a aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
-            </li>
-            <li class="active">
-                <a href="#">1<span class="sr-only">(current)</span></a>
-            </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-            <li>
-                <a href="#">4</a>
-            </li>
-            <li>
-                <a href="#">5</a>
-            </li>
-            <li>
-                <a aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
-            </li>
-        </ul>
-    </nav>
-</div><!-- /.page-footer -->
+    <div class="page-footer">
+        <nav>
+            <ul class="pagination pagination-md">
+                <li class="disabled">
+                    <a aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
+                </li>
+                <li class="active">
+                    <a href="#">1<span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+                <li>
+                    <a aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div><!-- /.page-footer -->
 </div><!-- /.contianer -->

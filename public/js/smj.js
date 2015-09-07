@@ -1,5 +1,9 @@
 $(document).ready(function() {
     bindEventListeners();
+
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
 });
 
 /*******************************************************************
@@ -101,7 +105,7 @@ function bindEventListeners() {
                         $('#home-signup-modal #email').val('');
                         $('#home-signup-modal #password').val('');
                         $('#home-signup-modal #password2').val('');
-                        $('#home-signup-modal input[type="checkbox"]').attr('checked', false);
+                        uncheckTile($('#home-signup-modal .checkbox-tile')); //will uncheck all tiles in this modal
                         $('#sign-up-form-email #email').val('');
                         alertModal('Thank you', '<p>Thank you for signing up!</p><p>You will begin recieving jokes shortly!</p><p>Can\'t wait? Go ahead and browse all the jokes we have to offer <a href="/jokes">here</a></p>');
                     });
@@ -139,6 +143,7 @@ function bindEventListeners() {
                         $('#update-pref-modal #password-old').val('');
                         $('#update-pref-modal #password').val('');
                         $('#update-pref-modal #password2').val('');
+                        $('#update-pref-modal #delete-account').val('');
                         if (response == "Account deleted") {
                         	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
                         }
@@ -161,11 +166,7 @@ function bindEventListeners() {
     *******************************************************************/
     $('body').on('click', '.checkbox-tile', function(e) {
         e.preventDefault();
-        if ($(this).hasClass('checked')) {
-        	$(this).removeClass('checked');
-        } else {
-        	$(this).addClass('checked');
-        }
+        toggleTile($(this));
     });
 }
 
@@ -237,4 +238,37 @@ function alertModal(title, text) {
     $('#alert-modal .modal-title').html(title);
     $('#alert-modal .modal-body').html(text);
     $('#alert-modal').modal("show");
+}
+
+/*******************************************************************
+* function - toggle checkbox tile
+*******************************************************************/
+function toggleTile(checkboxTile) {
+    if (checkboxTile.hasClass('checked')) {
+        checkboxTile.removeClass('checked');
+        checkboxTile.children().children('input[type="checkbox"]').attr('checked', false);
+    } else {
+        checkboxTile.addClass('checked');
+        checkboxTile.children().children('input[type="checkbox"]').attr('checked', true);
+    }
+}
+
+/*******************************************************************
+* function - check checkbox tile
+*******************************************************************/
+function checkTile(checkboxTile) {
+    if (!checkboxTile.hasClass('checked')) {
+        checkboxTile.addClass('checked');
+        checkboxTile.children().children('input[type="checkbox"]').attr('checked', true);
+    }
+}
+
+/*******************************************************************
+* function - uncheck checkbox tile
+*******************************************************************/
+function uncheckTile(checkboxTile) {
+    if (checkboxTile.hasClass('checked')) {
+        checkboxTile.removeClass('checked');
+        checkboxTile.children().children('input[type="checkbox"]').attr('checked', false);
+    }
 }
