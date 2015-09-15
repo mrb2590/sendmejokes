@@ -84,6 +84,13 @@ class UserTable
         return $user;
     }
 
+    public function getUserByEmail($email)
+    {
+        $resultSet = $this->tableGateway->select(array('email' => $email));
+        $user = $resultSet->current();
+        return $user;
+    }
+
     public function updateUser(User $user)
     {
         $data = array();

@@ -154,6 +154,74 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * submit event - ajax call to reset password
+    *******************************************************************/
+    $('body').on('submit', '#reset-password-form', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/user/reset-password',
+            data: $('#reset-password-form').serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response == "Success") {
+                    $('#reset-password-form #password1').val('');
+                    $('#reset-password-form #password2').val('');
+                    $('#reset-password-form #email').val('');
+                    alertModal('Success!', '<p>Your password has been reset</p>');
+                } else {
+                    alertModal('Error', '<p>' + response + '</p>');
+                }
+            }
+        });
+    });
+
+    /*******************************************************************
+    * submit event - ajax call to send reset password email
+    *******************************************************************/
+    $('body').on('submit', '#send-reset-password-form', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/user/send-reset-password-email',
+            data: $('#send-reset-password-form').serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response == "Success") {
+                    $('#send-reset-password-form #email').val('');
+                    $('#send-reset-password-form #password').val('');
+                    $('#send-reset-password-form .modal-alert').html('An email will be sent if the email you provied is signed up. Use the link in the email to reset your password');
+                    $('#send-reset-password-form .modal-alert').slideDown();
+                    setTimeout(function() {
+                        $('#send-reset-password-form .modal-alert').slideUp();
+                    }, 5000);
+                } else {
+                    $('#send-reset-password-form .modal-alert').html(response);
+                    $('#send-reset-password-form .modal-alert').slideDown();
+                    setTimeout(function() {
+                        $('#send-reset-password-form .modal-alert').slideUp();
+                        $('#signin-form .modal-alert').slideUp();
+                    }, 5000);
+                }
+            }
+        });
+    });
+
+    /*******************************************************************
+    * click event - toggle reset password / sign in form
+    *******************************************************************/
+    $('body').on('click', '.forgot-password-link', function(e) {
+        e.preventDefault();
+        toggleForgotPasswordForm();
+    });
+
+    /*******************************************************************
     * click event - opens/closes update-pref-modal
     *******************************************************************/
     $('body').on('click', '#preferences-link', function(e) {
@@ -167,6 +235,15 @@ function bindEventListeners() {
     $('body').on('click', '.checkbox-tile', function(e) {
         e.preventDefault();
         toggleTile($(this));
+    });
+
+    /*******************************************************************
+    * hide event - resets sign in form when it is closed
+    * this is for if the reset passsword form is shown,
+    * don't want it to still be shown when clicking sign in later
+    *******************************************************************/
+    $('body').on('hidden.bs.modal', '#signin-modal', function() {
+        resetForgotPasswordForm();
     });
 }
 
@@ -271,4 +348,32 @@ function uncheckTile(checkboxTile) {
         checkboxTile.removeClass('checked');
         checkboxTile.children().children('input[type="checkbox"]').attr('checked', false);
     }
+}
+
+/*******************************************************************
+* function - toggles singin /reset password form
+*******************************************************************/
+function toggleForgotPasswordForm() {
+    if ($('.forgot-password-link').hasClass('nevermind')) {
+        resetForgotPasswordForm();
+    } else {
+        $('#signin-form-password').slideUp();
+        $('#signin-modal .modal-title').html('Forgot Password');
+        $('.forgot-password-link').addClass('nevermind');
+        $('.forgot-password-link').html('nevermind');
+        $('#signin-form button[name="submit"]').html('Reset Password');
+        $('#signin-form').attr("id","send-reset-password-form");
+    }
+}
+
+/*******************************************************************
+* function - resets singin /reset password form
+*******************************************************************/
+function resetForgotPasswordForm() {
+    $('#signin-form-password').slideDown();
+    $('#signin-modal .modal-title').html('Sign In');
+    $('.forgot-password-link').removeClass('nevermind');
+    $('.forgot-password-link').html('forgot password?');
+    $('#send-reset-password-form button[name="submit"]').html('Sign In');
+    $('#send-reset-password-form').attr("id","signin-form");
 }

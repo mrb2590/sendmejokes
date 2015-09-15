@@ -307,16 +307,16 @@ class UserController extends AbstractActionController
                 
                 try {
                     $updatedUser = new User();
-                    
+
                     if ($updateUser) {
                         $updatedUser = $this->getUserTable()->updateUser($user);
                     } else {
                         $updatedUser = $this->getUserTable()->getUser($this->session->user->user_id);
                     }
-                    
+
                     //first delete all user categories, then re-add them as per update form
                     $this->getUserCategoriesTable()->deleteCategoryByUserId($updatedUser->user_id);
-                    
+
                     //add user-categories to db
                     if ($categories != null) {
                         foreach ($categories as $name => $cat_id) {
@@ -326,12 +326,138 @@ class UserController extends AbstractActionController
                             $this->getUserCategoriesTable()->addUserCategory($userCategory);
                         }
                     }
-                    
+
                     $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
                     $message = "Success";
                 } catch (\Exception $e) {
                     $message = $e->getMessage();
                 }
+            }
+        }
+
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
+    
+    public function resetPasswordFormAction()
+    {
+        $encryptedID = $this->getRequest()->getQuery('id');
+
+        if ($encryptedID == null || $encryptedID == '') {
+            $message = "Fail";
+        } else {
+            $message = "get-form";
+        }
+
+        return new ViewModel(array(
+            'message' => $message,
+            'id'      => $encryptedID
+        ));
+    }
+    
+    public function resetPasswordAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $valid = false;
+        $submit = $this->getRequest()->getPost('submit');
+        $email = $this->getRequest()->getPost('email');
+        $password1 = $this->getRequest()->getPost('password1');
+        $password2 = $this->getRequest()->getPost('password2');
+        $hashedID = $this->getRequest()->getPost('id');
+
+        //validate
+        if ($submit != 'submit') {
+            $valid = false;
+            $message = "Invalid request";
+        } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
+            $valid = false;
+            $message = "Invalid email address";
+        } elseif ($password1 == null || $password1 == '') {
+            $valid = false;
+            $message = "Must enter a new password";
+        } elseif ($password1 != $password2) {
+            $valid = false;
+            $message = "Password must match";
+        } else {
+            $valid = true;
+        }
+
+        if ($valid) {
+            $user = new User();
+            $user = $this->getUserTable()->getUserByEmail($email);
+
+            if($user) {
+                $userHashedID = hash('sha256', $user->user_id);
+                if ($userHashedID == $hashedID) {
+                    $user->password = $this->getRequest()->getPost('password1');
+                    $user->email = null; //as to not update the email address, which will cause error saying it already exists
+                    $this->getUserTable()->updateUser($user);
+                    $message = "Success";
+                } else {
+                    $message = "Make sure you are using the correct email address and the link from your reset password email";
+                }
+            } else {
+                $message = "Make sure you are using the correct email address and the link from your reset password email";
+            }
+        }
+
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
+    
+    public function sendResetPasswordEmailAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $valid = false;
+        $submit = $this->getRequest()->getPost('submit');
+        $email = $this->getRequest()->getPost('email');
+
+        //validate
+        if ($submit != 'submit') {
+            $valid = false;
+            $message = "Invalid request";
+        } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
+            $valid = false;
+            $message = $email;
+        } else {
+            $valid = true;
+        }
+
+        if ($valid) {
+            $user = $this->getUserTable()->getUserByEmail($email);
+
+            if ($user) {
+                $message = "Success";
+
+                $subject = 'Reset Password - SendMeJokes';
+
+                $headers  = 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+                $headers .= 'From: SendMeJokes <reset-password@sendmejokes.com>' . "\r\n";
+                $headers .= 'Reply-To: SendMeJokes <reset-password@sendmejokes.com>' . "\r\n";
+
+                $body =  '<html>';
+                $body .= '<body style="background-color: #fff; padding: 20px; font-family: Courier;">';
+                $body .=    '<div style="width: 100%;">';
+                $body .=        '<div style="background-color: #cc4646;">';
+                $body .=            '<div style="color: #fff; text-align: center; font-size: 16px; height: 40px; line-height: 40px;">Reset Password</div>';
+                $body .=        '</div>';
+                $body .=        '<div style="padding: 20px; background-color: #eee; font-size: 14px;">';
+                $body .=            '<p>If you have not requested to reset your password, then ignore this email.</p>';
+                $body .=            '<p>Otherwise click the link below to reset your password.</p>';
+                $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . hash('sha256', $user->user_id) . '">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . hash('sha256', $user->user_id) . '</a></p>';
+                $body .=         '</div>';
+                $body .=     '</div>';
+                $body .= '</body>';
+                $body .= '</html>';
+
+                mail($user->email, $subject, $body, $headers);
+            } else {
+                $message = "Success"; //will not let user know email does not exist
             }
         }
 

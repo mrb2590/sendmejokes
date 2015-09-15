@@ -110,6 +110,8 @@ html, body {
 * ---LAYOUT - logo & menu button--
 ************************************************/
 .logo-anchor {
+    position: relative;
+    z-index: 9000;
 }
     .logo-anchor .logo-img {
         padding: 15px 0;
