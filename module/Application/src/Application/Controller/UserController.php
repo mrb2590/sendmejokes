@@ -422,7 +422,7 @@ class UserController extends AbstractActionController
             $message = "Invalid request";
         } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
             $valid = false;
-            $message = $email;
+            $message = "Invalid email address";
         } else {
             $valid = true;
         }
