@@ -214,6 +214,74 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * click event - ajax call to upvote
+    *******************************************************************/
+    $('body').on('click', '.up-vote', function() {
+        var voteCountObject = $(this).siblings('.vote-count');
+        var dopwnVoteObject = $(this).siblings('.down-vote');
+        var voteCount = parseInt(voteCountObject.html());
+
+        if ($(this).hasClass('fa-thumbs-o-up')) {
+            //upvote
+            $(this).removeClass('fa-thumbs-o-up');
+            $(this).addClass('fa-thumbs-up');
+            voteCount += 1;
+            //if currently downvoted, remove it
+            if (dopwnVoteObject.hasClass('fa-thumbs-down')) {
+                dopwnVoteObject.removeClass('fa-thumbs-down');
+                dopwnVoteObject.addClass('fa-thumbs-o-down');
+                voteCount += 1; //removes the downvote from count as well
+            }
+            //flash count with green
+            voteCountObject.removeClass('flash-red');
+            voteCountObject.removeClass('flash-green');
+            voteCountObject.addClass('flash-green');
+        } else {
+            //remove upvote
+            $(this).removeClass('fa-thumbs-up');
+            $(this).addClass('fa-thumbs-o-up');
+            voteCountObject.removeClass('flash-red');
+            voteCountObject.removeClass('flash-green');
+            voteCount -= 1;
+        }
+        voteCountObject.html(voteCount); //update vote count in DOM
+    });
+
+    /*******************************************************************
+    * click event - ajax call to downvote
+    *******************************************************************/
+    $('body').on('click', '.down-vote', function() {
+        var voteCountObject = $(this).siblings('.vote-count');
+        var upVoteObject = $(this).siblings('.up-vote');
+        var voteCount = parseInt(voteCountObject.html());
+
+        if ($(this).hasClass('fa-thumbs-o-down')) {
+            //downvote
+            $(this).removeClass('fa-thumbs-o-down');
+            $(this).addClass('fa-thumbs-down');
+            voteCount -= 1;
+            //if currently upvoted, remove it
+            if (upVoteObject.hasClass('fa-thumbs-up')) {
+                upVoteObject.removeClass('fa-thumbs-up');
+                upVoteObject.addClass('fa-thumbs-o-up');
+                voteCount -= 1; //removes the upvote from count as well
+            }
+            //flash count with red
+            voteCountObject.removeClass('flash-red');
+            voteCountObject.removeClass('flash-green');
+            voteCountObject.addClass('flash-red');
+        } else {
+            //remove downvote
+            $(this).removeClass('fa-thumbs-down');
+            $(this).addClass('fa-thumbs-o-down');
+            voteCountObject.removeClass('flash-red');
+            voteCountObject.removeClass('flash-green');
+            voteCount += 1;
+        }
+        voteCountObject.html(voteCount); //update vote count in DOM
+    });
+
+    /*******************************************************************
     * click event - toggle reset password / sign in form
     *******************************************************************/
     $('body').on('click', '.forgot-password-link', function(e) {

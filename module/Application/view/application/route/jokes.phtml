@@ -15,7 +15,7 @@
                         <?php endif ?>
                     </div><!-- /.panel-body -->
                     <div class="panel-footer">
-                        <i class="fa fa-tags" data-toggle="popover" title="Categories" data-content="
+                        <i class="fa fa-tags categories" data-toggle="popover" title="Categories" data-content="
                             <?php $i = 0 ?>
                             <?php foreach($jokeCategories as $jokeCategory): ?>
                                 <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
@@ -29,9 +29,9 @@
                             <?php endforeach ?>
                         " data-trigger="hover focus"></i>
                         <span class="pull-right">
-                            <span class="votes">22</i></span>
-                            <i class="fa fa-thumbs-up"></i>
-                            <i class="fa fa-thumbs-down"></i>
+                            <span class="vote-count">22</i></span>
+                            <i class="fa fa-thumbs-o-up vote up-vote"></i>
+                            <i class="fa fa-thumbs-o-down vote down-vote"></i>
                         </span>
                     </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->

@@ -33,6 +33,132 @@ input::-moz-focus-inner {
 .light {
     color: #f9f7da;
 }
+.middle-align-out {
+    margin-top: -118px;
+    position: relative;
+    height: 100%;
+}
+    .middle-align-out .middle-align-in {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+    }
+
+/************************************************
+* ---HELPER - FLASH TEXT COLOR---
+************************************************/
+.flash-green {
+    -webkit-animation: flashGreen 2s ease-out;
+       -moz-animation: flashGreen 2s ease-out;
+        -ms-animation: flashGreen 2s ease-out;
+            animation: flashGreen 2s ease-out;
+    -webkit-animation-iteration-count: 1;
+       -moz-animation-iteration-count: 1;
+        -ms-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+}
+@-webkit-keyframes flashGreen {
+    0% { 
+        color: #333; 
+    }
+    30% { 
+        color: #5cb85c; 
+    }        
+    100% {
+        color: #333;
+    }
+}
+@-moz-keyframes flashGreen {
+    0% {
+        color: #333;
+    }
+    30% { 
+        color: #5cb85c;
+    }        
+    100% {
+        color: #333;
+    }
+}
+@-ms-keyframes flashGreen {
+    0% { 
+        color: #333;
+    }
+    30% { 
+        color: #5cb85c;
+    }        
+    100% {
+        color: #333;
+    }
+}
+@keyframes flashGreen {
+    0% { 
+        color: #333;
+    }
+    30% { 
+        color: #5cb85c;
+    }        
+    100% {
+        color: #333;
+    }
+}
+.flash-red {
+    -webkit-animation: flashRed 2s ease-out;
+       -moz-animation: flashRed 2s ease-out;
+        -ms-animation: flashRed 2s ease-out;
+            animation: flashRed 2s ease-out;
+    -webkit-animation-iteration-count: 1;
+       -moz-animation-iteration-count: 1;
+        -ms-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+}
+@-webkit-keyframes flashRed {
+    0% { 
+        color: #333; 
+    }
+    30% { 
+        color: #d9534f; 
+    }        
+    100% {
+        color: #333;
+    }
+}
+@-moz-keyframes flashRed {
+    0% {
+        color: #333;
+    }
+    30% { 
+        color: #d9534f;
+    }        
+    100% {
+        color: #333;
+    }
+}
+@-ms-keyframes flashRed {
+    0% { 
+        color: #333;
+    }
+    30% { 
+        color: #d9534f;
+    }        
+    100% {
+        color: #333;
+    }
+}
+@keyframes flashRed {
+    0% { 
+        color: #333;
+    }
+    30% { 
+        color: #d9534f;
+    }        
+    100% {
+        color: #333;
+    }
+}
 
 /*******************************************************************
 * ---CHECKBOX TILES---
@@ -811,3 +937,13 @@ fieldset[disabled] .btn-danger.active {
     .popover.right > .arrow::after {
         border-right-color: #6c48a2;
     }
+
+/*******************************************************************
+* ---THUMBS FAVICON---
+*******************************************************************/
+.fa-thumbs-up {
+    color: #5cb85c;
+}
+.fa-thumbs-down {
+    color: #d9534f;
+}
