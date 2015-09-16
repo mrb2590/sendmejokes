@@ -12,7 +12,7 @@ class RouteController extends AbstractActionController
     protected $jokeTable;
     protected $categoryTable;
     protected $viewJokeCategoriesTable;
-
+    protected $voteTable;
 
     public function getJokeTable()
     {
@@ -41,6 +41,15 @@ class RouteController extends AbstractActionController
         return $this->viewJokeCategoriesTable;
     }
 
+    public function getVoteTable()
+    {
+        if (!$this->voteTable) {
+            $sm = $this->getServiceLocator();
+            $this->voteTable = $sm->get('Application\Model\VoteTable');
+        }
+        return $this->voteTable;
+    }
+
     
     public function comingSoonAction()
     {
@@ -59,9 +68,11 @@ class RouteController extends AbstractActionController
     {
         $jokes = $this->getJokeTable()->fetchAll();
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
+        $votes = $this->getVoteTable()->fetchAll();
         return new ViewModel(array(
             'jokes'          => $jokes,
-            'jokeCategories' => $jokeCategories
+            'jokeCategories' => $jokeCategories,
+            'votes'          => $votes
         ));
     }
 }

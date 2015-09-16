@@ -230,7 +230,7 @@ function bindEventListeners() {
             if (dopwnVoteObject.hasClass('fa-thumbs-down')) {
                 dopwnVoteObject.removeClass('fa-thumbs-down');
                 dopwnVoteObject.addClass('fa-thumbs-o-down');
-                voteCount += 1; //removes the downvote from count as well
+                voteCount += 1; //removes the original downvote from count as well
             }
             //flash count with green
             voteCountObject.removeClass('flash-red');
@@ -264,7 +264,7 @@ function bindEventListeners() {
             if (upVoteObject.hasClass('fa-thumbs-up')) {
                 upVoteObject.removeClass('fa-thumbs-up');
                 upVoteObject.addClass('fa-thumbs-o-up');
-                voteCount -= 1; //removes the upvote from count as well
+                voteCount -= 1; //removes the original upvote from count as well
             }
             //flash count with red
             voteCountObject.removeClass('flash-red');

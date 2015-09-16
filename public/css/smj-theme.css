@@ -902,8 +902,9 @@ fieldset[disabled] .btn-danger.active {
 * ---BOOTSTRAP PAGE HEADER---
 *******************************************************************/
 .page-header {
-    border-bottom: 1px solid #eee;
+    border-bottom: none;
     margin-top: 0;
+    text-align: center;
 }
     .page-header h1 {
         margin-top: 0;
@@ -913,7 +914,7 @@ fieldset[disabled] .btn-danger.active {
 * ---BOOTSTRAP PAGE FOOTER---
 *******************************************************************/
 .page-footer {
-    border-top: 1px solid #eee;
+    border-top: none;
     padding-top: 9px;
     margin-top: 0;
     text-align: center;

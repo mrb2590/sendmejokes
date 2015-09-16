@@ -7,6 +7,8 @@ use Application\Model\User;
 use Application\Model\UserTable;
 use Application\Model\Category;
 use Application\Model\CategoryTable;
+use Application\Model\Vote;
+use Application\Model\VoteTable;
 use Application\Model\UserCategory;
 use Application\Model\UserCategoriesTable;
 use Application\Model\JokeCategory;
@@ -127,6 +129,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new ViewJokeCategory());
                     return new TableGateway('view_joke_categories', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\VoteTable' =>  function($sm) {
+                    $tableGateway = $sm->get('VoteTableGateway');
+                    $table = new VoteTable($tableGateway);
+                    return $table;
+                },
+                'VoteTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Vote());
+                    return new TableGateway('vote', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
