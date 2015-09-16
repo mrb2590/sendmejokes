@@ -337,9 +337,11 @@ function toggleSidebar() {
     if ($('.sidebar').hasClass('sidebar-open')) {
         $('.sidebar').removeClass('sidebar-open');
         $('.sidebar-head').addClass('sidebar-head-hidden');
+        $('.browse-button').removeClass('icon-open');
     } else {
         $('.sidebar').addClass('sidebar-open');
         $('.sidebar-head').removeClass('sidebar-head-hidden');
+        $('.browse-button').addClass('icon-open');
     }
 
     toggleHamburgerIcon();

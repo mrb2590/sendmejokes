@@ -20,7 +20,7 @@ html, body {
     float: right;
     height: 100%;
     background-color: #473168;
-    position: absolute;
+    position: fixed;
     right: 0;
     width: 0px;
     z-index: 900;
@@ -99,6 +99,11 @@ html, body {
             background-color: #f9f7da;
             color: #333;
         }
+/* keeps transformicon in place when scrolling */
+.icon-open {
+    position: fixed;
+    right: 15px;
+}
 
 @media (max-width: 768px) { 
     .sidebar.sidebar-open {
