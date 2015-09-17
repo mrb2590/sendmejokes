@@ -29,6 +29,19 @@ return array(
                     ),
                 ),
             ),
+            'vote' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/jokes[/:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Joke',
+                        'action'     => 'view-all',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -53,7 +66,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Route' => 'Application\Controller\RouteController',
-            'Application\Controller\User'  => 'Application\Controller\UserController'
+            'Application\Controller\User'  => 'Application\Controller\UserController',
+            'Application\Controller\Joke'  => 'Application\Controller\JokeController',
         ),
     ),
     'view_manager' => array(

@@ -3,7 +3,6 @@ namespace Application\Model;
 
 class Vote
 {
-    public $id;
     public $joke_id;
     public $user_id;
     public $vote;

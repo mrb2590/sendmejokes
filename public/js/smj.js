@@ -219,7 +219,9 @@ function bindEventListeners() {
     $('body').on('click', '.up-vote', function() {
         var voteCountObject = $(this).siblings('.vote-count');
         var dopwnVoteObject = $(this).siblings('.down-vote');
+        var jokeID = $(this).parents().eq(2).attr("id");
         var voteCount = parseInt(voteCountObject.html());
+        var vote = 0; //holds their current vote status
 
         if ($(this).hasClass('fa-thumbs-o-up')) {
             //upvote
@@ -232,6 +234,7 @@ function bindEventListeners() {
                 dopwnVoteObject.addClass('fa-thumbs-o-down');
                 voteCount += 1; //removes the original downvote from count as well
             }
+            vote = 1;
             //flash count with green
             voteCountObject.removeClass('flash-red');
             voteCountObject.removeClass('flash-green');
@@ -243,8 +246,24 @@ function bindEventListeners() {
             voteCountObject.removeClass('flash-red');
             voteCountObject.removeClass('flash-green');
             voteCount -= 1;
+            vote = 0;
         }
         voteCountObject.html(voteCount); //update vote count in DOM
+        $.ajax({
+            url: '/jokes/vote',
+            data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response != "Success") {
+                    //create account pop up
+                    alert("Join Now!");
+                }
+            }
+        });
     });
 
     /*******************************************************************
@@ -253,7 +272,9 @@ function bindEventListeners() {
     $('body').on('click', '.down-vote', function() {
         var voteCountObject = $(this).siblings('.vote-count');
         var upVoteObject = $(this).siblings('.up-vote');
+        var jokeID = $(this).parents().eq(2).attr("id");
         var voteCount = parseInt(voteCountObject.html());
+        var vote = 0; //holds their current vote status
 
         if ($(this).hasClass('fa-thumbs-o-down')) {
             //downvote
@@ -266,6 +287,7 @@ function bindEventListeners() {
                 upVoteObject.addClass('fa-thumbs-o-up');
                 voteCount -= 1; //removes the original upvote from count as well
             }
+            vote = -1;
             //flash count with red
             voteCountObject.removeClass('flash-red');
             voteCountObject.removeClass('flash-green');
@@ -277,8 +299,24 @@ function bindEventListeners() {
             voteCountObject.removeClass('flash-red');
             voteCountObject.removeClass('flash-green');
             voteCount += 1;
+            vote = 0;
         }
         voteCountObject.html(voteCount); //update vote count in DOM
+        $.ajax({
+            url: '/jokes/vote',
+            data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response != "Success") {
+                    //create account pop up
+                    alert("Join Now!");
+                }
+            }
+        });
     });
 
     /*******************************************************************
@@ -325,6 +363,9 @@ function refreshPage(callback) {
 	    success : function(response) {
 	        $('.sidebar-head').html($('.sidebar-head', response).html());
 	        $('#update-pref-modal').html($('#update-pref-modal', response).html());
+            if (location.pathname == '/jokes' || location.pathname == '/jokes/view-all') {
+                $('.row.masonry').html($('.row.masonry', response).html());
+            }
 	        callback();
 	    }
 	});

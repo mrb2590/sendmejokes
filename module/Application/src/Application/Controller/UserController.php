@@ -4,6 +4,7 @@ namespace Application\Controller;
 use Application\Model\User;
 use Application\Model\UserCategory;
 use Application\Model\ViewUserCategory;
+use Application\Model\Vote;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container as SessionContainer;
@@ -14,6 +15,7 @@ class UserController extends AbstractActionController
     protected $categoryTable;
     protected $userCategoriesTable;
     protected $viewUserCategoriesTable;
+    protected $voteTable;
 
     public function getUserTable()
     {
@@ -51,6 +53,15 @@ class UserController extends AbstractActionController
         return $this->viewUserCategoriesTable;
     }
 
+    public function getVoteTable()
+    {
+        if (!$this->voteTable) {
+            $sm = $this->getServiceLocator();
+            $this->voteTable = $sm->get('Application\Model\VoteTable');
+        }
+        return $this->voteTable;
+    }
+
     public function saveUserSession(User $user) {
         $this->session->auth = true;
 
@@ -59,17 +70,25 @@ class UserController extends AbstractActionController
         $this->session->user->email = $user->email;
         $this->session->user->user_id = $user->user_id;
 
+        //save user votes
+        $votes = $this->getVoteTable()->getVotesByUser($user->user_id);
+        $i = 0;
+        $this->session->userVotes = array();
+        foreach ($votes as $vote) {
+            $this->session->userVotes[$i] = new Vote();
+            $this->session->userVotes[$i] = $vote;
+            $i++;
+        }
+
         //save UserCategories
+        $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
         $i = 0;
         $this->session->userCategories = array();
-        $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
         foreach ($userCategories as $userCategory) {
             $this->session->userCategories[$i] = new UserCategory();
             $this->session->userCategories[$i] = $userCategory;
             $i++;
         }
-
-        unset($i);
 
         //save ViewUserCategories
         $viewUserCategories = $this->getViewUserCategoriesTable()->getUserCategories($user);
@@ -88,6 +107,7 @@ class UserController extends AbstractActionController
         unset($this->session->user);
         unset($this->session->userCategories);
         unset($this->session->viewUserCategories);
+        unset($this->session->userVotes);
     }
 
     public function createUserAction()
