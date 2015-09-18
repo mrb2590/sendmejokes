@@ -18,6 +18,15 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * click event - closes sidebar when clicking outside of it
+    *******************************************************************/
+    $('body').on('click', '.main', function() {
+        if ($('.sidebar').hasClass('sidebar-open')) {
+            hideSidebar();
+        }
+    });
+
+    /*******************************************************************
     * submit event - opens sign up pref modal
     *******************************************************************/
     $('body').on('submit', '#sign-up-form-email', function(e) {
@@ -218,7 +227,7 @@ function bindEventListeners() {
     *******************************************************************/
     $('body').on('click', '.up-vote', function() {
         var voteCountObject = $(this).siblings('.vote-count');
-        var dopwnVoteObject = $(this).siblings('.down-vote');
+        var downVoteObject = $(this).siblings('.down-vote');
         var jokeID = $(this).parents().eq(2).attr("id");
         var voteCount = parseInt(voteCountObject.html());
         var vote = 0; //holds their current vote status
@@ -229,9 +238,9 @@ function bindEventListeners() {
             $(this).addClass('fa-thumbs-up');
             voteCount += 1;
             //if currently downvoted, remove it
-            if (dopwnVoteObject.hasClass('fa-thumbs-down')) {
-                dopwnVoteObject.removeClass('fa-thumbs-down');
-                dopwnVoteObject.addClass('fa-thumbs-o-down');
+            if (downVoteObject.hasClass('fa-thumbs-down')) {
+                downVoteObject.removeClass('fa-thumbs-down');
+                downVoteObject.addClass('fa-thumbs-o-down');
                 voteCount += 1; //removes the original downvote from count as well
             }
             vote = 1;
@@ -249,14 +258,18 @@ function bindEventListeners() {
             vote = 0;
         }
         voteCountObject.html(voteCount); //update vote count in DOM
+        var voteBox = $(this);
         $.ajax({
             url: '/jokes/vote',
             data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
             type: "POST",
             success: function(response) {
                 if(response != "Success") {
-                    //create account pop up
-                    alert("Join Now!");
+                    $('#signin-modal').modal('show');
+                    voteBox.removeClass('fa-thumbs-up');
+                    voteBox.addClass('fa-thumbs-o-up');
+                    voteCount -= 1; //update vote count in DOM
+                    voteCountObject.html(voteCount); //update vote count in DOM
                 }
             }
         });
@@ -298,14 +311,18 @@ function bindEventListeners() {
             vote = 0;
         }
         voteCountObject.html(voteCount); //update vote count in DOM
+        var voteBox = $(this);
         $.ajax({
             url: '/jokes/vote',
             data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
             type: "POST",
             success: function(response) {
                 if(response != "Success") {
-                    //create account pop up
-                    alert("Join Now!");
+                    $('#signin-modal').modal('show');
+                    voteBox.removeClass('fa-thumbs-down');
+                    voteBox.addClass('fa-thumbs-o-down');
+                    voteCount += 1; //update vote count in DOM
+                    voteCountObject.html(voteCount); //update vote count in DOM
                 }
             }
         });

@@ -34,7 +34,6 @@ input::-moz-focus-inner {
     color: #f9f7da;
 }
 .middle-align-out {
-    margin-top: -118px;
     position: relative;
     height: 100%;
 }
@@ -298,9 +297,11 @@ label {
         color: #6c48a2;
         padding-top: 10px;
     }
-    .modal .forgot-password-link {
+    .modal .forgot-password-link,
+    .modal .need-account-link {
         font-size: 12px;
         color: #6c48a2;
+        display: table;
     }
 #alert-modal .modal-body {
     text-align: center;
@@ -903,12 +904,20 @@ fieldset[disabled] .btn-danger.active {
 *******************************************************************/
 .page-header {
     border-bottom: none;
-    margin-top: 0;
     text-align: center;
 }
     .page-header h1 {
         margin-top: 0;
     }
+
+@media (max-width: 767px) {
+    .page-header {
+        margin-top: 118px;
+    }
+}
+.large-header {
+    font-size: 100px;
+}
 
 /*******************************************************************
 * ---BOOTSTRAP PAGE FOOTER---

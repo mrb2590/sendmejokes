@@ -20,21 +20,18 @@
     </head>
     <body>
         <?php echo $this->sidebar() ?>
+        
+        <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
+            <img class="logo-img" src="/img/logo-light.png">
+        </a>
 
-        <div class="full-height container-fluid">
+        <div class="browse-button">
+            <button class="c-hamburger c-hamburger--htx">
+                <span>toggle menu</span>
+            </button>
+        </div><!-- /.browse-button -->
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
-                        <img class="logo-img" src="/img/logo-light.png">
-                    </a>
-                    <div class="browse-button">
-                        <button class="c-hamburger c-hamburger--htx">
-                            <span>toggle menu</span>
-                        </button>
-                    </div><!-- /.browse-button -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+        <div class="main full-height container-fluid">
 
             <?php echo $this->content ?>
 
@@ -48,13 +45,20 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input id="email" class="form-control" type="text" value="" name="email">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <input id="email" class="form-control" type="text" value="" name="email" placeholder="Email">
+                                    </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group" id="signin-form-password">
                                     <label for="password">Password:</label>
-                                    <input id="password" class="form-control" type="password" value="" name="password">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                    <input id="password" class="form-control" type="password" value="" name="password" placeholder="Password">
+                                    </div>
                                 </div><!-- /.form-group -->
-                                <a class="forgot-password-link" href="#">forgot password?</a>
+                                <a class="forgot-password-link" href="#">Forgot password?</a>
+                                <a class="need-account-link" href="<?php echo $this->url('home') ?>">Create an account</a>
                                 <div class="modal-alert">text</div>
                             </div><!-- /.modal-body -->
                             <div class="modal-footer">

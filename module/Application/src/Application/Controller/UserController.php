@@ -129,7 +129,7 @@ class UserController extends ApplicationController
                 $this->saveUserSession($newUser);
 
             } catch (\Exception $e) {
-                $message = 'Fail - ' . $e->getMessage();
+                $message = $e->getMessage();
             }
         }
 
