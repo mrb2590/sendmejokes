@@ -18,19 +18,19 @@ class CategoryTable
         return $resultSet;
     }
 
-    public function getCategroy($id)
+    public function getCategory($cat_id)
     {
-        $id  = (int) $id;
-        $rowset = $this->tableGateway->select(array('id' => $id));
+        $cat_id  = (int) $cat_id;
+        $rowset = $this->tableGateway->select(array('cat_id' => $cat_id));
         $row = $rowset->current();
         if (!$row) {
-            throw new \Exception("Could not find row $id");
+            throw new \Exception("Category not found");
         }
         return $row;
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory($cat_id)
     {
-        $this->tableGateway->delete(array('id' => (int) $id));
+        $this->tableGateway->delete(array('cat_id' => (int) $cat_id));
     }
 }

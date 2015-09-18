@@ -15,7 +15,7 @@ return array(
             'application' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '[/:action]',
+                    'route'    => '[/:action[/]]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),
@@ -28,7 +28,7 @@ return array(
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/user[/:action][/:id]',
+                    'route'    => '/user[/:action][/:id[/]]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -42,28 +42,14 @@ return array(
             'joke' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/jokes[/:action]',
+                    'route'    => '/jokes[/:action][/:category[/]]',
                     'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'category' => '\d{8}',
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Joke',
-                        'action'     => 'view-all',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes'  => array(
-                    'detail' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route'    => '/:id',
-                            'defaults' => array(
-                                'action' => 'detail',
-                            ),
-                            'constraints' => array(
-                                'id' => '[1-9]\d*',
-                            ),
-                        ),
+                        'action'     => 'view',
                     ),
                 ),
             ),

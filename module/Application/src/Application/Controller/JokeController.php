@@ -8,22 +8,50 @@ use Zend\Session\Container as SessionContainer;
 
 class JokeController extends ApplicationController
 {
-    public function viewAllAction()
+    public function viewAction()
     {
         $this->session = new SessionContainer('user');
+        $category = $this->params()->fromRoute('category');
+        $catflag = false;
+        $message = false;
+        $categoryName = false;
+
+        //filter by category if passed in route
+        if (isset($category)) {
+            $catflag = true;
+            try {
+                $categoryName = $this->getCategoryTable()->getCategory($category);
+                $message = "Success";
+            } catch (\Excepection $e) {
+                $message = $e;
+            }
+            $jokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($category);
+        } else {
         $jokes = $this->getJokeTable()->fetchAll();
+        }
+
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
         $votes = $this->getVoteTable()->fetchAll();
+
         return new ViewModel(array(
             'jokes'          => $jokes,
             'jokeCategories' => $jokeCategories,
             'votes'          => $votes,
-            'session'        => $this->session
+            'session'        => $this->session,
+            'message'        => $message,
+            'catflag'        => $catflag,
+            'categoryName'   => $categoryName,
         ));
     }
 
     public function voteAction()
     {
+        //fail route if category is passed in url
+        $category = $this->params()->fromRoute('category');
+        if(isset($category)) {
+            return $this->notFoundAction();
+        }
+
         //set blank layout
         $this->layout('layout/blank');
         $this->session = new SessionContainer('user');

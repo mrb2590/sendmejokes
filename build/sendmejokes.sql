@@ -68,9 +68,17 @@ JOIN   category c
 ON     uc.cat_id=c.cat_id;
 
 CREATE VIEW view_joke_categories AS 
-SELECT j.joke_id, name 
+SELECT j.*, c.cat_id, c.name 
 FROM   joke j
 JOIN   joke_categories jc
 ON     j.joke_id=jc.joke_id
 JOIN   category c 
 ON     jc.cat_id=c.cat_id;
+
+
+select joke.joke_id, joke_categories.cat_id
+from joke
+join joke_categories
+on joke.joke_id = joke_categories.joke_id
+join category
+on category.cat_id = '10000006';

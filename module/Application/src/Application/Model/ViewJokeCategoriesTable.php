@@ -19,9 +19,9 @@ class ViewJokeCategoriesTable
         return $resultSet;
     }
 
-    public function getJokeCategories(Joke $joke)
+    public function getJokesByCategory($cat_id)
     {
-        $resultSet = $this->tableGateway->select(array('joke_id' => $joke->joke_id));
+        $resultSet = $this->tableGateway->select(array('cat_id' => $cat_id));
         return $resultSet; 
     }
 }

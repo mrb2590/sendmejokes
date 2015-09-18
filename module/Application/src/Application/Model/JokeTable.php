@@ -18,13 +18,13 @@ class JokeTable
         return $resultSet;
     }
 
-    public function getJoke($id)
+    public function getJoke($joke_id)
     {
-        $id  = (int) $id;
-        $rowset = $this->tableGateway->select(array('cat_id' => $id));
+        $joke_id  = (int) $joke_id;
+        $rowset = $this->tableGateway->select(array('joke_id' => $joke_id));
         $row = $rowset->current();
         if (!$row) {
-            throw new \Exception("Could not find row $id");
+            throw new \Exception("Could not find joke");
         }
         return $row;
     }

@@ -253,11 +253,7 @@ function bindEventListeners() {
             url: '/jokes/vote',
             data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
             type: "POST",
-            beforeSend: function() {
-                $('html, body, input, textarea').css('cursor', 'progress');
-            },
             success: function(response) {
-                $('html, body, input, textarea').css('cursor', 'auto');
                 if(response != "Success") {
                     //create account pop up
                     alert("Join Now!");
@@ -306,11 +302,7 @@ function bindEventListeners() {
             url: '/jokes/vote',
             data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
             type: "POST",
-            beforeSend: function() {
-                $('html, body, input, textarea').css('cursor', 'progress');
-            },
             success: function(response) {
-                $('html, body, input, textarea').css('cursor', 'auto');
                 if(response != "Success") {
                     //create account pop up
                     alert("Join Now!");
@@ -363,9 +355,7 @@ function refreshPage(callback) {
 	    success : function(response) {
 	        $('.sidebar-head').html($('.sidebar-head', response).html());
 	        $('#update-pref-modal').html($('#update-pref-modal', response).html());
-            if (location.pathname == '/jokes' || location.pathname == '/jokes/view-all') {
-                $('.row.masonry').html($('.row.masonry', response).html());
-            }
+            $('.masonry').html($('.masonry', response).html());
 	        callback();
 	    }
 	});
