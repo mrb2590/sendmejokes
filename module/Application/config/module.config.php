@@ -29,7 +29,7 @@ return array(
                     ),
                 ),
             ),
-            'vote' => array(
+            'joke' => array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/jokes[/:action]',

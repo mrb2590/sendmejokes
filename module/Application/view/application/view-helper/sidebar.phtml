@@ -13,7 +13,7 @@
         </div><!-- /.sidebar-head -->
     </div><!-- /.sidebar-head-ex -->
     <div class="list-group">
-        <a class="list-group-item" href="<?php echo $this->url('home', array('action' => 'jokes')) ?>">View All</a>
+        <a class="list-group-item" href="<?php echo $this->url('joke', array('action' => 'view-all')) ?>">View All</a>
         <?php foreach($categories as $category): ?>
             <a class="list-group-item"><?php echo $category->name ?></a>
         <?php endforeach ?>

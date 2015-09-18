@@ -84,12 +84,23 @@ class JokeController extends AbstractActionController
         }
 
         if ($valid) {
-            //update session
+
+            //update vote exists in session already, update it
+            $voteExists = false;
+            $i = 0;
             foreach($this->session->userVotes as $key => $userVote) {
                 if ($userVote->joke_id == $vote->joke_id && $userVote->user_id == $vote->user_id) {
                     $this->session->userVotes[$key] = $vote;
+                    $voteExists = true;
                 }
+                $i++;
             }
+
+            //if it doesnt exist is session, add it
+            if (!$voteExists) {
+                $this->session->userVotes[$i + 1] = $vote;
+            }
+
             $this->getVoteTable()->vote($vote);
             $message = "Success";
         }
