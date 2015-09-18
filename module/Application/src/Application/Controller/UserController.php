@@ -249,7 +249,10 @@ class UserController extends ApplicationController
         $categories = $this->getRequest()->getPost('category');
 
         //validate
-        if ($submit != 'submit') {
+        if(!isset($this->session->user)) {
+            $message = "Must be signed in";
+            $valid = false;
+        } elseif ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
         } elseif ($email != null && $email != '' && (strpos($email, '@') === false || strpos($email, '.') === false)) {

@@ -150,6 +150,10 @@ function bindEventListeners() {
                         $('#delete-account').val('');
                         if (response == "Account deleted") {
                         	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
+                            $('body').on('hidden.bs.modal', '#alert-modal', function () {
+                                console.log('hello');
+                            window.location.replace('/');// redirect when modal is closed
+                        })
                         } else {
                             alertModal('Account Updated', '<p>You account has been updated</p>');
                         }
