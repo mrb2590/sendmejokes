@@ -9,59 +9,16 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container as SessionContainer;
 
-class UserController extends AbstractActionController
+class UserController extends ApplicationController
 {
-    protected $userTable;
-    protected $categoryTable;
-    protected $userCategoriesTable;
-    protected $viewUserCategoriesTable;
-    protected $voteTable;
-
-    public function getUserTable()
+    public function signUpAction()
     {
-        if (!$this->userTable) {
-            $sm = $this->getServiceLocator();
-            $this->userTable = $sm->get('Application\Model\UserTable');
-        }
-        return $this->userTable;
+        $categories = $this->getCategoryTable()->fetchAll();
+        return new ViewModel(array(
+            'categories' => $categories
+        ));
     }
-
-    public function getCategoryTable()
-    {
-        if (!$this->categoryTable) {
-            $sm = $this->getServiceLocator();
-            $this->categoryTable = $sm->get('Application\Model\CategoryTable');
-        }
-        return $this->categoryTable;
-    }
-
-    public function getUserCategoriesTable()
-    {
-        if (!$this->userCategoriesTable) {
-            $sm = $this->getServiceLocator();
-            $this->userCategoriesTable = $sm->get('Application\Model\UserCategoriesTable');
-        }
-        return $this->userCategoriesTable;
-    }
-
-    public function getViewUserCategoriesTable()
-    {
-        if (!$this->viewUserCategoriesTable) {
-            $sm = $this->getServiceLocator();
-            $this->viewUserCategoriesTable = $sm->get('Application\Model\ViewUserCategoriesTable');
-        }
-        return $this->viewUserCategoriesTable;
-    }
-
-    public function getVoteTable()
-    {
-        if (!$this->voteTable) {
-            $sm = $this->getServiceLocator();
-            $this->voteTable = $sm->get('Application\Model\VoteTable');
-        }
-        return $this->voteTable;
-    }
-
+    
     public function saveUserSession(User $user) {
         $this->session->auth = true;
 

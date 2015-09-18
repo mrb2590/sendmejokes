@@ -3,14 +3,24 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\User',
+                        'action'     => 'sign-up',
+                    ),
+                ),
+            ),
+            'application' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/[:action]',
+                    'route'    => '[/:action]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Route',
+                        'controller' => 'Application\Controller\Application',
                         'action'     => 'home',
                     ),
                 ),
@@ -41,6 +51,21 @@ return array(
                         'action'     => 'view-all',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'detail' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route'    => '/:id',
+                            'defaults' => array(
+                                'action' => 'detail',
+                            ),
+                            'constraints' => array(
+                                'id' => '[1-9]\d*',
+                            ),
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
@@ -65,9 +90,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Route' => 'Application\Controller\RouteController',
-            'Application\Controller\User'  => 'Application\Controller\UserController',
-            'Application\Controller\Joke'  => 'Application\Controller\JokeController',
+            'Application\Controller\Application' => 'Application\Controller\ApplicationController',
+            'Application\Controller\User'        => 'Application\Controller\UserController',
+            'Application\Controller\Joke'        => 'Application\Controller\JokeController',
         ),
     ),
     'view_manager' => array(
