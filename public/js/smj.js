@@ -49,7 +49,7 @@ function bindEventListeners() {
             },
             success: function(response) {
                 $('html, body, input, textarea').css('cursor', 'auto');
-                if(response != "Success") {
+                if (response.indexOf('.') >= 0) { // if response cantains '.'
                     $('#signin-modal #password').val('');
                     $('#signin-modal .modal-alert').html(response);
                     $('#signin-modal .modal-alert').slideDown();
@@ -57,11 +57,7 @@ function bindEventListeners() {
                         $('#signin-modal .modal-alert').slideUp();
                     }, 5000);
                 } else {
-                    refreshPage(function() {
-                        $('#signin-modal').modal('hide');
-                        $('#signin-modal #email').val('');
-                        $('#signin-modal #password').val('');
-                    });
+                    window.location.href = "/user/" + response;
                 }
             }
         });
@@ -78,10 +74,14 @@ function bindEventListeners() {
                 $('html, body, input, textarea').css('cursor', 'progress');
             },
             success: function(response) {
-                $('html, body, input, textarea').css('cursor', 'auto');
-                refreshPage(function() {
-                    hideSidebar();
-                });
+                if (response == 'Redirect') {
+                    window.location.replace("/");
+                } else {
+                    $('html, body, input, textarea').css('cursor', 'auto');
+                    refreshPage(function() {
+                        hideSidebar();
+                    });
+                }
             }
         });
     });
@@ -138,23 +138,20 @@ function bindEventListeners() {
             success: function(response) {
                 $('html, body, input, textarea').css('cursor', 'auto');
                 if(response != "Success" && response != "Account deleted") {
-                    $('#update-pref-modal #password').val('');
-                    $('#update-pref-modal #password2').val('');
-                    $('#update-pref-modal .modal-alert').html(response);
-                    $('#update-pref-modal .modal-alert').slideDown();
-                    setTimeout(function() {
-                        $('#update-pref-modal .modal-alert').slideUp();
-                    }, 5000);
+                    $('#password').val('');
+                    $('#password2').val('');
+                    alertModal('Oops', '<p>' + response + '</p>');
                 } else {
                     refreshPage(function() {
-                        $('#update-pref-modal').modal('hide');
-                        $('#update-pref-modal #email').val('');
-                        $('#update-pref-modal #password-old').val('');
-                        $('#update-pref-modal #password').val('');
-                        $('#update-pref-modal #password2').val('');
-                        $('#update-pref-modal #delete-account').val('');
+                        $('#email').val('');
+                        $('#password-old').val('');
+                        $('#password').val('');
+                        $('#password2').val('');
+                        $('#delete-account').val('');
                         if (response == "Account deleted") {
                         	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
+                        } else {
+                            alertModal('Account Updated', '<p>You account has been updated</p>');
                         }
                     });
                 }
@@ -339,10 +336,10 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - opens/closes update-pref-modal
     *******************************************************************/
-    $('body').on('click', '#preferences-link', function(e) {
-        e.preventDefault();
-        $('#update-pref-modal').modal('show');
-    });
+    //$('body').on('click', '#preferences-link', function(e) {
+    //    e.preventDefault();
+    //    $('#update-pref-modal').modal('show');
+    //});
 
     /*******************************************************************
     * click event - checks the checkbox-tile

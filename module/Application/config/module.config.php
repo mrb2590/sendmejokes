@@ -28,14 +28,14 @@ return array(
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/user[/:action][/:id[/]]',
+                    'route'    => '/user[/:action][/:user_id[/]]',
                     'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'user_id' => '\d{8}',
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\User',
-                        //'action'     => 'view-users',
+                        'action'     => 'view',
                     ),
                 ),
             ),
@@ -82,8 +82,8 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'display_not_found_reason' => false,
-        'display_exceptions'       => true,
+        'display_not_found_reason' => ($_SERVER['APPLICATION_ENV'] == 'development') ? true : false,
+        'display_exceptions'       => ($_SERVER['APPLICATION_ENV'] == 'development') ? true : false,
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',

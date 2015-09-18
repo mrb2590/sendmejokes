@@ -11,6 +11,28 @@ use Zend\Session\Container as SessionContainer;
 
 class UserController extends ApplicationController
 {
+    public function viewAction()
+    {
+        $this->session = new SessionContainer('user');
+        $user_id = (int) $this->params()->fromRoute('user_id');
+
+        //only current signed in user can view this page
+        if(isset($this->session->user->user_id)) {
+            if ($this->session->user->user_id != $user_id) {
+                return $this->notFoundAction();
+            }
+        } else {
+             $this->redirect()->toRoute('home');
+        }
+
+        $categories = $this->getCategoryTable()->fetchAll();
+
+        return new ViewModel(array(
+            'session'    => $this->session,
+            'categories' => $categories
+        ));
+    }
+
     public function signUpAction()
     {
         $categories = $this->getCategoryTable()->fetchAll();
@@ -20,12 +42,13 @@ class UserController extends ApplicationController
     }
     
     public function saveUserSession(User $user) {
+        $this->session = new SessionContainer('user');
         $this->session->auth = true;
 
         //save user id and email
         $this->session->user = new User();
         $this->session->user->email = $user->email;
-        $this->session->user->user_id = $user->user_id;
+        $this->session->user->user_id = (int) $user->user_id;
 
         //save user votes
         $votes = $this->getVoteTable()->getVotesByUser($user->user_id);
@@ -146,8 +169,14 @@ class UserController extends ApplicationController
 
         $this->destroyUserSession();
 
+        if (strpos($_SERVER['REQUEST_URI'], 'user') !== false) {
+            $message = "Redirect";
+        } else {
+            $message = "Success";
+        }
+
         return new ViewModel(array(
-            'message' => "Success"
+            'message' => $message
         ));
     }
     
@@ -170,10 +199,10 @@ class UserController extends ApplicationController
         //validate
         if ($submit != 'submit') {
             $valid = false;
-            $message = "Invalid request";
+            $message = "Invalid request.";
         } elseif (strpos($user->email, '@') === false || strpos($user->email, '.') === false) {
             $valid = false;
-            $message = "Invalid email address";
+            $message = "Invalid email address.";
         } else {
             $valid = true;
         }
@@ -183,16 +212,16 @@ class UserController extends ApplicationController
                 $user = $this->getUserTable()->verifyUser($user); //returns user object with user_id from db
 
                 if (!$user) {
-                    $message = "Invalid Credentials";
+                    $message = "Invalid Credentials.";
                 } else {
-                    $message = "Success";
+                    $message = $user->user_id;
                     
                     //set session
                     $this->saveUserSession($user);
                 }
             } catch (\Exception $e) {
                 //$message = 'Fail - ' . $e->getMessage();
-                $message = "Invalid Credentials";
+                $message = "Invalid Credentials.";
                 $this->session->auth = false;
                 if (isset($this->session->user)) {
                     unset($this->session->user);

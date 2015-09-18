@@ -1,0 +1,104 @@
+<div class="page-header">
+    <h1><?php echo $session->user->email ?></h1>
+</div><!-- /.page-header -->
+<div class="container">
+    <form id="update-pref-form" action="/user/update-user" method="POST">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Update which categories you'd like to recieve jokes from. Unchecking all will unsubscribe you from all emails, but your account will remain (so you can still vote on jokes!)</h4>
+                <?php $i = 0 ?>
+                <?php foreach($categories as $category): ?>
+                    <?php if ($i % 4 === 0): ?>
+                        <?php if ($i !== 0): ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="row">
+                    <?php endif; ?>
+                        <div class="col-sm-3">
+                            <div class="checkbox-tile
+                                <?php if(isset($session->viewUserCategories)): ?>
+                                    <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                        <?php if($viewUserCategory->name == $category->name): ?>
+                                            checked
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                                ">
+                                <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                <div class="checkbox-tile-hidden">
+                                     <input type="checkbox" name="category[<?php echo $category->name ?>]"
+                                        <?php if(isset($session->viewUserCategories)): ?>
+                                            <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                                <?php if($viewUserCategory->name == $category->name): ?>
+                                                    checked="true"
+                                                <?php endif ?>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    value="<?php echo $category->cat_id ?>">
+                                </div><!-- /.checkbox-tile-hidden -->
+                            </div><!--  /.checkbox-tile -->
+                        </div><!-- /.col -->
+                    <?php $i++ ?>
+                <?php endforeach; ?>
+                </div><!-- /.row -->
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>If you would like to update your email address</h4>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="email">New email address:</label>
+                            <input id="email" class="form-control" type="text" name="email" value="">
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>If you would like to update your password</h4>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="password-old">Old password:</label>
+                            <input id="password-old" class="form-control" type="password" name="password-old" value="">
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="password">New password:</label>
+                            <input id="password" class="form-control" type="password" name="password" value="">
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="password2">Repeat new password:</label>
+                            <input id="password2" class="form-control" type="password" name="password2" value="">
+                        </div><!-- /.form-group -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>Had enough jokes? You can delete your account here</h4>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="delete-account" name="delete-account" value="1"> Delete my account
+                            </label>
+                        </div><!-- /.checkbox -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-footer">
+                    <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                </div><!-- /.page-footer -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </form>
+</div><!-- /.container -->
