@@ -73,26 +73,18 @@
         <div class="page-footer">
             <nav>
                 <ul class="pagination pagination-md">
-                    <li class="disabled">
-                        <a aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
+                    <li <?php if($page == 1): ?>class="disabled"<?php endif ?>>
+                        <a aria-label="Previous" href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page - 1) ?>"><span aria-hidden="true">«</span></a>
                     </li>
-                    <li class="active">
-                        <a href="#">1<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
+                    <?php for($i = 1; $i <= $maxPages; $i++): ?>
+                        <?php if ($i > ($page - 5) && $i < ($page + 5)): ?>
+                            <li <?php if($page == $i): ?>class="active"<?php endif ?>>
+                                <a href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . $i ?>"><?php echo $i ?><span class="sr-only">(current)</span></a>
+                            </li>
+                        <?php endif ?>
+                    <?php endfor ?>
+                    <li <?php if($page == $maxPages): ?>class="disabled"<?php endif ?>>
+                        <a aria-label="Next" href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page + 1) ?>"><span aria-hidden="true">»</span></a>
                     </li>
                 </ul>
             </nav>

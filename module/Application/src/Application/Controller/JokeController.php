@@ -15,6 +15,13 @@ class JokeController extends ApplicationController
         $catflag = false;
         $message = false;
         $categoryName = false;
+        $l = $this->params()->fromQuery('limit');
+        $p = $this->params()->fromQuery('page');
+        $limit = (isset($l)) ? (int) $l : 1;
+        $page = (isset($p)) ? (int) $p : 1;
+        $allJokes = $this->getJokeTable()->fetchAll();
+        $total = count($allJokes);
+        $maxPages = $total / $limit;
 
         //filter by category if passed in route
         if (isset($category)) {
@@ -27,7 +34,8 @@ class JokeController extends ApplicationController
             }
             $jokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($category);
         } else {
-        $jokes = $this->getJokeTable()->fetchAll();
+            //get all jokes paginated
+            $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);
         }
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
@@ -41,6 +49,8 @@ class JokeController extends ApplicationController
             'message'        => $message,
             'catflag'        => $catflag,
             'categoryName'   => $categoryName,
+            'page'           => $page,
+            'maxPages'       => $maxPages,
         ));
     }
 
