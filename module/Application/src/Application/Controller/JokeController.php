@@ -19,9 +19,6 @@ class JokeController extends ApplicationController
         $p = $this->params()->fromQuery('page');
         $limit = (isset($l)) ? (int) $l : 1;
         $page = (isset($p)) ? (int) $p : 1;
-        $allJokes = $this->getJokeTable()->fetchAll();
-        $total = count($allJokes);
-        $maxPages = $total / $limit;
 
         //filter by category if passed in route
         if (isset($category)) {
@@ -32,11 +29,16 @@ class JokeController extends ApplicationController
             } catch (\Excepection $e) {
                 $message = $e;
             }
-            $jokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($category);
+            $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($category, $limit, $page);
+            $allJokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($category);
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);
+            $allJokes = $this->getJokeTable()->fetchAll();
         }
+
+        $total = count($allJokes);
+        $maxPages = $total / $limit;
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
         $votes = $this->getVoteTable()->fetchAll();
@@ -51,6 +53,7 @@ class JokeController extends ApplicationController
             'categoryName'   => $categoryName,
             'page'           => $page,
             'maxPages'       => $maxPages,
+            'total'          => $total,
         ));
     }
 

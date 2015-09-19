@@ -2,6 +2,7 @@
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 class ViewJokeCategoriesTable
 {
@@ -16,6 +17,18 @@ class ViewJokeCategoriesTable
     {
         $resultSet = $this->tableGateway->select();
         $resultSet->buffer();
+        return $resultSet;
+    }
+
+    public function fetchPaginatedByCategory($cat_id, $limit, $page)
+    {
+        $cat_id = (int) $cat_id;
+        $limit = (int) $limit;
+        $page = (int) $page;
+        $offset = $limit * ($page - 1);
+        $resultSet = $this->tableGateway->select(function (Select $select) use ($cat_id, $limit, $offset) {
+            $select->where('cat_id = ' . $cat_id)->limit($limit)->offset($offset);
+        });
         return $resultSet;
     }
 

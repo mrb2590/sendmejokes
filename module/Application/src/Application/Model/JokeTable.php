@@ -16,20 +16,32 @@ class JokeTable
 
     public function getJokesByCategory($cat_id)
     {
+     // $resultSet = $this->tableGateway->select(function (Select $select) {
+     //     // Select columns and count the forums.
+     //     $select->columns(array(
+     //         'category_name',
+     //         'forumsCount' => new Expression('COUNT(forums.forum_id)')
+     //     ));
+     //     // Left-join with the forums table.
+     //     $select->join('forums', 'categories.category_id = forums.category_id', array(), 'left');
+     //     // Group by the category name.
+     //     $select->group('categories.category_name');
+     // });
+
+
+
+
+$cat_id = (int) $cat_id;
+
         $resultSet = $this->tableGateway->select(function (Select $select) {
-            // Select columns and count the forums.
-            $select->columns(array(
-                'category_name',
-                'forumsCount' => new Expression('COUNT(forums.forum_id)')
-            ));
-            // Left-join with the forums table.
-            $select->join('forums', 'categories.category_id = forums.category_id', array(), 'left');
-            // Group by the category name.
-            $select->group('categories.category_name');
+            $select->join(array('jc' => 'joke_categories'), array('joke.joke_id = jc.joke_id'));
         });
+
+
+
         return $resultSet;
     }
-    
+
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
