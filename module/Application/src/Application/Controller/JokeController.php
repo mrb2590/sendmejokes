@@ -38,7 +38,7 @@ class JokeController extends ApplicationController
         }
 
         $total = count($allJokes);
-        $maxPages = $total / $limit;
+        $maxPages = ((int) round($total / $limit));
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
         $votes = $this->getVoteTable()->fetchAll();
