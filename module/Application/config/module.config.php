@@ -28,7 +28,7 @@ return array(
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/user[/:action][/:user_id[/]]',
+                    'route'    => '/user[/[:action[/[:user_id[/]]]]]',
                     'constraints' => array(
                         'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'user_id' => '\d{8}',
@@ -42,7 +42,7 @@ return array(
             'joke' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/jokes[/:action][/:category[/]]',
+                    'route'    => '/jokes[/[:action[/[:category[/]]]]]',
                     'constraints' => array(
                         'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'category' => '\d{8}',
