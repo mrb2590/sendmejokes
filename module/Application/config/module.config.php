@@ -7,8 +7,8 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\User',
-                        'action'     => 'sign-up',
+                        'controller' => 'Application\Controller\Application',
+                        'action'     => 'coming-soon',
                     ),
                 ),
             ),
