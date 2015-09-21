@@ -11,6 +11,7 @@ CREATE TABLE user (
 CREATE TABLE category (
     cat_id   INT(8)         NOT NULL    AUTO_INCREMENT,
     name     VARCHAR(128)   NOT NULL,
+    url_name VARCHAR(128)   NOT NULL,
     PRIMARY KEY (cat_id)
 ) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
 

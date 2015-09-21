@@ -9,7 +9,7 @@
         </div><!-- /.row -->
     <?php else: ?>
         <div class="page-header">
-                <h1>Jokes<br/><small><?php echo ($categoryName) ? $categoryName->name : "All Jokes" ?></small></h1>
+                <h1>Jokes<br/><small><?php echo ($categoryObject) ? $categoryObject->name : "All Jokes" ?></small></h1>
         </div><!-- /.page-header -->
         <?php $total = count($jokes) ?>
         <div class="row masonry <?php if($total == 1): ?>max-500<?php elseif($total == 2): ?>max-783<?php elseif($total == 3): ?>max-1049<?php elseif($total == 4):?>max-1315<?php endif ?>">

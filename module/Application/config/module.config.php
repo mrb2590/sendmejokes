@@ -45,7 +45,7 @@ return array(
                     'route'    => '/jokes[/[:action[/[:category[/]]]]]',
                     'constraints' => array(
                         'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'category' => '\d{8}',
+                        'category' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Joke',

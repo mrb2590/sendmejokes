@@ -14,7 +14,7 @@ class JokeController extends ApplicationController
         $category = $this->params()->fromRoute('category');
         $catflag = false;
         $message = false;
-        $categoryName = false;
+        $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
         $limit = (isset($l)) ? (int) $l : 1;
@@ -24,13 +24,13 @@ class JokeController extends ApplicationController
         if (isset($category)) {
             $catflag = true;
             try {
-                $categoryName = $this->getCategoryTable()->getCategory($category);
+                $categoryObject = $this->getCategoryTable()->getCategoryByUrlName($category);
                 $message = "Success";
             } catch (\Excepection $e) {
                 $message = $e;
             }
-            $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($category, $limit, $page);
-            $allJokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($category);
+            $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($categoryObject->cat_id, $limit, $page);
+            $allJokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($categoryObject->cat_id);
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);
@@ -50,7 +50,7 @@ class JokeController extends ApplicationController
             'session'        => $this->session,
             'message'        => $message,
             'catflag'        => $catflag,
-            'categoryName'   => $categoryName,
+            'categoryObject' => $categoryObject,
             'page'           => $page,
             'maxPages'       => $maxPages,
             'total'          => $total,

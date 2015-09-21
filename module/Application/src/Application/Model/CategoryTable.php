@@ -29,6 +29,16 @@ class CategoryTable
         return $row;
     }
 
+    public function getCategoryByUrlName($url_name)
+    {
+        $rowset = $this->tableGateway->select(array('url_name' => $url_name));
+        $row = $rowset->current();
+        if (!$row) {
+            throw new \Exception("Category not found");
+        }
+        return $row;
+    }
+
     public function deleteCategory($cat_id)
     {
         $this->tableGateway->delete(array('cat_id' => (int) $cat_id));
