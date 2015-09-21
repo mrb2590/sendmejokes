@@ -286,7 +286,7 @@ class UserController extends ApplicationController
         } elseif ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
-        } elseif (!$this->validateInput($user->email, 'email') {
+        } elseif (!$this->validateInput($user->email, 'email')) {
             $valid = false;
             $message = "Invalid email address";
         } elseif ($password !== $password2) {
