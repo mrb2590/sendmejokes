@@ -31,8 +31,13 @@ function bindEventListeners() {
     *******************************************************************/
     $('body').on('submit', '#sign-up-form-email', function(e) {
         e.preventDefault();
-        $('#home-signup-modal').modal('show');
-        $('#sign-up-pref-form [name="email"]').val($('#sign-up-form-email [name="email"]').val());
+        var email = $(this).find('#email').val()
+        if (email == '' || email.indexOf('.') == -1 || email.indexOf('@') == -1) {
+            alertModal('Oops', 'Invalid emaill address');
+        } else {
+            $('#home-signup-modal').modal('show');
+            $('#sign-up-pref-form [name="email"]').val($('#sign-up-form-email [name="email"]').val());
+        }
     });
 
     /*******************************************************************
