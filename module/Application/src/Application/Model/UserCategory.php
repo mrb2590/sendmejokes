@@ -1,12 +1,33 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Model;
 
 class UserCategory
 {
+    /**
+     * @var int(8)
+     */
     public $id;
+
+    /**
+     * @var int(8)
+     */
     public $user_id;
+
+    /**
+     * @var int(8)
+     */
     public $cat_id;
 
+    /**
+     * @param array
+     */
     public function exchangeArray($data)
     {
         $this->id      = (!empty($data['id'])) ? $data['id'] : null;

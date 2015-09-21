@@ -1,3 +1,7 @@
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ */
 $(document).ready(function() {
     bindEventListeners();
 

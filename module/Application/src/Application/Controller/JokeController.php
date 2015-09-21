@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Controller;
 
 use Application\Model\Vote;
@@ -8,6 +15,9 @@ use Zend\Session\Container as SessionContainer;
 
 class JokeController extends ApplicationController
 {
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
@@ -57,6 +67,9 @@ class JokeController extends ApplicationController
         ));
     }
 
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function voteAction()
     {
         //fail route if category is passed in url

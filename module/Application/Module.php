@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application;
 
 use Application\Model\Joke;
@@ -26,6 +33,9 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
+    /**
+     * @param Zend\Mvc\MvcEvent
+     */
     public function onBootstrap(MvcEvent $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
@@ -33,11 +43,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         $moduleRouteListener->attach($eventManager);
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(
@@ -49,6 +65,9 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         );
     }
 
+    /**
+     * @return array
+     */
     public function getServiceConfig()
     {
         return array(

@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
@@ -7,19 +14,32 @@ use Zend\Session\Container as SessionContainer;
 
 class UserTable
 {
+    /**
+     * @var Zend\Db\TableGateway\TableGateway
+     */
     protected $tableGateway;
 
+    /**
+     * @param Zend\Db\TableGateway\TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
+    /**
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
 
+    /**
+     * @param Application\Model\User
+     * @return Application\Model\User
+     */
     public function verifyUser(User $currentUser)
     {
         $success = false;
@@ -44,6 +64,10 @@ class UserTable
         return $user;
     }
 
+    /**
+     * @param Application\Model\User 
+     * @return Application\Model\User
+     */
     public function createUser(User $user)
     {
         $bcrypt = new Bcrypt();
@@ -71,19 +95,30 @@ class UserTable
         return $user;
     }
 
-    public function deleteUser($id)
+    /**
+     * @param int(8) 
+     */
+    public function deleteUser($user_id)
     {
-        $this->tableGateway->delete(array('user_id' => $id));
+        $this->tableGateway->delete(array('user_id' => $user_id));
     }
 
-    public function getUser($id)
+    /**
+     * @param int(8) 
+     * @return Application\Model\User
+     */
+    public function getUser($user_id)
     {
-        $id = (int) $id;
-        $resultSet = $this->tableGateway->select(array('user_id' => $id));
+        $user_id = (int) $user_id;
+        $resultSet = $this->tableGateway->select(array('user_id' => $user_id));
         $user = $resultSet->current();
         return $user;
     }
 
+    /**
+     * @param string 
+     * @return Application\Model\User
+     */
     public function getUserByEmail($email)
     {
         $resultSet = $this->tableGateway->select(array('email' => $email));
@@ -91,6 +126,10 @@ class UserTable
         return $user;
     }
 
+    /**
+     * @param Application\Model\User
+     * @return Application\Model\User
+     */
     public function updateUser(User $user)
     {
         $data = array();

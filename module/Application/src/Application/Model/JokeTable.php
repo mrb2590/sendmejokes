@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
@@ -7,47 +14,48 @@ use Zend\Db\Sql\Expression;
 
 class JokeTable
 {
+    /**
+     * @var Zend\Db\TableGateway\TableGateway
+     */
     protected $tableGateway;
 
+    /**
+     * @param Zend\Db\TableGateway\TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
+    /**
+     * @param int(8) 
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
     public function getJokesByCategory($cat_id)
     {
-     // $resultSet = $this->tableGateway->select(function (Select $select) {
-     //     // Select columns and count the forums.
-     //     $select->columns(array(
-     //         'category_name',
-     //         'forumsCount' => new Expression('COUNT(forums.forum_id)')
-     //     ));
-     //     // Left-join with the forums table.
-     //     $select->join('forums', 'categories.category_id = forums.category_id', array(), 'left');
-     //     // Group by the category name.
-     //     $select->group('categories.category_name');
-     // });
-
-
-
-
-$cat_id = (int) $cat_id;
+        $cat_id = (int) $cat_id;
 
         $resultSet = $this->tableGateway->select(function (Select $select) {
             $select->join(array('jc' => 'joke_categories'), array('joke.joke_id = jc.joke_id'));
         });
 
-
-
         return $resultSet;
     }
 
+    /**
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
 
+    /**
+     * @param integer $limit
+     * @param integer $page
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
     public function fetchPaginated($limit, $page)
     {
         $limit = (int) $limit;
@@ -59,6 +67,10 @@ $cat_id = (int) $cat_id;
         return $resultSet;
     }
 
+    /**
+     * @param int(8)
+     * @return Application\Model\Joke 
+     */
     public function getJoke($joke_id)
     {
         $joke_id  = (int) $joke_id;
@@ -70,8 +82,11 @@ $cat_id = (int) $cat_id;
         return $row;
     }
 
-    public function deleteJoke($id)
+    /**
+     * @param int(8)
+     */
+    public function deleteJoke($joke_id)
     {
-        $this->tableGateway->delete(array('id' => (int) $id));
+        $this->tableGateway->delete(array('joke_id' => (int) $joke_id));
     }
 }

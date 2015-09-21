@@ -1,23 +1,43 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 
 class JokeCategoriesTable
 {
+    /**
+     * @var Zend\Db\TableGateway\TableGateway
+     */
     protected $tableGateway;
 
+    /**
+     * @param Zend\Db\TableGateway\TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
+    /**
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
 
+    /**
+     * @param Application\Model\User
+     * @return Zend\Db\ResultSet\ResultSet
+     */
     public function getJokeCategories(User $user)
     {
         $id = (int) $user->user_id;
@@ -25,6 +45,9 @@ class JokeCategoriesTable
         return $resultSet;
     }
 
+    /**
+     * @param Application\Model\JokeCategory
+     */
     public function addJokeCategory(JokeCategory $jokeCategory)
     {
         $data = array(
@@ -35,6 +58,9 @@ class JokeCategoriesTable
         $this->tableGateway->insert($data);
     }
 
+    /**
+     * @param  int(8)
+     */
     public function deleteJokeCategory($id)
     {
         $this->tableGateway->delete(array('id' => (int) $id));

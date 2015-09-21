@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Controller;
 
 use Application\Model\Joke;
@@ -15,15 +22,49 @@ use Zend\Session\Container as SessionContainer;
 
 class ApplicationController extends AbstractActionController
 {
+    /**
+     * @var Application\Model\JokeTable
+     */
     protected $jokeTable;
+
+    /**
+     * @var Application\Model\UserTable
+     */
     protected $userTable;
+
+    /**
+     * @var Application\Model\CategoryTable
+     */
     protected $categoryTable;
+
+    /**
+     * @var Application\Model\VoteTable
+     */
     protected $voteTable;
+
+    /**
+     * @var Application\Model\UserCategoriesTable
+     */
     protected $userCategoriesTable;
+
+    /**
+     * @var Application\Model\JokeCategoriesTable
+     */
     protected $jokeCategoriesTable;
+
+    /**
+     * @var Application\Model\ViewUserCategoriesTable
+     */
     protected $viewUserCategoriesTable;
+
+    /**
+     * @var Application\Model\ViewJokeCategoriesTable
+     */
     protected $viewJokeCategoriesTable;
 
+    /**
+     * @return Application\Model\JokeTable
+     */
     public function getJokeTable()
     {
         if (!$this->jokeTable) {
@@ -33,6 +74,9 @@ class ApplicationController extends AbstractActionController
         return $this->jokeTable;
     }
 
+    /**
+     * @return Application\Model\UserTable
+     */
     public function getUserTable()
     {
         if (!$this->userTable) {
@@ -42,6 +86,9 @@ class ApplicationController extends AbstractActionController
         return $this->userTable;
     }
 
+    /**
+     * @return Application\Model\CategoryTable
+     */
     public function getCategoryTable()
     {
         if (!$this->categoryTable) {
@@ -51,6 +98,9 @@ class ApplicationController extends AbstractActionController
         return $this->categoryTable;
     }
 
+    /**
+     * @return Application\Model\VoteTable
+     */
     public function getVoteTable()
     {
         if (!$this->voteTable) {
@@ -60,6 +110,9 @@ class ApplicationController extends AbstractActionController
         return $this->voteTable;
     }
 
+    /**
+     * @return Application\Model\UserCategoriesTable
+     */
     public function getUserCategoriesTable()
     {
         if (!$this->userCategoriesTable) {
@@ -69,6 +122,9 @@ class ApplicationController extends AbstractActionController
         return $this->userCategoriesTable;
     }
 
+    /**
+     * @return Application\Model\JokeCategoriesTable
+     */
     public function getJokeCategoriesTable()
     {
         if (!$this->jokeCategoriesTable) {
@@ -78,6 +134,9 @@ class ApplicationController extends AbstractActionController
         return $this->jokeCategoriesTable;
     }
 
+    /**
+     * @return Application\Model\ViewUserCategoriesTable
+     */
     public function getViewUserCategoriesTable()
     {
         if (!$this->viewUserCategoriesTable) {
@@ -87,6 +146,9 @@ class ApplicationController extends AbstractActionController
         return $this->viewUserCategoriesTable;
     }
 
+    /**
+     * @return Application\Model\ViewJokeCategoriesTable
+     */
     public function getViewJokeCategoriesTable()
     {
         if (!$this->viewJokeCategoriesTable) {
@@ -96,6 +158,9 @@ class ApplicationController extends AbstractActionController
         return $this->viewJokeCategoriesTable;
     }
 
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function comingSoonAction()
     {
         return new ViewModel();

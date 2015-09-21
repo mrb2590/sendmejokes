@@ -1,4 +1,11 @@
 <?php
+/**
+ * SendMeJokes (http://www.sendmejokes.com/)
+ *
+ * @author    Mike Buonomo <mike@sendmjokes.com>
+ * @link      https://github.com/mrb2590/sendmejokes
+ */
+
 namespace Application\Controller;
 
 use Application\Model\User;
@@ -11,6 +18,9 @@ use Zend\Session\Container as SessionContainer;
 
 class UserController extends ApplicationController
 {
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
@@ -33,6 +43,9 @@ class UserController extends ApplicationController
         ));
     }
 
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function signUpAction()
     {
         $categories = $this->getCategoryTable()->fetchAll();
@@ -41,6 +54,9 @@ class UserController extends ApplicationController
         ));
     }
     
+    /**
+     * @param Application\Model\User
+     */
     public function saveUserSession(User $user) {
         $this->session = new SessionContainer('user');
         $this->session->auth = true;
@@ -81,6 +97,9 @@ class UserController extends ApplicationController
         }
     }
 
+    /**
+     * Unsets a User session
+     */
     public function destroyUserSession() {
         $this->session = new SessionContainer('user');
         $this->session->auth = false;
@@ -90,6 +109,9 @@ class UserController extends ApplicationController
         unset($this->session->userVotes);
     }
 
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function createUserAction()
     {
         //set blank layout
@@ -161,7 +183,10 @@ class UserController extends ApplicationController
         ));
 
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function signOutAction()
     {
         //set blank layout
@@ -179,7 +204,10 @@ class UserController extends ApplicationController
             'message' => $message
         ));
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function signInAction()
     {
         //set blank layout
@@ -233,7 +261,10 @@ class UserController extends ApplicationController
             'message' => $message
         ));
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function updateUserAction()
     {
         //set blank layout
@@ -348,7 +379,10 @@ class UserController extends ApplicationController
             'message' => $message
         ));
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function resetPasswordFormAction()
     {
         $encryptedID = $this->getRequest()->getQuery('id');
@@ -364,7 +398,10 @@ class UserController extends ApplicationController
             'id'      => $encryptedID
         ));
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function resetPasswordAction()
     {
         //set blank layout
@@ -416,7 +453,10 @@ class UserController extends ApplicationController
             'message' => $message
         ));
     }
-    
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
     public function sendResetPasswordEmailAction()
     {
         //set blank layout
