@@ -66,7 +66,7 @@ function bindEventListeners() {
                         $('#signin-modal .modal-alert').slideUp();
                     }, 5000);
                 } else {
-                    window.location.href = "/user/" + response;
+                    window.location.href = "/user/view/" + response;
                 }
             }
         });
