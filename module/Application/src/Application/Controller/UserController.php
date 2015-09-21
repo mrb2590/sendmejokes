@@ -134,10 +134,10 @@ class UserController extends ApplicationController
         if ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
-        } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
+        } elseif (!$this->validateInput($email, 'email')) {
             $valid = false;
             $message = "Invalid email address";
-        } elseif (strlen(utf8_decode($password)) < 6) {
+        } elseif (!$this->validateInput($password, 'password')) {
             $valid = false;
             $message = "Password too short, must be at least six characters";
         } elseif ($password != $password2) {
@@ -228,7 +228,7 @@ class UserController extends ApplicationController
         if ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request.";
-        } elseif (strpos($user->email, '@') === false || strpos($user->email, '.') === false) {
+        } elseif (!$this->validateInput($user->email, 'email')) {
             $valid = false;
             $message = "Invalid email address.";
         } else {
@@ -286,7 +286,7 @@ class UserController extends ApplicationController
         } elseif ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
-        } elseif ($email != null && $email != '' && (strpos($email, '@') === false || strpos($email, '.') === false)) {
+        } elseif (!$this->validateInput($user->email, 'email') {
             $valid = false;
             $message = "Invalid email address";
         } elseif ($password !== $password2) {

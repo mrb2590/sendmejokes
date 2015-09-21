@@ -165,4 +165,27 @@ class ApplicationController extends AbstractActionController
     {
         return new ViewModel();
     }
+
+    /**
+     * @param string $input
+     * @param string $type
+     * @return boolean
+     */
+    public function validateInput($input, $type)
+    {
+        $valid = (isset($input) && $input != '') ? true : false;
+
+        if (isset($type)) {
+            switch ($type) {
+                case 'email':
+                    $valid = (filter_var($input, FILTER_VALIDATE_EMAIL)) ? true : false;
+                    break;
+                case 'password':
+                    $valid = (strlen(utf8_decode($input)) >= 6) ? true : false;
+                    break;
+            }
+        }
+
+        return $valid;
+    }
 }

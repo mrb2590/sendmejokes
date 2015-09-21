@@ -27,7 +27,7 @@ class JokeController extends ApplicationController
         $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
-        $limit = (isset($l)) ? (int) $l : 1;
+        $limit = (isset($l)) ? (int) $l : 20;
         $page = (isset($p)) ? (int) $p : 1;
 
         //filter by category if passed in route
