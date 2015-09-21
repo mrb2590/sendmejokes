@@ -82,8 +82,8 @@ function bindEventListeners() {
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
             },
-            success: function(response) {
-                if (response == 'Redirect') {
+            success: function(response) {console.log(window.location.pathname.indexOf('user'));
+                if (window.location.pathname.indexOf('user') != -1) {
                     window.location.replace("/");
                 } else {
                     $('html, body, input, textarea').css('cursor', 'auto');
@@ -235,36 +235,41 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - ajax call to upvote
     *******************************************************************/
-    $('body').on('click', '.up-vote', function() {
+    $('body').on('click', '.vote', function() {
+        var upOrDown = ($(this).hasClass('up-vote')) ? 'up' : 'down';
+        var oppositeUpOrDown = (upOrDown == 'up') ? 'down' : 'up';
+        var color = ($(this).hasClass('up-vote')) ? 'green' : 'red';
+        var oppositeColor = (color == 'green') ? 'red' : 'green';
         var voteCountObject = $(this).siblings('.vote-count');
-        var downVoteObject = $(this).siblings('.down-vote');
+        var oppositeVoteObject = $(this).siblings('.' + oppositeUpOrDown + '-vote');
         var jokeID = $(this).parents().eq(2).attr("id");
         var voteCount = parseInt(voteCountObject.html());
         var vote = 0; //holds their current vote status
+        console.log(oppositeVoteObject);
 
-        if ($(this).hasClass('fa-thumbs-o-up')) {
-            //upvote
-            $(this).removeClass('fa-thumbs-o-up');
-            $(this).addClass('fa-thumbs-up');
-            voteCount += 1;
-            //if currently downvoted, remove it
-            if (downVoteObject.hasClass('fa-thumbs-down')) {
-                downVoteObject.removeClass('fa-thumbs-down');
-                downVoteObject.addClass('fa-thumbs-o-down');
-                voteCount += 1; //removes the original downvote from count as well
+        if ($(this).hasClass('fa-thumbs-o-' + upOrDown)) {
+            //upvote/downvote
+            $(this).removeClass('fa-thumbs-o-' + upOrDown);
+            $(this).addClass('fa-thumbs-' + upOrDown);
+            voteCount = (upOrDown == 'up') ? voteCount + 1 : voteCount - 1;
+            //if currently up/down voted, remove it
+            if (oppositeVoteObject.hasClass('fa-thumbs-' + oppositeUpOrDown)) {
+                oppositeVoteObject.removeClass('fa-thumbs-' + oppositeUpOrDown);
+                oppositeVoteObject.addClass('fa-thumbs-o-' + oppositeUpOrDown);
+                voteCount = (upOrDown == 'up') ? voteCount + 1 : voteCount - 1; //removes the original downvote from count as well
             }
-            vote = 1;
-            //flash count with green
-            voteCountObject.removeClass('flash-red');
-            voteCountObject.removeClass('flash-green');
-            voteCountObject.addClass('flash-green');
+            vote = (upOrDown == 'up') ? 1 : -1;
+            //flash count with color
+            voteCountObject.removeClass('flash-' + oppositeColor);
+            voteCountObject.removeClass('flash-' + color);
+            voteCountObject.addClass('flash-' + color);
         } else {
-            //remove upvote
-            $(this).removeClass('fa-thumbs-up');
-            $(this).addClass('fa-thumbs-o-up');
-            voteCountObject.removeClass('flash-red');
-            voteCountObject.removeClass('flash-green');
-            voteCount -= 1;
+            //remove upvote/downvote
+            $(this).removeClass('fa-thumbs-' + upOrDown);
+            $(this).addClass('fa-thumbs-o-' + upOrDown);
+            voteCountObject.removeClass('flash-' + oppositeColor);
+            voteCountObject.removeClass('flash-' + color);
+            voteCount = (upOrDown == 'up') ? voteCount - 1 : voteCount + 1;
             vote = 0;
         }
         voteCountObject.html(voteCount); //update vote count in DOM
@@ -276,62 +281,9 @@ function bindEventListeners() {
             success: function(response) {
                 if(response != "Success") {
                     $('#signin-modal').modal('show');
-                    voteBox.removeClass('fa-thumbs-up');
-                    voteBox.addClass('fa-thumbs-o-up');
-                    voteCount -= 1; //update vote count in DOM
-                    voteCountObject.html(voteCount); //update vote count in DOM
-                }
-            }
-        });
-    });
-
-    /*******************************************************************
-    * click event - ajax call to downvote
-    *******************************************************************/
-    $('body').on('click', '.down-vote', function() {
-        var voteCountObject = $(this).siblings('.vote-count');
-        var upVoteObject = $(this).siblings('.up-vote');
-        var jokeID = $(this).parents().eq(2).attr("id");
-        var voteCount = parseInt(voteCountObject.html());
-        var vote = 0; //holds their current vote status
-
-        if ($(this).hasClass('fa-thumbs-o-down')) {
-            //downvote
-            $(this).removeClass('fa-thumbs-o-down');
-            $(this).addClass('fa-thumbs-down');
-            voteCount -= 1;
-            //if currently upvoted, remove it
-            if (upVoteObject.hasClass('fa-thumbs-up')) {
-                upVoteObject.removeClass('fa-thumbs-up');
-                upVoteObject.addClass('fa-thumbs-o-up');
-                voteCount -= 1; //removes the original upvote from count as well
-            }
-            vote = -1;
-            //flash count with red
-            voteCountObject.removeClass('flash-red');
-            voteCountObject.removeClass('flash-green');
-            voteCountObject.addClass('flash-red');
-        } else {
-            //remove downvote
-            $(this).removeClass('fa-thumbs-down');
-            $(this).addClass('fa-thumbs-o-down');
-            voteCountObject.removeClass('flash-red');
-            voteCountObject.removeClass('flash-green');
-            voteCount += 1;
-            vote = 0;
-        }
-        voteCountObject.html(voteCount); //update vote count in DOM
-        var voteBox = $(this);
-        $.ajax({
-            url: '/jokes/vote',
-            data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
-            type: "POST",
-            success: function(response) {
-                if(response != "Success") {
-                    $('#signin-modal').modal('show');
-                    voteBox.removeClass('fa-thumbs-down');
-                    voteBox.addClass('fa-thumbs-o-down');
-                    voteCount += 1; //update vote count in DOM
+                    voteBox.removeClass('fa-thumbs-' + upOrDown);
+                    voteBox.addClass('fa-thumbs-o-' + upOrDown);
+                    voteCount = (upOrDown == 'up') ? voteCount - 1 : voteCount + 1; //update vote count in DOM
                     voteCountObject.html(voteCount); //update vote count in DOM
                 }
             }
