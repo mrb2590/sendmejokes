@@ -208,11 +208,8 @@ function bindEventListeners() {
                 if(response == "Success") {
                     $('#send-reset-password-form #email').val('');
                     $('#send-reset-password-form #password').val('');
-                    $('#send-reset-password-form .modal-alert').html('An email will be sent if the email you provied is signed up. Use the link in the email to reset your password');
-                    $('#send-reset-password-form .modal-alert').slideDown();
-                    setTimeout(function() {
-                        $('#send-reset-password-form .modal-alert').slideUp();
-                    }, 5000);
+                    $('#signin-modal').modal('hide');
+                    alertModal('Reset Password', 'An email will be sent to reset your password');
                 } else {
                     $('#send-reset-password-form .modal-alert').html(response);
                     $('#send-reset-password-form .modal-alert').slideDown();
