@@ -17,14 +17,14 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - opens/closes sidebar
     *******************************************************************/
-    $('body').on('click', '.c-hamburger', function() {
+    $(document).on('click', '.c-hamburger', function() {
         toggleSidebar();
     });
 
     /*******************************************************************
     * click event - closes sidebar when clicking outside of it
     *******************************************************************/
-    $('body').on('click', '.main', function() {
+    $(document).on('click', '.main', function() {
         if ($('.sidebar').hasClass('sidebar-open')) {
             hideSidebar();
         }
@@ -33,7 +33,7 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - opens sign up pref modal
     *******************************************************************/
-    $('body').on('submit', '#sign-up-form-email', function(e) {
+    $(document).on('submit', '#sign-up-form-email', function(e) {
         e.preventDefault();
         var email = $(this).find('#email').val()
         if (email == '' || email.indexOf('.') == -1 || email.indexOf('@') == -1) {
@@ -47,11 +47,11 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - ajax call to sign in
     *******************************************************************/
-    $('body').on('submit', '#signin-form', function(e) {
+    $(document).on('submit', '#signin-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/sign-in',
-            data: $('#signin-form').serialize() + "&submit=submit",
+            data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
@@ -75,22 +75,15 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - ajax call to sign out
     *******************************************************************/
-    $('body').on('click', '#signout-link', function(e) {
+    $(document).on('click', '#signout-link', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/sign-out',
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
             },
-            success: function(response) {console.log(window.location.pathname.indexOf('user'));
-                if (window.location.pathname.indexOf('user') != -1) {
-                    window.location.replace("/");
-                } else {
-                    $('html, body, input, textarea').css('cursor', 'auto');
-                    refreshPage(function() {
-                        hideSidebar();
-                    });
-                }
+            success: function(response) {
+                window.location.replace("/");
             }
         });
     });
@@ -98,11 +91,11 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - ajax call to create user
     *******************************************************************/
-    $('body').on('submit', '#sign-up-pref-form', function(e) {
+    $(document).on('submit', '#sign-up-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/create-user',
-            data: $('#sign-up-pref-form').serialize() + "&submit=submit",
+            data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
@@ -135,11 +128,11 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - ajax call to update user
     *******************************************************************/
-    $('body').on('submit', '#update-pref-form', function(e) {
+    $(document).on('submit', '#update-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/update-user',
-            data: $('#update-pref-form').serialize() + "&submit=submit",
+            data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
@@ -159,7 +152,7 @@ function bindEventListeners() {
                         $('#delete-account').val('');
                         if (response == "Account deleted") {
                         	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
-                            $('body').on('hidden.bs.modal', '#alert-modal', function () {
+                            $(document).on('hidden.bs.modal', '#alert-modal', function () {
                                 console.log('hello');
                             window.location.replace('/');// redirect when modal is closed
                         })
@@ -175,11 +168,11 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - ajax call to reset password
     *******************************************************************/
-    $('body').on('submit', '#reset-password-form', function(e) {
+    $(document).on('submit', '#reset-password-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/reset-password',
-            data: $('#reset-password-form').serialize() + "&submit=submit",
+            data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
@@ -201,11 +194,11 @@ function bindEventListeners() {
     /*******************************************************************
     * submit event - ajax call to send reset password email
     *******************************************************************/
-    $('body').on('submit', '#send-reset-password-form', function(e) {
+    $(document).on('submit', '#send-reset-password-form', function(e) {
         e.preventDefault();
         $.ajax({
             url: '/user/send-reset-password-email',
-            data: $('#send-reset-password-form').serialize() + "&submit=submit",
+            data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
@@ -235,7 +228,7 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - ajax call to upvote
     *******************************************************************/
-    $('body').on('click', '.vote', function() {
+    $(document).on('click', '.vote', function() {
         var upOrDown = ($(this).hasClass('up-vote')) ? 'up' : 'down';
         var oppositeUpOrDown = (upOrDown == 'up') ? 'down' : 'up';
         var color = ($(this).hasClass('up-vote')) ? 'green' : 'red';
@@ -291,9 +284,55 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * submit event - ajax call to add joke
+    *******************************************************************/
+    $(document).on('submit', '#add-joke-form', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/jokes/add',
+            data: $(this).serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response == "Success") {
+                    $('#joke').val('');
+                    $('#answer').val('');
+                    uncheckTile($('#add-joke-form .checkbox-tile')); //will uncheck all tiles in this modal
+                }
+                alertModal('Alert', response);
+            }
+        });
+    });
+
+    /*******************************************************************
+    * submit event - ajax call to remove joke
+    *******************************************************************/
+    $(document).on('submit', '#remove-joke-form', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/jokes/remove',
+            data: $(this).serialize() + "&submit=submit",
+            type: "POST",
+            beforeSend: function() {
+                $('html, body, input, textarea').css('cursor', 'progress');
+            },
+            success: function(response) {
+                $('html, body, input, textarea').css('cursor', 'auto');
+                if(response == "Success") {
+                    $('#joke_id').val('');
+                }
+                alertModal('Alert', response);
+            }
+        });
+    });
+
+    /*******************************************************************
     * click event - toggle reset password / sign in form
     *******************************************************************/
-    $('body').on('click', '.forgot-password-link', function(e) {
+    $(document).on('click', '.forgot-password-link', function(e) {
         e.preventDefault();
         toggleForgotPasswordForm();
     });
@@ -301,7 +340,7 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - opens/closes update-pref-modal
     *******************************************************************/
-    //$('body').on('click', '#preferences-link', function(e) {
+    //$(document).on('click', '#preferences-link', function(e) {
     //    e.preventDefault();
     //    $('#update-pref-modal').modal('show');
     //});
@@ -309,7 +348,7 @@ function bindEventListeners() {
     /*******************************************************************
     * click event - checks the checkbox-tile
     *******************************************************************/
-    $('body').on('click', '.checkbox-tile', function(e) {
+    $(document).on('click', '.checkbox-tile', function(e) {
         e.preventDefault();
         toggleTile($(this));
     });
@@ -319,7 +358,7 @@ function bindEventListeners() {
     * this is for if the reset passsword form is shown,
     * don't want it to still be shown when clicking sign in later
     *******************************************************************/
-    $('body').on('hidden.bs.modal', '#signin-modal', function() {
+    $(document).on('hidden.bs.modal', '#signin-modal', function() {
         resetForgotPasswordForm();
     });
 }
@@ -403,10 +442,10 @@ function alertModal(title, text) {
 function toggleTile(checkboxTile) {
     if (checkboxTile.hasClass('checked')) {
         checkboxTile.removeClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').attr('checked', false);
+        checkboxTile.children().children('input[type="checkbox"]').prop('checked', false);
     } else {
         checkboxTile.addClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').attr('checked', true);
+        checkboxTile.children().children('input[type="checkbox"]').prop('checked', true);
     }
 }
 
@@ -416,7 +455,7 @@ function toggleTile(checkboxTile) {
 function checkTile(checkboxTile) {
     if (!checkboxTile.hasClass('checked')) {
         checkboxTile.addClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').attr('checked', true);
+        checkboxTile.children().children('input[type="checkbox"]').prop('checked', true);
     }
 }
 
@@ -426,7 +465,7 @@ function checkTile(checkboxTile) {
 function uncheckTile(checkboxTile) {
     if (checkboxTile.hasClass('checked')) {
         checkboxTile.removeClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').attr('checked', false);
+        checkboxTile.children().children('input[type="checkbox"]').prop('checked', false);
     }
 }
 

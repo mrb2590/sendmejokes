@@ -6,6 +6,9 @@
             <?php $username = $parts[0] ?>
             <div class="username"><?php echo $username ?></div>
             <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'user_id' => $session->user->user_id)) ?>"><i class="fa fa-cog fa-spin"> </i>Update Preferences</a>
+            <?php if($session->user->user_id == '10000000'): ?>
+                <a id="add-joke-link" class="user-option" href="<?php echo $this->url('joke', array('action' => 'manage')) ?>"><i class="fa fa-database"></i> Manage Jokes</a>
+            <?php endif ?>
             <a id="signout-link" class="user-option" href="#"><i class="fa fa-sign-in"></i> Sign Out</a>
         <?php else: ?>
             <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#"><i class="fa fa-sign-in"></i> Sign In</a>

@@ -1,0 +1,56 @@
+<div class="page-header">
+    <h1>Manage Jokes</h1>
+</div><!-- /.page-header -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2 class="light">Add new Jokes</h2>
+            <form id="add-joke-form">
+                <div class="form-group">
+                    <label for="joke" class="light">Joke</label>
+                    <textarea class="form-control" name="joke" id="joke" value="" placeholder="Joke"></textarea>
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <label for="answer" class="light">Answer (optional)</label>
+                    <textarea class="form-control" name="answer" id="answer" value="" placeholder="Answer"></textarea>
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <?php $i = 0 ?>
+                        <?php foreach($categories as $category): ?>
+                        <?php if ($i % 4 === 0): ?>
+                            <?php if ($i !== 0): ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="row">
+                        <?php endif; ?>
+                            <div class="col-sm-3">
+                                <div class="checkbox-tile">
+                                    <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                    <div class="checkbox-tile-hidden">
+                                        <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                    </div><!-- /.checkbox-tile-hidden -->
+                                </div><!--  /.checkbox-tile -->
+                            </div><!-- /.col -->
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                    </div><!-- /.row -->
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <button type="submit" name="submit" class="btn btn-primary">Add Joke</button>
+                </div><!-- /.form-group -->
+            </form>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <h2 class="light">Remove A Joke</h2>
+            <form id="remove-joke-form">
+                <div class="form-group">
+                    <label for="joke_id" class="light">Joke</label>
+                    <input type="text" class="form-control" name="joke_id" id="joke_id" value="" placeholder="Joke ID">
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <button type="submit" name="submit" class="btn btn-primary">Remove Joke</button>
+                </div><!-- /.form-group -->
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.container -->

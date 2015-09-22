@@ -83,6 +83,24 @@ class JokeTable
     }
 
     /**
+     * @param Application\Model\Joke
+     * @return Application\Model\Joke
+     */
+    public function addJoke(Joke $joke)
+    {
+        if (!isset($joke->joke) || $joke->joke == '') {
+            throw new \Exception("Joke cannot be blank");
+        }
+        $data = array(
+            'joke'   => $joke->joke,
+            'answer' => $joke->answer,
+        );
+        $this->tableGateway->insert($data);
+        $rowset = $this->tableGateway->select(array('joke' => $joke->joke));
+        return $rowset->current();
+    }
+
+    /**
      * @param int(8)
      */
     public function deleteJoke($joke_id)

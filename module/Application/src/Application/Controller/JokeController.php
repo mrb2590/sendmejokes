@@ -8,6 +8,8 @@
 
 namespace Application\Controller;
 
+use Application\Model\Joke;
+use Application\Model\JokeCategory;
 use Application\Model\Vote;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -48,7 +50,7 @@ class JokeController extends ApplicationController
         }
 
         $total = count($allJokes);
-        $maxPages = ((int) round($total / $limit));
+        $maxPages = ((int) ceil($total / $limit));
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
         $votes = $this->getVoteTable()->fetchAll();
@@ -126,6 +128,109 @@ class JokeController extends ApplicationController
 
             $this->getVoteTable()->vote($vote);
             $message = "Success";
+        }
+
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function manageAction()
+    {
+        $this->session = new SessionContainer('user');
+
+        $categories = $this->getCategoryTable()->fetchAll();
+
+        //only I can view this page muahahaha
+        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel(array(
+            'categories' => $categories
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function addAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $this->session = new SessionContainer('user');
+        $joke = $this->getRequest()->getPost('joke');
+        $answer = $this->getRequest()->getPost('answer');
+        $submit = $this->getRequest()->getPost('submit');
+        $categories = $this->getRequest()->getPost('category');
+        $valid = false;
+
+        //only I can view this page muahahaha
+        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+            $message = "Fail";
+        } elseif ($submit != 'submit') {
+            $message = "Invalid request";
+        } elseif (!$this->validateInput($joke, '')) {
+            $message = "Joke is required";
+        } elseif (!$this->validateInput($categories, '')) {
+            $message = "At least one category is required";
+        } else {
+            $valid = true;
+        }
+
+        if ($valid) {
+            $jokeObject = new Joke();
+            $jokeObject->joke = $joke;
+            $jokeObject->answer = $answer;
+            try {
+                $newJoke = $this->getJokeTable()->addJoke($jokeObject); //add joke to db
+                foreach ($categories as $name => $cat_id) {
+                    $jokeCategory = new JokeCategory();
+                    $jokeCategory->joke_id = (int) $newJoke->joke_id;
+                    $jokeCategory->cat_id = (int) $cat_id;
+                    $this->getJokeCategoriesTable()->addJokeCategory($jokeCategory);
+                }
+                $message = "Success";
+            } catch (\Excepection $e) {
+                $message = $e;
+            }
+        }
+
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function removeAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $this->session = new SessionContainer('user');
+        $joke_id = $this->getRequest()->getPost('joke_id');
+        $submit = $this->getRequest()->getPost('submit');
+        $categories = $this->getRequest()->getPost('category');
+        $valid = false;
+
+        //only I can view this page muahahaha
+        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+            $message = "Fail";
+        } elseif ($submit != 'submit') {
+            $message = "Invalid request";
+        } elseif (!$this->validateInput($joke_id, '')) {
+            $message = "Joke ID is required";
+        } else {
+            $valid = true;
+            $message = "Success";
+        }
+
+        if ($valid) {
+            $this->getJokeTable()->deleteJoke($joke_id);
         }
 
         return new ViewModel(array(
