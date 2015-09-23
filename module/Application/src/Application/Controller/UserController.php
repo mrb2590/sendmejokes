@@ -444,7 +444,7 @@ class UserController extends ApplicationController
                     $possibleHashedIds[hash('sha256', $user->user_id . date('Ymdhi', strtotime('- ' . $i . ' minutes')))] = true;
                 }
 
-                if ($possibleHashedIds[$hashedID]) {
+                if (isset($possibleHashedIds[$hashedID]) && $possibleHashedIds[$hashedID]) {
                     $user->password = $this->getRequest()->getPost('password1');
                     $user->email = null; //as to not update the email address, which will cause error saying it already exists
                     $this->getUserTable()->updateUser($user);

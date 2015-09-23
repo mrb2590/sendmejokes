@@ -3,6 +3,11 @@
     <head>
         <?php echo $this->headTitle('SendMeJokes')->setSeparator(' - ')->setAutoEscape(false) ?>
         <?php echo $this->headMeta()
+                        ->setProperty('og:url',         'http://www.sendmejokes.com/')
+                        ->setProperty('og:type',        'website')
+                        ->setProperty('og:title',       'SendMeJokes')
+                        ->setProperty('og:description', 'Jokes sent to you daily')
+                        ->setProperty('og:image',       'http://www.sendmejokes.com/img/logo-light.png')
                         ->appendName('viewport', 'width=device-width, initial-scale=1.0')
                         ->appendName('description', 'Sendmejokes - Browse all of our jokes, and sign up to get them emailed to you everyday!')
                         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
@@ -19,6 +24,7 @@
         ?>
     </head>
     <body>
+        <div id="fb-root"></div>
         <?php echo $this->sidebar() ?>
         
         <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
