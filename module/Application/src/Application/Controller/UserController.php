@@ -436,13 +436,21 @@ class UserController extends ApplicationController
 
             if($user) {
                 $userHashedID = hash('sha256', $user->user_id);
-                if ($userHashedID == $hashedID) {
+                $possibleHashedIds = array();
+
+                //generate a hash for each of the last 15 minutes
+                //hash from query string must match one, otherwise it could be expired
+                for ($i = 0; $i < 15; $i++) {
+                    $possibleHashedIds[hash('sha256', $user->user_id . date('Ymdhi', strtotime('- ' . $i . ' minutes')))] = true;
+                }
+
+                if ($possibleHashedIds[$hashedID]) {
                     $user->password = $this->getRequest()->getPost('password1');
                     $user->email = null; //as to not update the email address, which will cause error saying it already exists
                     $this->getUserTable()->updateUser($user);
                     $message = "Success";
                 } else {
-                    $message = "Make sure you are using the correct email address and the link from your reset password email";
+                    $message = "Make sure this link is not older than 15 minutes, otherwise it has expired. Submit reset password form again to resend email.";
                 }
             } else {
                 $message = "Make sure you are using the correct email address and the link from your reset password email";
@@ -480,6 +488,7 @@ class UserController extends ApplicationController
             $user = $this->getUserTable()->getUserByEmail($email);
 
             if ($user) {
+                $hashedID = hash('sha256', $user->user_id . date('Ymdhi'));
                 $message = "Success";
 
                 $subject = 'Reset Password - SendMeJokes';
@@ -498,7 +507,8 @@ class UserController extends ApplicationController
                 $body .=        '<div style="padding: 20px; background-color: #eee; font-size: 14px;">';
                 $body .=            '<p>If you have not requested to reset your password, then ignore this email.</p>';
                 $body .=            '<p>Otherwise click the link below to reset your password.</p>';
-                $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . hash('sha256', $user->user_id) . '">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . hash('sha256', $user->user_id) . '</a></p>';
+                $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . $hashedID . '">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . $hashedID . '</a></p>';
+                $body .=            '<p>This link will expire 15 minutes after this email was sent.</p>';
                 $body .=         '</div>';
                 $body .=     '</div>';
                 $body .= '</body>';
