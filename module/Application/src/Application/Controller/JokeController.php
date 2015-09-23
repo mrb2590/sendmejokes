@@ -24,6 +24,8 @@ class JokeController extends ApplicationController
     {
         $this->session = new SessionContainer('user');
         $category = $this->params()->fromRoute('category');
+        $get_joke_id = $this->params()->fromRoute('joke_id');
+        $jokeflag = false;
         $catflag = false;
         $message = false;
         $categoryObject = false;
@@ -32,8 +34,13 @@ class JokeController extends ApplicationController
         $limit = (isset($l)) ? (int) $l : 20;
         $page = (isset($p)) ? (int) $p : 1;
 
-        //filter by category if passed in route
-        if (isset($category)) {
+        //filter by joke id or category if passed in route
+        if (isset($get_joke_id)) {
+            $jokeflag = true;
+            $joke = $this->getJokeTable()->getJoke($get_joke_id);
+            $jokes = array();
+            $jokes[0] = $joke;
+        } elseif (isset($category)) {
             $catflag = true;
             try {
                 $categoryObject = $this->getCategoryTable()->getCategoryByUrlName($category);
@@ -49,7 +56,7 @@ class JokeController extends ApplicationController
             $allJokes = $this->getJokeTable()->fetchAll();
         }
 
-        $total = count($allJokes);
+        $total = ($jokeflag) ? 1 : count($allJokes);
         $maxPages = ((int) ceil($total / $limit));
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();
@@ -61,6 +68,7 @@ class JokeController extends ApplicationController
             'votes'          => $votes,
             'session'        => $this->session,
             'message'        => $message,
+            'jokeflag'       => $jokeflag,
             'catflag'        => $catflag,
             'categoryObject' => $categoryObject,
             'page'           => $page,

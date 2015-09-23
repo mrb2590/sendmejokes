@@ -9,9 +9,8 @@
         </div><!-- /.row -->
     <?php else: ?>
         <div class="page-header">
-                <h1>Jokes<br/><small><?php echo ($categoryObject) ? $categoryObject->name : "All Jokes" ?></small></h1>
+                <h1>Jokes<br/><small><?php if(!$jokeflag) echo ($categoryObject) ? $categoryObject->name : "All Jokes" ?></small></h1>
         </div><!-- /.page-header -->
-        <?php $total = count($jokes) ?>
         <div class="row masonry <?php if($total == 1): ?>max-500<?php elseif($total == 2): ?>max-783<?php elseif($total == 3): ?>max-1049<?php elseif($total == 4):?>max-1315<?php endif ?>">
             <?php foreach($jokes as $joke): ?>
                 <?php /*-- get total vote count for current joke --*/ ?>
@@ -63,7 +62,7 @@
                                 <span class="vote-count"><?php echo $voteCount ?></span>
                                 <i class="fa <?php echo $thumbsUp ?> vote up-vote"></i>
                                 <i class="fa <?php echo $thumbsDown ?> vote down-vote"></i>
-                                <div class="fb-share-button" data-href="http://www.sendmejokes.com/jokes/" data-layout="icon"></div>
+                                <div class="fb-share-button" data-href="http://www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>/" data-layout="icon"></div>
                             </span>
                         </div><!-- /.panel-footer -->
                     </div><!-- /.panel -->
@@ -72,23 +71,25 @@
         </div><!-- /.row -->
 
         <div class="page-footer">
-            <nav>
-                <ul class="pagination pagination-md">
-                    <li <?php if($page == 1): ?>class="disabled"<?php endif ?>>
-                        <a aria-label="Previous" href="<?php echo ($page == 1) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page - 1) ?>"><span aria-hidden="true">«</span></a>
-                    </li>
-                    <?php for($i = 1; $i <= $maxPages; $i++): ?>
-                        <?php if ($i > ($page - 5) && $i < ($page + 5)): ?>
-                            <li <?php if($page == $i): ?>class="active"<?php endif ?>>
-                                <a href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . $i ?>"><?php echo $i ?><span class="sr-only">(current)</span></a>
-                            </li>
-                        <?php endif ?>
-                    <?php endfor ?>
-                    <li <?php if($page == $maxPages): ?>class="disabled"<?php endif ?>>
-                        <a aria-label="Next" href="<?php echo ($page == $maxPages) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page + 1) ?>"><span aria-hidden="true">»</span></a>
-                    </li>
-                </ul>
-            </nav>
+            <?php if(!$jokeflag && $maxPages > 1): ?>
+                <nav>
+                    <ul class="pagination pagination-md">
+                        <li <?php if($page == 1): ?>class="disabled"<?php endif ?>>
+                            <a aria-label="Previous" href="<?php echo ($page == 1) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page - 1) ?>"><span aria-hidden="true">«</span></a>
+                        </li>
+                        <?php for($i = 1; $i <= $maxPages; $i++): ?>
+                            <?php if ($i > ($page - 5) && $i < ($page + 5)): ?>
+                                <li <?php if($page == $i): ?>class="active"<?php endif ?>>
+                                    <a href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . $i ?>"><?php echo $i ?><span class="sr-only">(current)</span></a>
+                                </li>
+                            <?php endif ?>
+                        <?php endfor ?>
+                        <li <?php if($page == $maxPages): ?>class="disabled"<?php endif ?>>
+                            <a aria-label="Next" href="<?php echo ($page == $maxPages) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page + 1) ?>"><span aria-hidden="true">»</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            <?php endif ?>
         </div><!-- /.page-footer -->
     <?php endif ?>
 </div><!-- /.contianer -->

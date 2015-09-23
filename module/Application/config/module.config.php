@@ -28,10 +28,11 @@ return array(
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/user[/[:action[/[:user_id[/]]]]]',
+                    'route'    => '/user[/[:action[/[:user_id[/]][:reset_pass_id[/]]]]]',
                     'constraints' => array(
-                        'action'  => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'user_id' => '\d{8}',
+                        'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'user_id'       => '\d{8}',
+                        'reset_pass_id' => '[a-zA-Z0-9]{64}',
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\User',
@@ -42,10 +43,11 @@ return array(
             'joke' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/jokes[/[:action[/[:category[/]]]]]',
+                    'route'    => '/jokes[/[:action[/[:category[/]][:joke_id[/]]]]]',
                     'constraints' => array(
                         'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'category' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'joke_id'  => '\d{8}',
                     ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Joke',

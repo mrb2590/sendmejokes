@@ -385,9 +385,9 @@ class UserController extends ApplicationController
      */
     public function resetPasswordFormAction()
     {
-        $encryptedID = $this->getRequest()->getQuery('id');
+        $encryptedID = $this->params()->fromRoute('reset_pass_id');
 
-        if ($encryptedID == null || $encryptedID == '') {
+        if (!$this->validateInput($encryptedID, '')) {
             $message = "Fail";
         } else {
             $message = "get-form";
@@ -417,10 +417,10 @@ class UserController extends ApplicationController
         if ($submit != 'submit') {
             $valid = false;
             $message = "Invalid request";
-        } elseif (strpos($email, '@') === false || strpos($email, '.') === false) {
+        } elseif (!$this->validateInput($email, 'email')) {
             $valid = false;
             $message = "Invalid email address";
-        } elseif ($password1 == null || $password1 == '') {
+        } elseif (!$this->validateInput($password1, 'password')) {
             $valid = false;
             $message = "Must enter a new password";
         } elseif ($password1 != $password2) {
@@ -435,9 +435,7 @@ class UserController extends ApplicationController
             $user = $this->getUserTable()->getUserByEmail($email);
 
             if($user) {
-                $userHashedID = hash('sha256', $user->user_id);
                 $possibleHashedIds = array();
-
                 //generate a hash for each of the last 15 minutes
                 //hash from query string must match one, otherwise it could be expired
                 for ($i = 0; $i < 15; $i++) {
@@ -507,7 +505,7 @@ class UserController extends ApplicationController
                 $body .=        '<div style="padding: 20px; background-color: #eee; font-size: 14px;">';
                 $body .=            '<p>If you have not requested to reset your password, then ignore this email.</p>';
                 $body .=            '<p>Otherwise click the link below to reset your password.</p>';
-                $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . $hashedID . '">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form?id=' . $hashedID . '</a></p>';
+                $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form/' . $hashedID . '/">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form/' . $hashedID . '/</a></p>';
                 $body .=            '<p>This link will expire 15 minutes after this email was sent.</p>';
                 $body .=         '</div>';
                 $body .=     '</div>';
