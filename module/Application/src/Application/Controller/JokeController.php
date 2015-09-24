@@ -31,7 +31,7 @@ class JokeController extends ApplicationController
         $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
-        $limit = (isset($l)) ? (int) $l : 20;
+        $limit = (isset($l)) ? (int) $l : 40;
         $page = (isset($p)) ? (int) $p : 1;
 
         //filter by joke id or category if passed in route
@@ -243,6 +243,43 @@ class JokeController extends ApplicationController
 
         return new ViewModel(array(
             'message' => $message
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function getShareButtonsAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $joke_id = $this->getRequest()->getPost('joke_id');
+        $submit = $this->getRequest()->getPost('submit');
+        $facebookButtonHTML = false;
+        $valid = false;
+
+        if ($submit != 'submit') {
+            $message = "Invalid request";
+        } elseif (!$this->validateInput($joke_id, '')) {
+            $message = "Joke ID is required";
+        } else {
+            $valid = true;
+            $message = "Success";
+        }
+
+        if ($valid) {
+            $joke = $this->getJokeTable()->getJoke($joke_id);
+            $facebookButtonHTML = '<a href="mailto:?';
+            $facebookButtonHTML .= 'subject=Check out this joke from SendMeJokes!&amp;';
+            $facebookButtonHTML .= 'body=' . $joke->joke . '%0A' . $joke->answer . '%0A%0A';
+            $facebookButtonHTML .= 'See more at http:%2F%2Fwww.sendmejokes.com.">';
+            $facebookButtonHTML .= '<i class="fa fa-envelope-square"></i></a>';
+            $facebookButtonHTML .= '<div class="fb-share-button" data-href="http://www.sendmejokes.com/jokes/view/' . $joke_id . '/" data-layout="icon"></div>';
+        }
+
+        return new ViewModel(array(
+            'message'            => $message,
+            'facebookButtonHTML' => $facebookButtonHTML
         ));
     }
 }

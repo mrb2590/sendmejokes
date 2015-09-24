@@ -215,10 +215,9 @@ html, body {
     }
     .masonry .panel-footer {
         font-size: 18px;
+        cursor: default;
     }
-        .masonry .panel-footer .categories,
-        .masonry .panel-footer .vote-count,
-        .masonry .panel-footer .vote {
+        .masonry .panel-footer i {
             cursor: pointer;
         }
     @media screen and (max-width: 547px) {

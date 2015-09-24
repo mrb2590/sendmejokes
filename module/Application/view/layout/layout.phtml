@@ -25,6 +25,17 @@
     </head>
     <body>
         <div id="fb-root"></div>
+        <script>
+        //Load Facebook SDK for JavaScript
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
+        
         <?php echo $this->sidebar() ?>
         
         <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
@@ -52,14 +63,14 @@
                                 <div class="form-group">
                                     <label for="email">Email:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <div class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></div>
                                         <input id="email" class="form-control" type="text" value="" name="email" placeholder="Email">
                                     </div>
                                 </div><!-- /.form-group -->
                                 <div class="form-group" id="signin-form-password">
                                     <label for="password">Password:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                        <div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
                                     <input id="password" class="form-control" type="password" value="" name="password" placeholder="Password">
                                     </div>
                                 </div><!-- /.form-group -->

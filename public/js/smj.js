@@ -2,21 +2,25 @@
  * SendMeJokes (http://www.sendmejokes.com/)
  */
 
-$(window).load(function() {
-    //Load Facebook SDK for JavaScript
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-});
-
 $(document).ready(function() {
     bindEventListeners();
+
     $(function () {
-        $('[data-toggle="popover"]').popover()
+        //initiales default popovers
+        $('.categories').popover({
+            html: true,
+            placement: 'top',
+            content: 'blank'
+        });
+
+        //initiales share popover
+        $('.share').popover({
+            html: true,
+            placement: 'top',
+            content: function() {
+                return $('.share-popover').html();
+            }
+        });
     });
 });
 
@@ -312,6 +316,31 @@ function bindEventListeners() {
                 alertModal('Alert', response);
             }
         });
+    });
+
+    /*******************************************************************
+    * popover event - ajax call to get share buttons
+    *******************************************************************/
+    $(document).on('inserted.bs.popover', '.share', function() {
+        var joke_id = $(this).attr('id');
+        $.ajax({
+            context: this,
+            url: '/jokes/get-share-buttons/',
+            data: 'joke_id=' + joke_id + '&submit=submit',
+            type: 'POST',
+            success: function(response) {
+                $(this).siblings('.popover').find('.popover-content').html(response)
+                FB.XFBML.parse(this.parentNode);
+            }
+        });
+    });
+
+    /*******************************************************************
+    * popover event - appends categories to popover for joke
+    *******************************************************************/
+    $(document).on('inserted.bs.popover', '.categories', function() {
+        var categories = $(this).siblings('.categories-popover').html();
+        $(this).siblings('.popover').find('.popover-content').html(categories);
     });
 
     /*******************************************************************

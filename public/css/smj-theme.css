@@ -47,7 +47,14 @@ input::-moz-focus-inner {
             -ms-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%);
     }
-
+.no-select {
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+}
 /************************************************
 * ---HELPER - FLASH TEXT COLOR---
 ************************************************/
@@ -939,6 +946,8 @@ fieldset[disabled] .btn-danger.active {
     border-radius: 0;
     background-color: #6c48a2;
     color: #fff;
+    text-align: center;
+    min-width: 58px;
 }
     .popover .popover-title {
         background-color: #473168;
@@ -948,13 +957,24 @@ fieldset[disabled] .btn-danger.active {
     .popover.right > .arrow::after {
         border-right-color: #6c48a2;
     }
-
+    .popover i {
+    }
+    .popover .popover-content {
+        padding: 8px;
+    }
+        .popover .popover-content i {
+            padding-right: 6px;
+        }
 /*******************************************************************
-* ---THUMBS FAVICON---
+* ---FAVICONS---
 *******************************************************************/
 .fa-thumbs-up {
     color: #5cb85c;
 }
 .fa-thumbs-down {
     color: #d9534f;
+}
+.fa-share-alt,
+.fa-share-alt-square {
+    color: #5cb85c;
 }
