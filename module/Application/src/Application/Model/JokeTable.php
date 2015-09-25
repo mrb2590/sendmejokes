@@ -48,6 +48,7 @@ class JokeTable
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
+        $resultSet->buffer();
         return $resultSet;
     }
 
@@ -64,6 +65,7 @@ class JokeTable
         $resultSet = $this->tableGateway->select(function (Select $select) use ($limit, $offset) {
             $select->limit($limit)->offset($offset);
         });
+        $resultSet->buffer();
         return $resultSet;
     }
 

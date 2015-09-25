@@ -13,6 +13,7 @@
         </div><!-- /.page-header -->
         <div class="row masonry <?php if($total == 1): ?>max-500<?php elseif($total == 2): ?>max-783<?php elseif($total == 3): ?>max-1049<?php elseif($total == 4):?>max-1315<?php endif ?>">
             <?php foreach($jokes as $joke): ?>
+                <?php $joke->joke = trim(preg_replace('/[\r|\n]+/', '<br>', $joke->joke)) //replace newlines with HTML breaks ?>
                 <?php /*-- get total vote count for current joke --*/ ?>
                 <?php $voteCount = 0 ?>
                 <?php foreach($votes as $vote): ?>
@@ -57,7 +58,7 @@
                             </div><!-- /#categories-popover -->
                             <i class="fa fa-share-alt-square share" id="<?php echo $joke->joke_id ?>" tabindex="0" data-trigger="focus"></i>
                             <div class="share-popover" style="display: none">
-                                <i class="fa fa-spinner fa-pulse"></i>
+                                <i class="fa fa-spinner fa-pulse fa-fw"></i>
                             </div><!-- /#share-popover -->
                             <span class="pull-right">
                                 <i class="fa <?php echo $thumbsUp ?> vote up-vote"></i>

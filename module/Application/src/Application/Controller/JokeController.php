@@ -269,17 +269,27 @@ class JokeController extends ApplicationController
 
         if ($valid) {
             $joke = $this->getJokeTable()->getJoke($joke_id);
-            $facebookButtonHTML = '<a href="mailto:?';
-            $facebookButtonHTML .= 'subject=Check out this joke from SendMeJokes!&amp;';
-            $facebookButtonHTML .= 'body=' . $joke->joke . '%0A' . $joke->answer . '%0A%0A';
-            $facebookButtonHTML .= 'See more at http:%2F%2Fwww.sendmejokes.com.">';
-            $facebookButtonHTML .= '<i class="fa fa-envelope-square"></i></a>';
+            $joke->joke = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->joke));
+            $joke->joke = preg_replace('/"/', '%22', $joke->joke);
+            $joke->answer = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->answer));
+            $joke->answer = preg_replace('/"/', '%22', $joke->answer);
+
+            //build mailto string
+            $emailSubject = '?subject=Check out this joke from SendMeJokes!';
+            $emailBody = '&amp;body=' . $joke->joke . '%0A';
+            $emailBody .= trim(preg_replace('/\s+/', ' ', $joke->answer)) . '%0A%0A';
+            $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com';
+            $email = $emailSubject . $emailBody;
+
+            //build HTML for share buttons
+            $emailButtonHTML = '<a href="mailto:' . $email . '"><i class="fa fa-envelope-square"></i></a>';
             $facebookButtonHTML .= '<div class="fb-share-button" data-href="http://www.sendmejokes.com/jokes/view/' . $joke_id . '/" data-layout="icon"></div>';
         }
 
         return new ViewModel(array(
             'message'            => $message,
-            'facebookButtonHTML' => $facebookButtonHTML
+            'facebookButtonHTML' => $facebookButtonHTML,
+            'emailButtonHTML'    => $emailButtonHTML,
         ));
     }
 }

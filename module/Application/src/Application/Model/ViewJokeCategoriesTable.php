@@ -51,6 +51,7 @@ class ViewJokeCategoriesTable
         $resultSet = $this->tableGateway->select(function (Select $select) use ($cat_id, $limit, $offset) {
             $select->where('cat_id = ' . $cat_id)->limit($limit)->offset($offset);
         });
+        $resultSet->buffer();
         return $resultSet;
     }
 
