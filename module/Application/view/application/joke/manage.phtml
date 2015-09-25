@@ -4,53 +4,119 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
-            <h2 class="light">Add new Jokes</h2>
-            <form id="add-joke-form">
-                <div class="form-group">
-                    <label for="joke" class="light">Joke</label>
-                    <textarea class="form-control" name="joke" id="joke" value="" placeholder="Joke"></textarea>
-                </div><!-- /.form-group -->
-                <div class="form-group">
-                    <label for="answer" class="light">Answer (optional)</label>
-                    <textarea class="form-control" name="answer" id="answer" value="" placeholder="Answer"></textarea>
-                </div><!-- /.form-group -->
-                <div class="form-group">
-                    <?php $i = 0 ?>
-                        <?php foreach($categories as $category): ?>
-                        <?php if ($i % 4 === 0): ?>
-                            <?php if ($i !== 0): ?>
-                                </div>
+            <div class="well">
+                <h2 class="light">Add New Jokes</h2>
+                <form id="add-joke-form">
+                    <div class="form-group">
+                        <label for="joke" class="light">Joke</label>
+                        <textarea class="form-control" name="joke" id="joke" value="" placeholder="Joke"></textarea>
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <label for="answer" class="light">Answer (optional)</label>
+                        <textarea class="form-control" name="answer" id="answer" value="" placeholder="Answer"></textarea>
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <?php $i = 0 ?>
+                            <?php foreach($categories as $category): ?>
+                            <?php if ($i % 4 === 0): ?>
+                                <?php if ($i !== 0): ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="row">
                             <?php endif; ?>
-                            <div class="row">
-                        <?php endif; ?>
-                            <div class="col-sm-3">
-                                <div class="checkbox-tile">
-                                    <span class="checkbox-tile-label"><?php echo $category->name ?></span>
-                                    <div class="checkbox-tile-hidden">
-                                        <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
-                                    </div><!-- /.checkbox-tile-hidden -->
-                                </div><!--  /.checkbox-tile -->
-                            </div><!-- /.col -->
-                        <?php $i++ ?>
-                    <?php endforeach; ?>
-                    </div><!-- /.row -->
-                </div><!-- /.form-group -->
-                <div class="form-group">
-                    <button type="submit" name="submit" class="btn btn-primary">Add Joke</button>
-                </div><!-- /.form-group -->
-            </form>
+                                <div class="col-sm-3">
+                                    <div class="checkbox-tile">
+                                        <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                        <div class="checkbox-tile-hidden">
+                                            <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                        </div><!-- /.checkbox-tile-hidden -->
+                                    </div><!--  /.checkbox-tile -->
+                                </div><!-- /.col -->
+                            <?php $i++ ?>
+                        <?php endforeach; ?>
+                        </div><!-- /.row -->
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <button type="submit" name="submit" class="btn btn-primary">Add Joke</button>
+                    </div><!-- /.form-group -->
+                </form>
+            </div><!-- /.well -->
         </div><!-- /.col -->
         <div class="col-sm-6">
-            <h2 class="light">Remove A Joke</h2>
-            <form id="remove-joke-form">
-                <div class="form-group">
-                    <label for="joke_id" class="light">Joke</label>
-                    <input type="text" class="form-control" name="joke_id" id="joke_id" value="" placeholder="Joke ID">
-                </div><!-- /.form-group -->
-                <div class="form-group">
-                    <button type="submit" name="submit" class="btn btn-primary">Remove Joke</button>
-                </div><!-- /.form-group -->
-            </form>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <h2 class="light">Remove A Joke</h2>
+                        <form id="remove-joke-form">
+                            <div class="form-group">
+                                <label for="joke_id" class="light">Joke ID</label>
+                                <input type="text" class="form-control" name="joke_id" id="joke_id" value="" placeholder="Joke ID">
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <button type="submit" name="submit" class="btn btn-primary">Remove Joke</button>
+                            </div><!-- /.form-group -->
+                        </form>
+                    </div><!-- /.well -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well" id="update-jokes-well">
+                        <h2 class="light">Update a Joke's Categories</h2>
+                        <form id="get-joke-categories-form"<?php if($jokeCategories): ?>style="display:none"<?php endif ?>>
+                            <div class="form-group">
+                                <label for="joke_id2" class="light">Joke ID</label>
+                                <input type="text" class="form-control" name="joke_id" id="joke_id2" value="" placeholder="<?php echo ($message) ? $message : 'Joke ID' ?>">
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <button type="submit" name="submit" class="btn btn-primary">Get Joke Categories</button>
+                            </div><!-- /.form-group -->
+                        </form>
+                        <form id="update-joke-categories-form" <?php if(!$jokeCategories): ?>style="display:none"<?php endif ?>>
+                            <?php if($joke): ?>
+                                <p><?php echo $joke->joke ?></p>
+                            <?php endif ?>
+                            <?php if($joke && isset($joke->answer)): ?>
+                                <p><?php echo $joke->answer ?></p>
+                            <?php endif ?>
+                            <input type="hidden" name="hidden_joke_id" id="hidden_joke_id" value="<?php echo ($joke) ? $joke->joke_id : '' ?>">
+                            <div class="form-group">
+                                <?php $i = 0 ?>
+                                <?php foreach($categories as $category): ?>
+                                    <?php $match = false ?>
+                                    <?php if($jokeCategories): ?>
+                                        <?php foreach($jokeCategories as $jokeCategory): ?>
+                                            <?php if($jokeCategory->cat_id == $category->cat_id):?>
+                                                <?php $match = true ?>
+                                                <?php continue ?>
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
+                                    <?php if ($i % 4 === 0): ?>
+                                        <?php if ($i !== 0): ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="row">
+                                    <?php endif; ?>
+                                        <div class="col-sm-3">
+                                            <div class="checkbox-tile <?php echo ($match) ? 'checked' : '' ?>">
+                                                <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                                <div class="checkbox-tile-hidden">
+                                                     <input type="checkbox" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                                </div><!-- /.checkbox-tile-hidden -->
+                                            </div><!--  /.checkbox-tile -->
+                                        </div><!-- /.col -->
+                                    <?php $i++ ?>
+                                <?php endforeach; ?>
+                                </div><!-- /.row -->
+                            </div><!-- /.form-group -->
+                            <div class="form-group">
+                                <button type="submit" name="submit" class="btn btn-primary">Update Joke Categories</button>
+                            </div><!-- /.form-group -->
+                        </form>
+                    </div><!-- /.well -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
         </div><!-- /.col -->
     </div><!-- /.row -->
 </div><!-- /.container -->

@@ -238,3 +238,6 @@ html, body {
     max-width: 1315px;
 }
 
+#update-jokes-well {
+    min-height: 224px;
+}

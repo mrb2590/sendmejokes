@@ -55,6 +55,18 @@ input::-moz-focus-inner {
           -ms-user-select: none;
               user-select: none;
 }
+.xlg-font {
+    font-size: 74px;
+}
+.lg-font {
+    font-size: 40px;
+}
+.md-font {
+    font-size: 24px;
+}
+.sm-font {
+    font-size: 18px;
+}
 /************************************************
 * ---HELPER - FLASH TEXT COLOR---
 ************************************************/
@@ -905,6 +917,10 @@ fieldset[disabled] .btn-danger.active {
     margin-bottom: 20px;
     min-height: 20px;
     padding: 19px;
+}
+.well h2,
+.well label {
+    color: #333 !important;
 }
 
 /*******************************************************************

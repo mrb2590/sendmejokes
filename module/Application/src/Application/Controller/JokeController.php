@@ -103,13 +103,13 @@ class JokeController extends ApplicationController
             $valid = false;
             $message = "Invalid request";
             //return $this->redirect()->toRoute('Application', array('controller'=>$controllerName,'action' => $actionName));
-        } elseif ($vote->joke_id == null || $vote->joke_id == '') {
+        } elseif (!$this->validateInput($vote->joke_id, '')) {
             $valid = false;
             $message = "Missing joke ID";
-        } elseif ($vote->user_id == null || $vote->user_id == '') {
+        } elseif (!$this->validateInput($vote->user_id, '')) {
             $valid = false;
             $message = "No user";
-        } elseif ($vote->vote == null || $vote->vote == '') {
+        } elseif (!$this->validateInput($vote->vote, '')) {
             $valid = false;
             $message = "Missing vote";
         } else {
@@ -150,15 +150,33 @@ class JokeController extends ApplicationController
     {
         $this->session = new SessionContainer('user');
 
-        $categories = $this->getCategoryTable()->fetchAll();
-
         //only I can view this page muahahaha
         if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
             return $this->notFoundAction();
         }
 
+        $categories = $this->getCategoryTable()->fetchAll();
+        $jokeCategories = false;
+        $message = false;
+        $joke = false;
+        $joke_id = $this->params()->fromQuery('joke_id');
+
+        if($this->validateInput($joke_id, '')) {
+            try {
+                $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke_id);
+                $joke = $this->getJokeTable()->getJoke($joke_id);
+            } catch (\Exception $e) {
+                $joke = false;
+                $jokeCategories = false;
+                $message = 'Unable to find joke';;
+            }
+        }
+
         return new ViewModel(array(
-            'categories' => $categories
+            'categories'     => $categories,
+            'jokeCategories' => $jokeCategories,
+            'joke'           => $joke,
+            'message'        => $message,
         ));
     }
 
@@ -202,7 +220,7 @@ class JokeController extends ApplicationController
                     $this->getJokeCategoriesTable()->addJokeCategory($jokeCategory);
                 }
                 $message = "Success";
-            } catch (\Excepection $e) {
+            } catch (\Exception $e) {
                 $message = $e;
             }
         }
@@ -290,6 +308,55 @@ class JokeController extends ApplicationController
             'message'            => $message,
             'facebookButtonHTML' => $facebookButtonHTML,
             'emailButtonHTML'    => $emailButtonHTML,
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function updateJokeCategoriesAction()
+    {
+        //set blank layout
+        $this->layout('layout/blank');
+        $this->session = new SessionContainer('user');
+        $joke_id = $this->getRequest()->getPost('joke_id');
+        $submit = $this->getRequest()->getPost('submit');
+        $categories = $this->getRequest()->getPost('category');
+        $valid = false;
+
+        //only I can view this page muahahaha
+        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+            $message = "Fail";
+        } elseif ($submit != 'submit') {
+            $message = "Invalid request";
+        } elseif (!$this->validateInput($joke_id, '')) {
+            $message = "Joke ID is required";
+        } elseif (!$this->validateInput($categories, '')) {
+            $message = "At least one category is required";
+        } else {
+            $valid = true;
+        }
+
+        if ($valid) {
+            try {
+                $joke = $this->getJokeTable()->getJoke($joke_id); //add joke to db
+                //remove all joke categories for this joke
+                $this->getJokeCategoriesTable()->deleteJokeCategoriesByJoke($joke_id);
+                //now add the new ones
+                foreach ($categories as $name => $cat_id) {
+                    $jokeCategory = new JokeCategory();
+                    $jokeCategory->joke_id = (int) $joke_id;
+                    $jokeCategory->cat_id = (int) $cat_id;
+                    $this->getJokeCategoriesTable()->addJokeCategory($jokeCategory);
+                }
+                $message = "Success";
+            } catch (\Exception $e) {
+                $message = $e;
+            }
+        }
+
+        return new ViewModel(array(
+            'message' => $message
         ));
     }
 }

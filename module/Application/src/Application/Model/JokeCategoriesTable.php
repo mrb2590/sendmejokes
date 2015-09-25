@@ -46,6 +46,18 @@ class JokeCategoriesTable
     }
 
     /**
+     * @param int(8)
+     * @return Zend\Db\ResultSet\ResultSet
+     */
+    public function getJokeCategoriesByJokeId($joke_id)
+    {
+        $joke_id = (int) $joke_id;
+        $resultSet = $this->tableGateway->select(array('joke_id' => $joke_id));
+        $resultSet->buffer();
+        return $resultSet;
+    }
+
+    /**
      * @param Application\Model\JokeCategory
      */
     public function addJokeCategory(JokeCategory $jokeCategory)
@@ -56,6 +68,14 @@ class JokeCategoriesTable
         );
 
         $this->tableGateway->insert($data);
+    }
+
+    /**
+     * @param  int(8)
+     */
+    public function deleteJokeCategoriesByJoke($joke_id)
+    {
+        $this->tableGateway->delete(array('joke_id' => (int) $joke_id));
     }
 
     /**

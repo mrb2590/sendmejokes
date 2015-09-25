@@ -366,6 +366,57 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * submit event - ajax call get joke categories 
+    *******************************************************************/
+    $(document).on('submit', '#get-joke-categories-form', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/jokes/manage/',
+            data: $(this).serialize(),
+            type: "GET",
+            cache: false,
+            beforeSend: function() {
+                $('#update-jokes-well form').addClass('text-center');
+                $('#update-jokes-well form').css('line-height', '224px');
+                $('#update-jokes-well form').html('<i class="fa fa-spinner fa-pulse lg-font"></i>');
+            },
+            success: function(response) {
+                $('#update-jokes-well').html($('#update-jokes-well', response).html());
+            }
+        });
+    });
+
+    /*******************************************************************
+    * submit event - ajax call update joke categories 
+    *******************************************************************/
+    $(document).on('submit', '#update-joke-categories-form', function(e) {
+        e.preventDefault();
+        var joke_id = $('#hidden_joke_id').val();
+        $.ajax({
+            url: '/jokes/update-joke-categories/',
+            data: $(this).serialize() + '&joke_id=' + joke_id + '&submit=submit',
+            type: "POST",
+            cache: false,
+            beforeSend: function() {
+                $('#update-jokes-well form').addClass('text-center');
+                $('#update-jokes-well form').css('line-height', '224px');
+                $('#update-jokes-well form').html('<i class="fa fa-spinner fa-pulse lg-font"></i>');
+            },
+            success: function(response) {
+                if (response == 'Success') {
+                    refreshPage(function() {
+                        alertModal('Success', 'Joke Categories have been updated');
+                    });
+                } else {
+                    refreshPage(function() {
+                        alertModal('Alert', response);
+                    });
+                }
+            }
+        });
+    });
+
+    /*******************************************************************
     * click event - toggle reset password / sign in form
     *******************************************************************/
     $(document).on('click', '.forgot-password-link', function(e) {
@@ -410,7 +461,10 @@ function refreshPage(callback) {
 	        $('.sidebar-head').html($('.sidebar-head', response).html());
 	        $('#update-pref-modal').html($('#update-pref-modal', response).html());
             $('.masonry').html($('.masonry', response).html());
-	        callback();
+            $('#update-jokes-well').html($('#update-jokes-well', response).html());
+            if(callback) {
+	           callback();
+           }
 	    }
 	});
 }
