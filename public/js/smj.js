@@ -167,9 +167,8 @@ function bindEventListeners() {
                         if (response == "Account deleted") {
                         	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
                             $(document).on('hidden.bs.modal', '#alert-modal', function () {
-                                console.log('hello');
-                            window.location.replace('/');// redirect when modal is closed
-                        })
+                                window.location.replace('/');// redirect when modal is closed
+                            });
                         } else {
                             alertModal('Account Updated', '<p>You account has been updated</p>');
                         }
@@ -249,7 +248,6 @@ function bindEventListeners() {
         var jokeID = $(this).parents().eq(2).attr("id");
         var voteCount = parseInt(voteCountObject.html());
         var vote = 0; //holds their current vote status
-        console.log(oppositeVoteObject);
 
         if ($(this).hasClass('fa-thumbs-o-' + upOrDown)) {
             //upvote/downvote
