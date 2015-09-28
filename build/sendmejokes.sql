@@ -16,9 +16,9 @@ CREATE TABLE category (
 ) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
 
 CREATE TABLE user_categories (
-    id        INT(8)   NOT NULL    AUTO_INCREMENT,
-    user_id   INT(8)   NOT NULL,
-    cat_id    INT(8)   NOT NULL,
+    id        INT(8)     NOT NULL    AUTO_INCREMENT,
+    user_id   CHAR(13)   NOT NULL,
+    cat_id    INT(8)     NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (cat_id)  REFERENCES category(cat_id)
@@ -44,7 +44,7 @@ CREATE TABLE joke_categories (
 CREATE TABLE vote (
     id         INT(8)       NOT NULL    AUTO_INCREMENT,
     joke_id    INT(8)       NOT NULL,
-    user_id    INT(8)       NOT NULL,
+    user_id    CHAR(13)     NOT NULL,
     vote       TINYINT(1)   NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (joke_id) REFERENCES joke(joke_id)
@@ -53,7 +53,7 @@ CREATE TABLE vote (
 CREATE TABLE smj_sent_jokes (
     id        INT(8)      NOT NULL    AUTO_INCREMENT,
     joke_id   INT(8)      NOT NULL,
-    user_id   INT(8)      NOT NULL,
+    user_id   CHAR(13)    NOT NULL,
     sent_on   TIMESTAMP   DEFAULT     CURRENT_TIMESTAMP   NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (joke_id) REFERENCES smj_jokes_tbl(joke_id),
