@@ -35,17 +35,6 @@ class JokeCategoriesTable
     }
 
     /**
-     * @param Application\Model\User
-     * @return Zend\Db\ResultSet\ResultSet
-     */
-    public function getJokeCategories(User $user)
-    {
-        $id = (int) $user->user_id;
-        $resultSet = $this->tableGateway->select(array('joke_id' => $id));
-        return $resultSet;
-    }
-
-    /**
      * @param int(8)
      * @return Zend\Db\ResultSet\ResultSet
      */

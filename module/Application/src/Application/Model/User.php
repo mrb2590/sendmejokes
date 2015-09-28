@@ -11,7 +11,7 @@ namespace Application\Model;
 class User
 {
     /**
-     * @var int(8)
+     * @var string(13)
      */
     public $user_id;
 
