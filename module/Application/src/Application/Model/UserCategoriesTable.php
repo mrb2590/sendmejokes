@@ -40,8 +40,7 @@ class UserCategoriesTable
      */
     public function getUserCategories(User $user)
     {
-        $id = (int) $user->user_id;
-        $resultSet = $this->tableGateway->select(array('user_id' => $id));
+        $resultSet = $this->tableGateway->select(array('user_id' => $user->user_id));
         return $resultSet;
     }
 

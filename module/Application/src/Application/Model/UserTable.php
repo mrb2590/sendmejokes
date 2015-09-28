@@ -112,7 +112,6 @@ class UserTable
      */
     public function getUser($user_id)
     {
-        $user_id = $user_id;
         $resultSet = $this->tableGateway->select(array('user_id' => $user_id));
         $user = $resultSet->current();
         return $user;

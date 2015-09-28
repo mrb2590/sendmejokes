@@ -41,7 +41,6 @@ class VoteTable
      */
     public function getVotesByUser($user_id)
     {
-        $user_id  = (int) $user_id;
         $resultSet = $this->tableGateway->select(array('user_id' => $user_id));
         $resultSet->buffer();
         return $resultSet;
