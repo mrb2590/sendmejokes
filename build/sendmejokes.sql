@@ -1,12 +1,12 @@
 /* smj_db */
 CREATE TABLE user (
-    user_id     INT(8)         NOT NULL    AUTO_INCREMENT,
+    user_id     CHAR(13)       NOT NULL,
     firstname   VARCHAR(64)    NOT NULL,
     lastname    VARCHAR(64)    NOT NULL,
     email       VARCHAR(128)   NOT NULL,
     password    VARCHAR(60)    NOT NULL,
     PRIMARY KEY (user_id)
-) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB   DEFAULT CHARSET=utf8;
 
 CREATE TABLE category (
     cat_id   INT(8)         NOT NULL    AUTO_INCREMENT,

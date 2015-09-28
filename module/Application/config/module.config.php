@@ -31,7 +31,7 @@ return array(
                     'route'    => '/user[/[:action[/[:user_id[/]][:reset_pass_id[/]]]]]',
                     'constraints' => array(
                         'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'user_id'       => '\d{8}',
+                        'user_id'       => '[a-zA-Z0-9]{13}',
                         'reset_pass_id' => '[a-zA-Z0-9]{64}',
                     ),
                     'defaults' => array(

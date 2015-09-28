@@ -24,7 +24,7 @@ class UserController extends ApplicationController
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
-        $user_id = (int) $this->params()->fromRoute('user_id');
+        $user_id = $this->params()->fromRoute('user_id');
 
         //only current signed in user can view this page
         if(isset($this->session->user->user_id)) {
@@ -64,7 +64,7 @@ class UserController extends ApplicationController
         //save user id and email
         $this->session->user = new User();
         $this->session->user->email = $user->email;
-        $this->session->user->user_id = (int) $user->user_id;
+        $this->session->user->user_id = $user->user_id;
 
         //save user votes
         $votes = $this->getVoteTable()->getVotesByUser($user->user_id);
@@ -162,7 +162,7 @@ class UserController extends ApplicationController
                 if (isset($categories)) {
                     foreach ($categories as $name => $cat_id) {
                         $userCategory = new UserCategory();
-                        $userCategory->user_id = (int) $newUser->user_id;
+                        $userCategory->user_id = $newUser->user_id;
                         $userCategory->cat_id = (int) $cat_id;
                         $this->getUserCategoriesTable()->addUserCategory($userCategory);
                     }
@@ -361,7 +361,7 @@ class UserController extends ApplicationController
                     if ($categories != null) {
                         foreach ($categories as $name => $cat_id) {
                             $userCategory = new UserCategory();
-                            $userCategory->user_id = (int) $updatedUser->user_id;
+                            $userCategory->user_id = $updatedUser->user_id;
                             $userCategory->cat_id = (int) $cat_id;
                             $this->getUserCategoriesTable()->addUserCategory($userCategory);
                         }

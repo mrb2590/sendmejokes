@@ -159,7 +159,7 @@ class JokeController extends ApplicationController
         $this->session = new SessionContainer('user');
 
         //only I can view this page muahahaha
-        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+        if (!isset($this->session->user->email) || $this->session->user->email != 'mrb2590@gmail.com') {
             return $this->notFoundAction();
         }
 

@@ -73,7 +73,10 @@ class UserTable
         $bcrypt = new Bcrypt();
         $user->password = $bcrypt->create($user->password);
 
+        $user->user_id = uniqid(); //generate unique id
+
         $data = array(
+            'user_id'   => $user->user_id,
             'firstname' => $user->firstname,
             'lastname'  => $user->lastname,
             'email'     => $user->email,
@@ -109,7 +112,7 @@ class UserTable
      */
     public function getUser($user_id)
     {
-        $user_id = (int) $user_id;
+        $user_id = $user_id;
         $resultSet = $this->tableGateway->select(array('user_id' => $user_id));
         $user = $resultSet->current();
         return $user;
