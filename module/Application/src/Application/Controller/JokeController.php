@@ -59,11 +59,11 @@ class JokeController extends ApplicationController
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);
-            $allJokes = $this->getJokeTable()->fetchAll();
+            $total = $this->getJokeTable()->getJokeCount();
         }
 
         $totalOnPage = count($jokes);
-        $total = ($jokeflag) ? 1 : count($allJokes);
+        $total = ($jokeflag) ? 1 : $total;
         $maxPages = ((int) ceil($total / $limit));
 
         $jokeCategories = $this->getViewJokeCategoriesTable()->fetchAll();

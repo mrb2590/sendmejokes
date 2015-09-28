@@ -9,6 +9,7 @@
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
 
@@ -50,6 +51,16 @@ class JokeTable
         $resultSet = $this->tableGateway->select();
         $resultSet->buffer();
         return $resultSet;
+    }
+
+    /**
+     * @return integer 
+     */
+    public function getJokeCount()
+    {
+        $resultSetPrototype = new ResultSet();
+        $resultSet = $this->tableGateway->select();
+        return $resultSet->count();
     }
 
     /**
