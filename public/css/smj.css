@@ -39,12 +39,13 @@ html, body {
         opacity: 100;
     }
     .sidebar .sidebar-head {
+        width: 300px;
         position: fixed;
         color: #f9f7da;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         opacity: 100;
         padding: 26px;
-        height: 118px;
+        height: 170px;
         -webkit-transition: all 0.6s ease;
            -moz-transition: all 0.6s ease;
             -ms-transition: all 0.6s ease;
@@ -64,11 +65,14 @@ html, body {
                 font-size: 24px;
                 line-height: 66px;
             }
+            #search-form {
+                margin-top: 15px;
+            }
         .sidebar .sidebar-head.sidebar-head-hidden {
             opacity: 0;
         }
     .sidebar .list-group {
-        margin-top: 118px;
+        margin-top: 170px;
         position: fixed;
         height: calc(100% - 118px);
         width: 100%;
@@ -109,6 +113,10 @@ html, body {
 @media (max-width: 768px) { 
     .sidebar.sidebar-open {
         width: 100%;
+    }
+    .sidebar .sidebar-head {
+        width: 100%;
+        text-align: center;
     }
 }
 

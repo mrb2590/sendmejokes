@@ -394,7 +394,6 @@ function bindEventListeners() {
             url: '/jokes/update-joke-categories/',
             data: $(this).serialize() + '&joke_id=' + joke_id + '&submit=submit',
             type: "POST",
-            cache: false,
             beforeSend: function() {
                 $('#update-jokes-well form').addClass('text-center');
                 $('#update-jokes-well form').css('line-height', '224px');

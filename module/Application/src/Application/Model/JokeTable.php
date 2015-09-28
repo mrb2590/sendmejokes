@@ -70,6 +70,24 @@ class JokeTable
     }
 
     /**
+     * @param string $search
+     * @param integer $limit
+     * @param integer $page
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
+    public function getPaginatedSearchResults($search, $limit, $page)
+    {
+        $limit = (int) $limit;
+        $page = (int) $page;
+        $offset = $limit * ($page - 1);
+        $resultSet = $this->tableGateway->select(function (Select $select) use ($limit, $offset) {
+            $select->limit($limit)->offset($offset);
+        });
+        $resultSet->buffer();
+        return $resultSet;
+    }
+
+    /**
      * @param int(8)
      * @return Application\Model\Joke 
      */

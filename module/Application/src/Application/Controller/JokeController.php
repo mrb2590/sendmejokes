@@ -25,6 +25,8 @@ class JokeController extends ApplicationController
         $this->session = new SessionContainer('user');
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
+        $search = $this->params()->fromQuery('search');
+        $searchflag = false;
         $jokeflag = false;
         $catflag = false;
         $message = false;
@@ -50,6 +52,10 @@ class JokeController extends ApplicationController
             }
             $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($categoryObject->cat_id, $limit, $page);
             $allJokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($categoryObject->cat_id);
+        } elseif (isset($search)) {
+            $searchflag = true;
+            $jokes = $this->getJokeTable()->getPaginatedSearchResults($search);
+            $allJokes = $this->getViewJokeCategoriesTable()->getAllSearchResults($search);
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);

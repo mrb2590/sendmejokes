@@ -76,17 +76,17 @@
                 <nav>
                     <ul class="pagination pagination-md">
                         <li <?php if($page == 1): ?>class="disabled"<?php endif ?>>
-                            <a aria-label="Previous" href="<?php echo ($page == 1) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page - 1) ?>"><span aria-hidden="true">«</span></a>
+                            <a aria-label="Previous" class="pagination-link" href="<?php echo ($page == 1) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page - 1) ?>"><span aria-hidden="true">«</span></a>
                         </li>
                         <?php for($i = 1; $i <= $maxPages; $i++): ?>
                             <?php if ($i > ($page - 5) && $i < ($page + 5)): ?>
                                 <li <?php if($page == $i): ?>class="active"<?php endif ?>>
-                                    <a href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . $i ?>"><?php echo $i ?><span class="sr-only">(current)</span></a>
+                                    <a class="pagination-link" href="<?php echo strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . $i ?>"><?php echo $i ?><span class="sr-only">(current)</span></a>
                                 </li>
                             <?php endif ?>
                         <?php endfor ?>
                         <li <?php if($page == $maxPages): ?>class="disabled"<?php endif ?>>
-                            <a aria-label="Next" href="<?php echo ($page == $maxPages) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page + 1) ?>"><span aria-hidden="true">»</span></a>
+                            <a aria-label="Next" class="pagination-link" href="<?php echo ($page == $maxPages) ? '#' : strtok($_SERVER["REQUEST_URI"], '?') . '?page=' . ((int) $page + 1) ?>"><span aria-hidden="true">»</span></a>
                         </li>
                     </ul>
                 </nav>

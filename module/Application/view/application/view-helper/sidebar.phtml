@@ -5,7 +5,7 @@
             <?php $parts = explode("@", $session->user->email) ?>
             <?php $username = $parts[0] ?>
             <div class="username"><?php echo $username ?></div>
-            <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'user_id' => $session->user->user_id)) ?>"><i class="fa fa-cog fa-spin"> </i>Update Preferences</a>
+            <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'user_id' => $session->user->user_id)) ?>"><i class="fa fa-cog fa-spin"> </i>My Preferences</a>
             <?php if($session->user->user_id == '10000000'): ?>
                 <a id="add-joke-link" class="user-option" href="<?php echo $this->url('joke', array('action' => 'manage')) ?>"><i class="fa fa-database"></i> Manage Jokes</a>
             <?php endif ?>
@@ -13,6 +13,16 @@
         <?php else: ?>
             <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#"><i class="fa fa-sign-in"></i> Sign In</a>
         <?php endif ?>
+            <form id="search-form" method="POST" action="<?php echo $this->url('joke', array('action' => 'search')) ?>">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </div><!-- /.input-group-addon -->
+                        <input id="search" class="form-control" type="text" placeholder="Find a joke" name="search" value="">
+                    </div><!-- /.input-group -->
+                </div><!-- /.form-group -->
+            </form>
         </div><!-- /.sidebar-head -->
     </div><!-- /.sidebar-head-ex -->
     <div class="list-group">
