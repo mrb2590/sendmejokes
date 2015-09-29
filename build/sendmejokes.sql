@@ -50,15 +50,13 @@ CREATE TABLE vote (
     FOREIGN KEY (joke_id) REFERENCES joke(joke_id)
 ) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
 
-CREATE TABLE smj_sent_jokes (
-    id        INT(8)      NOT NULL    AUTO_INCREMENT,
+CREATE TABLE user_sent_jokes (
+    id        INT         NOT NULL    AUTO_INCREMENT,
     joke_id   INT(8)      NOT NULL,
     user_id   CHAR(13)    NOT NULL,
     sent_on   TIMESTAMP   DEFAULT     CURRENT_TIMESTAMP   NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (joke_id) REFERENCES smj_jokes_tbl(joke_id),
-    FOREIGN KEY (user_id) REFERENCES smj_users_tbl(user_id)
-) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
+    PRIMARY KEY (id)
+) ENGINE=InnoDB   DEFAULT CHARSET=utf8;
 
 CREATE VIEW view_user_categories AS 
 SELECT email, name 
@@ -79,5 +77,7 @@ ON     jc.cat_id=c.cat_id;
 select joke.*, joke_categories.cat_id
 from joke
 join joke_categories
+on joke.joke_id = joke_categories.joke_id
+join user_sent_jokes
 on joke.joke_id = joke_categories.joke_id
 where joke_categories.cat_id = '10000006';
