@@ -9,9 +9,9 @@
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Where;
 
 class JokeTable
 {
@@ -58,7 +58,6 @@ class JokeTable
      */
     public function getJokeCount()
     {
-        $resultSetPrototype = new ResultSet();
         $resultSet = $this->tableGateway->select();
         return $resultSet->count();
     }
@@ -91,9 +90,10 @@ class JokeTable
         $limit = (int) $limit;
         $page = (int) $page;
         $offset = $limit * ($page - 1);
-        $resultSet = $this->tableGateway->select(function (Select $select) use ($limit, $offset) {
-            $select->limit($limit)->offset($offset);
-        });
+
+        $where = new Where();
+        $where->like('joke', $search . '%');
+        $resultSet = $this->tableGateway->select($where);
         $resultSet->buffer();
         return $resultSet;
     }

@@ -48,7 +48,18 @@ return array(
                         'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'category' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'joke_id'  => '\d{8}',
+                        'search' => '.*',
                     ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Joke',
+                        'action'     => 'view',
+                    ),
+                ),
+            ),
+            'search' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/search[/]',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Joke',
                         'action'     => 'view',

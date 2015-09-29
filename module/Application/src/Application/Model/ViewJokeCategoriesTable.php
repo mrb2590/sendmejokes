@@ -37,6 +37,15 @@ class ViewJokeCategoriesTable
     }
 
     /**
+     * @return integer 
+     */
+    public function getJokeCountByCategory($cat_id)
+    {
+        $resultSet = $this->tableGateway->select(array('cat_id' => $cat_id));
+        return $resultSet->count();
+    }
+
+    /**
      * @param int(8) $cat_id
      * @param integer $limit
      * @param integer $page

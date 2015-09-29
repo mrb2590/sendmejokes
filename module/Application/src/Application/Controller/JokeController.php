@@ -51,11 +51,11 @@ class JokeController extends ApplicationController
                 $message = $e;
             }
             $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($categoryObject->cat_id, $limit, $page);
-            $allJokes = $this->getViewJokeCategoriesTable()->getJokesByCategory($categoryObject->cat_id);
+            $total = $this->getViewJokeCategoriesTable()->getJokeCountByCategory($categoryObject->cat_id);
         } elseif (isset($search)) {
             $searchflag = true;
-            $jokes = $this->getJokeTable()->getPaginatedSearchResults($search);
-            $allJokes = $this->getViewJokeCategoriesTable()->getAllSearchResults($search);
+            $jokes = $this->getJokeTable()->getPaginatedSearchResults($search, $limit, $page);
+            $total = $this->getJokeTable()->getJokeCount();
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);

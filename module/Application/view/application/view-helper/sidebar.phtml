@@ -13,13 +13,13 @@
         <?php else: ?>
             <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#"><i class="fa fa-sign-in"></i> Sign In</a>
         <?php endif ?>
-            <form id="search-form" method="POST" action="<?php echo $this->url('joke', array('action' => 'search')) ?>">
+            <form id="search-form" method="GET" action="<?php echo $this->url('search') ?>">
                 <div class="form-group">
                     <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-search"></i>
-                        </div><!-- /.input-group-addon -->
                         <input id="search" class="form-control" type="text" placeholder="Find a joke" name="search" value="">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        </span>
                     </div><!-- /.input-group -->
                 </div><!-- /.form-group -->
             </form>
