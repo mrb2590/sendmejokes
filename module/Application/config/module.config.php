@@ -56,16 +56,16 @@ return array(
                     ),
                 ),
             ),
-            'search' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/search[/]',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Joke',
-                        'action'     => 'view',
-                    ),
-                ),
-            ),
+            //'search' => array(
+            //    'type'    => 'segment',
+            //    'options' => array(
+            //        'route'    => '/search[/]',
+            //        'defaults' => array(
+            //            'controller' => 'Application\Controller\Joke',
+            //            'action'     => 'view',
+            //        ),
+            //    ),
+            //),
         ),
     ),
     'session' => array(
