@@ -73,11 +73,3 @@ JOIN   joke_categories jc
 ON     j.joke_id=jc.joke_id
 JOIN   category c 
 ON     jc.cat_id=c.cat_id;
-
-select joke.*, joke_categories.cat_id
-from joke
-join joke_categories
-on joke.joke_id = joke_categories.joke_id
-join user_sent_jokes
-on joke.joke_id = joke_categories.joke_id
-where joke_categories.cat_id = '10000006';
