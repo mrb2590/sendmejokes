@@ -23,10 +23,33 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
+                            <h4>This is the email we will send jokes to</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input id="email-modal" class="form-control" type="text" value="" name="email" placeholder="Email">
+                            </div><!-- /.form-group -->
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Create a username</h4>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <input id="username" class="form-control" type="text" value="" name="username" placeholder="Username">
+                            </div><!-- /.form-group -->
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-sm-12">
                             <h4>Choose which categories you'd like to recieve jokes from</h4>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
-                    <input type="hidden" name="email" value="">
                     <?php $i = 0 ?>
                     <?php foreach($categories as $category): ?>
                         <?php if ($i % 4 === 0): ?>
@@ -54,12 +77,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input id="password" class="form-control" type="password" value="" name="password">
+                                <input id="password" class="form-control" type="password" value="" name="password" placeholder="Password">
                             </div><!-- /.form-group -->
                             <div class="form-group">
                                 <label for="password2">Confirm password:</label>
-                                <input id="password2" class="form-control" type="password" value="" name="password2">
+                                <input id="password2" class="form-control" type="password" value="" name="password2" placeholder="Confirm password">
                             </div><!-- /.form-group -->
                             <div class="modal-alert">text</div>
                         </div><!-- /.col -->

@@ -76,11 +76,10 @@ class UserTable
         $user->user_id = uniqid(); //generate unique id
 
         $data = array(
-            'user_id'   => $user->user_id,
-            'firstname' => $user->firstname,
-            'lastname'  => $user->lastname,
-            'email'     => $user->email,
-            'password'  => $user->password,
+            'user_id'  => $user->user_id,
+            'username' => $user->username,
+            'email'    => $user->email,
+            'password' => $user->password,
         );
 
         //check if email already exists
@@ -150,6 +149,17 @@ class UserTable
             $row = $rowset->current();
              if ($row) {
                  throw new \Exception("Email already exists");
+             }
+        }
+        
+        if (isset($user->username)) {
+            $data['username'] = $user->username;
+            
+            //check if username already exists
+            $rowset = $this->tableGateway->select(array('username' => $user->username));
+            $row = $rowset->current();
+             if ($row) {
+                 throw new \Exception("Username already exists");
              }
         }
         

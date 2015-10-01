@@ -24,11 +24,11 @@ class UserController extends ApplicationController
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
-        $user_id = $this->params()->fromRoute('user_id');
+        $username = $this->params()->fromRoute('username');
 
         //only current signed in user can view this page
-        if(isset($this->session->user->user_id)) {
-            if ($this->session->user->user_id != $user_id) {
+        if(isset($this->session->user->username)) {
+            if ($this->session->user->username != $username) {
                 return $this->notFoundAction();
             }
         } else {
@@ -65,6 +65,7 @@ class UserController extends ApplicationController
         $this->session->user = new User();
         $this->session->user->email = $user->email;
         $this->session->user->user_id = $user->user_id;
+        $this->session->user->username = $user->username;
 
         //save user votes
         $votes = $this->getVoteTable()->getVotesByUser($user->user_id);
@@ -122,6 +123,7 @@ class UserController extends ApplicationController
         $this->session->auth = false;   //authorized user
 
         $email = $this->getRequest()->getPost('email');
+        $username = $this->getRequest()->getPost('username');
         $password = $this->getRequest()->getPost('password');
         $password2 = $this->getRequest()->getPost('password2');
         $categories = $this->getRequest()->getPost('category');
@@ -137,6 +139,9 @@ class UserController extends ApplicationController
         } elseif (!$this->validateInput($email, 'email')) {
             $valid = false;
             $message = "Invalid email address";
+        } elseif (!$this->validateInput($username, 'username')) {
+            $valid = false;
+            $message = "Username must be a minimum of six characters and no larger than 16";
         } elseif (!$this->validateInput($password, 'password')) {
             $valid = false;
             $message = "Password too short, must be at least six characters";
@@ -153,8 +158,7 @@ class UserController extends ApplicationController
                 $user = new User();
                 $user->email = $email;
                 $user->password = $password;
-                $user->firstname = '';
-                $user->lastname = '';
+                $user->username = $username;
                 $user->user_id = 0;
                 $newUser = $this->getUserTable()->createUser($user);
 
@@ -270,8 +274,9 @@ class UserController extends ApplicationController
         //set blank layout
         $this->layout('layout/blank');
         $this->session = new SessionContainer('user');
-        
+
         $email = $this->getRequest()->getPost('email');
+        $username = $this->getRequest()->getPost('username');
         $passwordOld = $this->getRequest()->getPost('password-old');
         $password = $this->getRequest()->getPost('password');
         $password2 = $this->getRequest()->getPost('password2');
@@ -289,6 +294,9 @@ class UserController extends ApplicationController
         } elseif ((isset($email) && $email != '') && !$this->validateInput($email, 'email')) {
             $valid = false;
             $message = "Invalid email address";
+        } elseif ((isset($username) && $username != '') && !$this->validateInput($username, 'username')) {
+            $valid = false;
+            $message = "Username must be a minimum of six characters and no larger than 16";
         } elseif ($password !== $password2) {
             $valid = false;
             $message = "Passwords do not match";
@@ -325,23 +333,13 @@ class UserController extends ApplicationController
             } else {
                 $updateUser = false;
                 
-                //update email or password is input was not blank
-                if ($email != '' || $password != '') {
+                //update email, username, or password if input was not blank
+                if ($email != '' || $password != '' || $username != '') {
                     $user = new User();
                     $user->user_id = $this->session->user->user_id;
-                    
-                    if ($email != '') {
-                        $user->email = $email;
-                    } else {
-                        $user->email = null;
-                    }
-                    
-                    if ($password != '') {
-                        $user->password = $password;
-                    } else {
-                        $user->password = null;
-                    }
-                    
+                    $user->email = ($email != '') ? $email : null;
+                    $user->username = ($username != '') ? $username : null;
+                    $user->password = ($password != '') ? $password : null;
                     $updateUser = true;
                 }
                 

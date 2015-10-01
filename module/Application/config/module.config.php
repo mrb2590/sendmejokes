@@ -28,10 +28,10 @@ return array(
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/user[/[:action[/[:user_id[/]][:reset_pass_id[/]]]]]',
+                    'route'    => '/user[/[:action[/[:username[/]][:reset_pass_id[/]]]]]',
                     'constraints' => array(
                         'action'        => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'user_id'       => '[a-zA-Z0-9]{13}',
+                        'username'       => '.[^\/]{6,16}',
                         'reset_pass_id' => '[a-zA-Z0-9]{64}',
                     ),
                     'defaults' => array(

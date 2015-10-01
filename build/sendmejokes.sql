@@ -1,9 +1,8 @@
 /* smj_db */
 CREATE TABLE user (
     user_id     CHAR(13)       NOT NULL,
-    firstname   VARCHAR(64)    NOT NULL,
-    lastname    VARCHAR(64)    NOT NULL,
-    email       VARCHAR(128)   NOT NULL,
+    username    VARCHAR(16)    NOT NULL,
+    email       VARCHAR(254)   NOT NULL,
     password    VARCHAR(60)    NOT NULL,
     PRIMARY KEY (user_id)
 ) ENGINE=InnoDB   DEFAULT CHARSET=utf8;

@@ -1,7 +1,5 @@
 <div class="page-header">
-    <?php $parts = explode("@", $session->user->email) ?>
-    <?php $username = $parts[0] ?>
-    <h1><?php echo $username ?></h1>
+    <h1><?php echo $session->user->username ?></h1>
 </div><!-- /.page-header -->
 <div class="container">
     <form id="update-pref-form" action="/user/update-user" method="POST">
@@ -53,6 +51,14 @@
                 </div><!-- /.row -->
                 <div class="row">
                     <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="username">Update Username</label>
+                            <input id="username" class="form-control" type="text" name="username" value="" placeholder="<?php echo $session->user->username ?>">
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-sm-12">
                         <h4>If you would like to update your password</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -60,15 +66,15 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="password-old">Old password:</label>
-                            <input id="password-old" class="form-control" type="password" name="password-old" value="">
+                            <input id="password-old" class="form-control" type="password" name="password-old" value="" placeholder="Old password">
                         </div><!-- /.form-group -->
                         <div class="form-group">
                             <label for="password">New password:</label>
-                            <input id="password" class="form-control" type="password" name="password" value="">
+                            <input id="password" class="form-control" type="password" name="password" value="" placeholder="New password">
                         </div><!-- /.form-group -->
                         <div class="form-group">
-                            <label for="password2">Repeat new password:</label>
-                            <input id="password2" class="form-control" type="password" name="password2" value="">
+                            <label for="password2">Confirm new password:</label>
+                            <input id="password2" class="form-control" type="password" name="password2" value="" placeholder="Confirm new password">
                         </div><!-- /.form-group -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->

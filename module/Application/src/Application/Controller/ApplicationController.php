@@ -178,10 +178,14 @@ class ApplicationController extends AbstractActionController
         if (isset($type)) {
             switch ($type) {
                 case 'email':
-                    $valid = (filter_var($input, FILTER_VALIDATE_EMAIL)) ? true : false;
+                    $valid = (filter_var($input, FILTER_VALIDATE_EMAIL));
                     break;
                 case 'password':
-                    $valid = (strlen(utf8_decode($input)) >= 6) ? true : false;
+                    $valid = (strlen(utf8_decode($input)) >= 6);
+                    break;
+                case 'username':
+                    $input = utf8_decode($input);
+                    $valid = (strlen($input) >= 6 && strlen($input) <= 16);
                     break;
             }
         }

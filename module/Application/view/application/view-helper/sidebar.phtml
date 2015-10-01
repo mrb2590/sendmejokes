@@ -2,10 +2,8 @@
     <div class="sidebar-head-ex">
         <div class="sidebar-head sidebar-head-hidden">
         <?php if(isset($session->user->user_id)): ?>
-            <?php $parts = explode("@", $session->user->email) ?>
-            <?php $username = $parts[0] ?>
-            <div class="username"><?php echo $username ?></div>
-            <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'user_id' => $session->user->user_id)) ?>"><i class="fa fa-cog fa-spin"> </i>My Preferences</a>
+            <div class="username"><?php echo $session->user->username ?></div>
+            <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'username' => $session->user->username)) ?>"><i class="fa fa-cog fa-spin"> </i>My Preferences</a>
             <?php if($session->user->email == 'mrb2590@gmail.com'): ?>
                 <a id="add-joke-link" class="user-option" href="<?php echo $this->url('joke', array('action' => 'manage')) ?>"><i class="fa fa-database"></i> Manage Jokes</a>
             <?php endif ?>

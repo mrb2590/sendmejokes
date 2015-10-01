@@ -18,12 +18,7 @@ class User
     /**
      * @var string
      */
-    public $firstname;
-
-    /**
-     * @var string
-     */
-    public $lastname;
+    public $username;
 
     /**
      * @var string
@@ -41,8 +36,7 @@ class User
     public function exchangeArray($data)
     {
         $this->user_id   = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->firstname = (!empty($data['firstname'])) ? $data['firstname'] : null;
-        $this->lastname  = (!empty($data['lastname'])) ? $data['lastname'] : null;
+        $this->username = (!empty($data['username'])) ? $data['username'] : null;
         $this->email     = (!empty($data['email'])) ? $data['email'] : null;
         $this->password  = (!empty($data['password'])) ? $data['password'] : null;
     }
