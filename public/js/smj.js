@@ -153,26 +153,29 @@ function bindEventListeners() {
             },
             success: function(response) {
                 $('html, body, input, textarea').css('cursor', 'auto');
-                if(response != "Success" && response != "Account deleted") {
+                if (response == 'Username updated') {
+                    alertModal('Success', '<p>Your username has been updated!</p>');
+                    $(document).on('hidden.bs.modal', '#alert-modal', function () {
+                        window.location.replace('/user/view/' + $('#username').val());// redirect when modal is closed
+                    });
+                } else if (response == "Account deleted") {
+                    alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
+                    $(document).on('hidden.bs.modal', '#alert-modal', function () {
+                        window.location.replace('/');// redirect when modal is closed
+                    });
+                } else if (response == 'Success') {
+                    $('#email').val('');
+                    $('#password-old').val('');
+                    $('#password').val('');
+                    $('#password2').val('');
+                    $('#delete-account').val('');
+                    refreshPage(function() {
+                        alertModal('Account Updated', '<p>You account has been updated</p>');
+                    });
+                } else {
                     $('#password').val('');
                     $('#password2').val('');
                     alertModal('Oops', '<p>' + response + '</p>');
-                } else {
-                    refreshPage(function() {
-                        $('#email').val('');
-                        $('#password-old').val('');
-                        $('#password').val('');
-                        $('#password2').val('');
-                        $('#delete-account').val('');
-                        if (response == "Account deleted") {
-                        	alertModal('Bye Bye', '<p>Sorry to see you go!</p><p>You can always sign up again to get the latest and greatest jokes!</p>');
-                            $(document).on('hidden.bs.modal', '#alert-modal', function () {
-                                window.location.replace('/');// redirect when modal is closed
-                            });
-                        } else {
-                            alertModal('Account Updated', '<p>You account has been updated</p>');
-                        }
-                    });
                 }
             }
         });

@@ -366,7 +366,7 @@ class UserController extends ApplicationController
                     }
 
                     $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
-                    $message = "Success";
+                    $message = "Username updated";
                 } catch (\Exception $e) {
                     $message = $e->getMessage();
                 }
