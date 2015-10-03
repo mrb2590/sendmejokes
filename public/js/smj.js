@@ -4,30 +4,23 @@
 
 $(document).ready(function() {
     bindEventListeners();
-
-    $(function () {
-        //initiales default popovers
-        $('.categories').popover({
-            html: true,
-            placement: 'top',
-            content: 'blank'
-        });
-
-        //initiales share popover
-        $('.share').popover({
-            html: true,
-            placement: 'top',
-            content: function() {
-                return $('.share-popover').html();
-            }
-        });
-    });
 });
 
 /*******************************************************************
 * function to bind all event listeners
 *******************************************************************/
 function bindEventListeners() {
+    /*******************************************************************
+    * bind joke categories popover
+    *******************************************************************/
+    $(document).popover({
+        selector: '.categories',
+        html: true,
+        placement: 'top',
+        content: 'blank',
+        trigger: 'focus'
+    });
+
     /*******************************************************************
     * click event - opens/closes sidebar
     *******************************************************************/
@@ -322,18 +315,29 @@ function bindEventListeners() {
     /*******************************************************************
     * popover event - ajax call to get share buttons
     *******************************************************************/
-    $(document).on('inserted.bs.popover', '.share', function() {
-        var joke_id = $(this).attr('id');
-        $.ajax({
-            context: this,
-            url: '/jokes/get-share-buttons/',
-            data: 'joke_id=' + joke_id + '&submit=submit',
-            type: 'POST',
-            success: function(response) {
-                $(this).siblings('.popover').find('.popover-content').html(response)
-                FB.XFBML.parse(this.parentNode);
-            }
-        });
+    //$(document).on('inserted.bs.popover', '.share', function() {
+    //    var joke_id = $(this).attr('id');
+    //    $.ajax({
+    //        context: this,
+    //        url: '/jokes/get-share-buttons/',
+    //        data: 'joke_id=' + joke_id + '&submit=submit',
+    //        type: 'POST',
+    //        success: function(response) {
+    //            $(this).siblings('.popover').find('.popover-content').html(response)
+    //            FB.XFBML.parse(this.parentNode);
+    //        }
+    //    });
+    //});
+
+    /*******************************************************************
+    * click event - show/blur joke answer
+    *******************************************************************/
+    $(document).on('click', '.joke-answer', function() {
+        if ($(this).hasClass('text-blurred')) {
+            $(this).removeClass('text-blurred');
+        } else {
+            $(this).addClass('text-blurred');
+        }
     });
 
     /*******************************************************************
@@ -417,25 +421,27 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
-    * click event - ajax call load more jokes 
+    * scroll event - ajax call load more jokes 
     *******************************************************************/
-    $(window).on('scroll', function() {
-        if($(window).scrollTop() + $(window).height() == $(document).height()) {
-            var page = +$('#page-number').val() + 1;
-            $.ajax({
-                url: window.location.pathname + '?page=' + page,
-                type: "GET",
-                beforeSend: function() {
-                    //show loading icon
-                },
-                success: function(response) {
-                    $('.masonry').append($('.masonry', response).html());
-                    page += 1;
-                    $('#page-number').val(page);
+    var path = window.location.pathname;
+    if (path.indexOf('/jokes') != -1 || path.indexOf('/search') != -1) {
+        $(window).on('scroll', function() {
+            if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                if (+$('#page-number').val() < +$('#max-pages').val()) {
+                    $('#joke-loader').html('<i class="fa fa-spinner fa-pulse"></i>');
+                    $.ajax({
+                        url: window.location.pathname + '?page=' + (+$('#page-number').val() + 1),
+                        type: "GET",
+                        success: function(response) {
+                            $('.masonry').append($('.masonry', response).html());
+                            $('#page-number').val(+$('#page-number').val() + 1);
+                            $('#joke-loader').html('');
+                        }
+                    });
                 }
-            });
-        }
-    });
+            }
+        });
+    }
 
     /*******************************************************************
     * click event - toggle reset password / sign in form

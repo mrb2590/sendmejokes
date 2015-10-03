@@ -54,7 +54,7 @@
                 <?php endforeach ?>
                 <div class="item">
                     <div class="panel" id="<?php echo $joke->joke_id ?>">
-                        <div class="panel-body">
+                        <div class="panel-body no-select">
                             <p class="joke">
                                 <?php if($searchflag): ?>
                                     <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->joke) ?>
@@ -63,17 +63,17 @@
                                 <?php endif ?>
                             </p>
                             <?php if ($joke->answer): ?>
-                                <p class="joke-answer">
-                                <?php if($searchflag): ?>
-                                    <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->answer) ?>
-                                <?php else: ?>
-                                    <?php echo $joke->answer ?>
-                                <?php endif ?>
+                                <p class="joke-answer text-blurred">
+                                    <?php if($searchflag): ?>
+                                        <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->answer) ?>
+                                    <?php else: ?>
+                                        <?php echo $joke->answer ?>
+                                    <?php endif ?>
                                 </p>
                             <?php endif ?>
                         </div><!-- /.panel-body -->
                         <div class="panel-footer no-select">
-                            <i class="fa fa-tags categories" tabindex="0" data-trigger="focus"></i>
+                            <i class="fa fa-tags categories" tabindex="0"></i>
                             <div class="categories-popover" style="display: none">
                                 <?php $i = 0 ?>
                                 <?php foreach($jokeCategories as $jokeCategory): ?>
@@ -83,10 +83,25 @@
                                     <?php endif ?>
                                 <?php endforeach ?>
                             </div><!-- /#categories-popover -->
-                            <i class="fa fa-share-alt-square share" id="<?php echo $joke->joke_id ?>" tabindex="0" data-trigger="focus"></i>
+                            <?php
+                                $joke->joke = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->joke));
+                                $joke->joke = preg_replace('/"/', '%22', $joke->joke);
+                                $joke->answer = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->answer));
+                                $joke->answer = preg_replace('/"/', '%22', $joke->answer);
+                                $emailSubject = '?subject=Check out this joke from SendMeJokes!';
+                                $emailBody = '&amp;body=' . $joke->joke . '%0A';
+                                $emailBody .= trim(preg_replace('/\s+/', ' ', $joke->answer)) . '%0A%0A';
+                                $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com';
+                                $email = $emailSubject . $emailBody;
+                            ?>
+                            <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope-o"></i></a>
+                            <a class="share" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>"><i class="fa fa-fb-official"></i></a>
+                            <?php /* removing share popover
+                            <i class="fa fa-share-alt-square share" id="<?php echo $joke->joke_id ?>" tabindex="0"></i>
                             <div class="share-popover" style="display: none">
                                 <i class="fa fa-spinner fa-pulse fa-fw"></i>
                             </div><!-- /#share-popover -->
+                            */ ?>
                             <span class="pull-right">
                                 <i class="fa <?php echo $thumbsUp ?> vote up-vote"></i>
                                 <span class="vote-count"><?php echo $voteCount ?></span>
@@ -99,9 +114,10 @@
         </div><!-- /.row -->
 
         <div class="page-footer">
-            <input id="page-number" value="1">
-            <button id="load-more-btn">Load More</button>
-            <?php if(!$jokeflag && $maxPages > 1): ?>
+            <input type="hidden" id="max-pages" value="<?php echo $maxPages ?>">
+            <input type="hidden" id="page-number" value="1">
+            <span id="joke-loader"></span>
+            <?php /* PAGINATION if(!$jokeflag && $maxPages > 1): ?>
                 <nav>
                     <ul class="pagination pagination-md">
                         <li <?php if($page == 1): ?>class="disabled"<?php endif ?>>
@@ -119,7 +135,7 @@
                         </li>
                     </ul>
                 </nav>
-            <?php endif ?>
+            <?php endif */ ?>
         </div><!-- /.page-footer -->
     <?php endif ?>
 </div><!-- /.contianer -->

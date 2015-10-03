@@ -25,6 +25,10 @@ input::-moz-focus-inner {
 /*******************************************************************
 * ---HELPER CLASSES---
 *******************************************************************/
+.text-blurred {
+    color: transparent !important;
+    text-shadow: rgba(0, 0, 0, 0.95) 0px 0px 10px !important;
+}
 .highlight {
     background-color: #fef375;
 }
@@ -51,6 +55,7 @@ input::-moz-focus-inner {
                 transform: translate(-50%, -50%);
     }
 .no-select {
+    cursor: default;
     -webkit-touch-callout: none;
       -webkit-user-select: none;
        -khtml-user-select: none;
@@ -954,7 +959,12 @@ fieldset[disabled] .btn-danger.active {
     padding-top: 9px;
     margin-top: 0;
     text-align: center;
+    min-height: 60px;
 }
+    .page-footer #joke-loader {
+        font-size: 28px;
+        color: #fff;
+    }
 
 /*******************************************************************
 * ---BOOTSTRAP POPOVER---
@@ -985,7 +995,7 @@ fieldset[disabled] .btn-danger.active {
             padding-right: 6px;
         }
 /*******************************************************************
-* ---FAVICONS---
+* ---ICONS---
 *******************************************************************/
 .fa-thumbs-up {
     color: #5cb85c;
@@ -996,4 +1006,16 @@ fieldset[disabled] .btn-danger.active {
 .fa-share-alt,
 .fa-share-alt-square {
     color: #5cb85c;
+}
+.fa-thumbs-up {
+    color: #5cb85c;
+}
+.fa-tags {
+    color: #333;
+}
+.fa-envelope {
+    color: #333;
+}
+.fa-fb-official {
+    color: #3a5795;
 }

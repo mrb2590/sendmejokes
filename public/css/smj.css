@@ -211,8 +211,9 @@ html, body {
     margin: 0 auto;
     max-width: 1471px;
     padding: 15px 0;
+    font-size: 18px;
     -webkit-column-width: 18em;
-       -moz-column-width: 18em;
+       -moz-column-width: 15em;
     -webkit-column-gap:1em;
        -moz-column-gap: 1em;
 }
@@ -222,7 +223,7 @@ html, body {
         width:  100%; 
     }
     .masonry .panel-footer {
-        font-size: 18px;
+        font-size: 20px;
         cursor: default;
     }
         .masonry .panel-footer i {
@@ -248,4 +249,13 @@ html, body {
 
 #update-jokes-well {
     min-height: 224px;
+}
+
+.joke-answer {
+    cursor: pointer;
+    -webkit-transition: all 0.6s ease;
+       -moz-transition: all 0.6s ease;
+        -ms-transition: all 0.6s ease;
+         -o-transition: all 0.6s ease;
+            transition: all 0.6s ease;
 }
