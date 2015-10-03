@@ -122,6 +122,7 @@ class JokeTable
         if (!$resultSet->current()) {
             throw new \Exception("No results found");
         }
+                //$resultSet->toArray();
         return $resultSet;
     }
 

@@ -55,9 +55,21 @@
                 <div class="item">
                     <div class="panel" id="<?php echo $joke->joke_id ?>">
                         <div class="panel-body">
-                            <p class="joke"><?php echo $joke->joke ?></p>
+                            <p class="joke">
+                                <?php if($searchflag): ?>
+                                    <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->joke) ?>
+                                <?php else: ?>
+                                    <?php echo $joke->joke ?>
+                                <?php endif ?>
+                            </p>
                             <?php if ($joke->answer): ?>
-                                <p class="joke-answer"><?php echo $joke->answer ?></p>
+                                <p class="joke-answer">
+                                <?php if($searchflag): ?>
+                                    <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->answer) ?>
+                                <?php else: ?>
+                                    <?php echo $joke->answer ?>
+                                <?php endif ?>
+                                </p>
                             <?php endif ?>
                         </div><!-- /.panel-body -->
                         <div class="panel-footer no-select">
