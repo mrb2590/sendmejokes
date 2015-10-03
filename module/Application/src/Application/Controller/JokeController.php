@@ -35,7 +35,7 @@ class JokeController extends ApplicationController
         $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
-        $limit = (isset($l)) ? (int) $l : 30;
+        $limit = (isset($l)) ? (int) $l : 10;
         $page = (isset($p)) ? (int) $p : 1;
 
         //filter by joke id or category if passed in route

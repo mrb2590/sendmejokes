@@ -417,6 +417,27 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * click event - ajax call load more jokes 
+    *******************************************************************/
+    $(window).on('scroll', function() {
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            var page = +$('#page-number').val() + 1;
+            $.ajax({
+                url: window.location.pathname + '?page=' + page,
+                type: "GET",
+                beforeSend: function() {
+                    //show loading icon
+                },
+                success: function(response) {
+                    $('.masonry').append($('.masonry', response).html());
+                    page += 1;
+                    $('#page-number').val(page);
+                }
+            });
+        }
+    });
+
+    /*******************************************************************
     * click event - toggle reset password / sign in form
     *******************************************************************/
     $(document).on('click', '.forgot-password-link', function(e) {
