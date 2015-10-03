@@ -91,11 +91,48 @@ class JokeTable
         $page = (int) $page;
         $offset = $limit * ($page - 1);
 
-        $where = new Where();
-        $where->nest->like('joke', '%' . $search . '%')->or->like('answer', '%' . $search . '%')->unnest;
-        $resultSet = $this->tableGateway->select($where);
+        //$where = new Where();
+        //$where->nest->like('joke', '%' . $search . '%')->or->like('answer', '%' . $search . '%')->unnest;
+        //$resultSet = $this->tableGateway->select($where);
+
+
+        $resultSet = $this->tableGateway->select(function (Select $select) use ($limit, $offset, $search) {
+            $select->where->nest->like('joke', '%' . $search . '%')->or->like('answer', '%' . $search . '%')->unnest;
+            $select->limit($limit)->offset($offset);
+        });
+
         $resultSet->buffer();
+        if (!$resultSet->current()) {
+            throw new \Exception("No results found");
+        }
         return $resultSet;
+    }
+
+    /**
+     * @param string
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
+    public function getAllSearchResults($search)
+    {
+        $resultSet = $this->tableGateway->select(function (Select $select) use ($search) {
+            $select->where->nest->like('joke', '%' . $search . '%')->or->like('answer', '%' . $search . '%')->unnest;
+        });
+
+        $resultSet->buffer();
+        if (!$resultSet->current()) {
+            throw new \Exception("No results found");
+        }
+        return $resultSet;
+    }
+
+    /**
+     * @param string
+     * @return Zend\Db\ResultSet\ResultSet 
+     */
+    public function getAllSearchResultsCount($search)
+    {
+        $resultSet = $this->getAllSearchResults($search);
+        return $resultSet->count();
     }
 
     /**

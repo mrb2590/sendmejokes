@@ -26,6 +26,8 @@ class JokeController extends ApplicationController
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
+        $total = false;
+        $jokes = false;
         $searchflag = false;
         $jokeflag = false;
         $catflag = false;
@@ -47,15 +49,20 @@ class JokeController extends ApplicationController
             try {
                 $categoryObject = $this->getCategoryTable()->getCategoryByUrlName($category);
                 $message = "Success";
-            } catch (\Excepection $e) {
-                $message = $e;
+            } catch (\Exception $e) {
+                $message = "Category not found";
             }
             $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($categoryObject->cat_id, $limit, $page);
             $total = $this->getViewJokeCategoriesTable()->getJokeCountByCategory($categoryObject->cat_id);
         } elseif (isset($search)) {
             $searchflag = true;
-            $jokes = $this->getJokeTable()->getPaginatedSearchResults($search, $limit, $page);
-            $total = $this->getJokeTable()->getJokeCount();
+            try {
+                $jokes = $this->getJokeTable()->getPaginatedSearchResults($search, $limit, $page);
+                $total = $this->getJokeTable()->getAllSearchResultsCount($search);
+                $message = "Success";
+            } catch(\Exception $e) {
+                $message = "No results found";
+            }
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);
@@ -77,6 +84,8 @@ class JokeController extends ApplicationController
             'message'        => $message,
             'jokeflag'       => $jokeflag,
             'catflag'        => $catflag,
+            'searchflag'     => $searchflag,
+            'search'         => $search,
             'categoryObject' => $categoryObject,
             'page'           => $page,
             'maxPages'       => $maxPages,

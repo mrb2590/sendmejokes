@@ -246,7 +246,7 @@ class UserController extends ApplicationController
                 if (!$user) {
                     $message = "Invalid Credentials.";
                 } else {
-                    $message = $user->user_id;
+                    $message = $user->username;
                     
                     //set session
                     $this->saveUserSession($user);
