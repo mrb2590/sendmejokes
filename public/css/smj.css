@@ -214,7 +214,7 @@ html, body {
     font-size: 18px;
     -webkit-column-width: 18em;
        -moz-column-width: 15em;
-    -webkit-column-gap:1em;
+    -webkit-column-gap: 1em;
        -moz-column-gap: 1em;
 }
     .masonry .item {
