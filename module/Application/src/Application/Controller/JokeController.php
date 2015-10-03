@@ -33,7 +33,7 @@ class JokeController extends ApplicationController
         $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
-        $limit = (isset($l)) ? (int) $l : 10;
+        $limit = (isset($l)) ? (int) $l : 30;
         $page = (isset($p)) ? (int) $p : 1;
 
         //filter by joke id or category if passed in route
@@ -52,10 +52,10 @@ class JokeController extends ApplicationController
             }
             $jokes = $this->getViewJokeCategoriesTable()->fetchPaginatedByCategory($categoryObject->cat_id, $limit, $page);
             $total = $this->getViewJokeCategoriesTable()->getJokeCountByCategory($categoryObject->cat_id);
-        //} elseif (isset($search)) {
-        //    $searchflag = true;
-        //    $jokes = $this->getJokeTable()->getPaginatedSearchResults($search, $limit, $page);
-        //    $total = $this->getJokeTable()->getJokeCount();
+        } elseif (isset($search)) {
+            $searchflag = true;
+            $jokes = $this->getJokeTable()->getPaginatedSearchResults($search, $limit, $page);
+            $total = $this->getJokeTable()->getJokeCount();
         } else {
             //get all jokes paginated
             $jokes = $this->getJokeTable()->fetchPaginated($limit, $page);

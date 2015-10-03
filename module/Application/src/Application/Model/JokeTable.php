@@ -92,7 +92,7 @@ class JokeTable
         $offset = $limit * ($page - 1);
 
         $where = new Where();
-        $where->like('joke', $search . '%');
+        $where->nest->like('joke', '%' . $search . '%')->or->like('answer', '%' . $search . '%')->unnest;
         $resultSet = $this->tableGateway->select($where);
         $resultSet->buffer();
         return $resultSet;
