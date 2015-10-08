@@ -209,13 +209,13 @@ html, body {
 
 .row.masonry {
     margin: 0 auto;
-    max-width: 1471px;
-    padding: 15px 0;
     font-size: 18px;
-    -webkit-column-width: 18em;
-       -moz-column-width: 15em;
-    -webkit-column-gap: 1em;
-       -moz-column-gap: 1em;
+    -webkit-column-width: 300px;
+       -moz-column-width: 300px;
+            column-width: 300px;
+    -webkit-column-gap: 18px;
+       -moz-column-gap: 18px;
+            column-gap: 18px;
 }
     .masonry .item {
         display: inline-block;

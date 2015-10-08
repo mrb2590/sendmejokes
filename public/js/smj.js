@@ -423,9 +423,9 @@ function bindEventListeners() {
     /*******************************************************************
     * scroll event - ajax call load more jokes 
     *******************************************************************/
-    var path = window.location.pathname;
-    if (path.indexOf('/jokes') != -1 || path.indexOf('/search') != -1) {
-        $(window).on('scroll', function() {
+    if (window.location.pathname.indexOf('/jokes') != -1 || window.location.pathname.indexOf('/search') != -1) {
+        $(window).on('scroll', function(e) {
+            e.stopPropagation()
             if($(window).scrollTop() + $(window).height() == $(document).height()) {
                 if (+$('#page-number').val() < +$('#max-pages').val()) {
                     $('#joke-loader').html('<i class="fa fa-spinner fa-pulse"></i>');
@@ -433,7 +433,7 @@ function bindEventListeners() {
                         url: window.location.pathname + '?page=' + (+$('#page-number').val() + 1),
                         type: "GET",
                         success: function(response) {
-                            $('.masonry').append($('.masonry', response).html());
+                            $('.masonry').last().after($('.masonry', response)[0].outerHTML);
                             $('#page-number').val(+$('#page-number').val() + 1);
                             $('#joke-loader').html('');
                         }
