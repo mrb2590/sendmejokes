@@ -31,6 +31,7 @@ class UserExcludeCategoriesTable
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
+        $resultSet->buffer();
         return $resultSet;
     }
 
@@ -41,6 +42,7 @@ class UserExcludeCategoriesTable
     public function getUserExcludeCategories(User $user)
     {
         $resultSet = $this->tableGateway->select(array('user_id' => $user->user_id));
+        $resultSet->buffer();
         return $resultSet;
     }
 

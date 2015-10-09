@@ -17,6 +17,7 @@ use Application\Model\UserExcludeCategory;
 use Application\Model\JokeCategory;
 use Application\Model\ViewUserCategory;
 use Application\Model\ViewJokeCategory;
+use Application\Model\UserSentJoke;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container as SessionContainer;
@@ -67,6 +68,11 @@ class ApplicationController extends AbstractActionController
      * @var Application\Model\ViewJokeCategoriesTable
      */
     protected $viewJokeCategoriesTable;
+
+    /**
+     * @var Application\Model\UserSentJokesTable
+     */
+    protected $userSentJokesTable;
 
     /**
      * @return Application\Model\JokeTable
@@ -174,6 +180,18 @@ class ApplicationController extends AbstractActionController
             $this->viewJokeCategoriesTable = $sm->get('Application\Model\ViewJokeCategoriesTable');
         }
         return $this->viewJokeCategoriesTable;
+    }
+
+    /**
+     * @return Application\Model\UserSentJokesTable
+     */
+    public function getUserSentJokesTable()
+    {
+        if (!$this->userSentJokesTable) {
+            $sm = $this->getServiceLocator();
+            $this->userSentJokesTable = $sm->get('Application\Model\UserSentJokesTable');
+        }
+        return $this->userSentJokesTable;
     }
 
     /**

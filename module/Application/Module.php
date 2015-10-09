@@ -26,6 +26,8 @@ use Application\Model\ViewUserCategory;
 use Application\Model\ViewUserCategoriesTable;
 use Application\Model\ViewJokeCategory;
 use Application\Model\ViewJokeCategoriesTable;
+use Application\Model\UserSentJoke;
+use Application\Model\UserSentJokesTable;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
@@ -233,6 +235,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Vote());
                     return new TableGateway('vote', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\UserSentJokesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('UserSentJokesTableGateway');
+                    $table = new UserSentJokesTable($tableGateway);
+                    return $table;
+                },
+                'UserSentJokesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new UserSentJoke());
+                    return new TableGateway('user_sent_jokes', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
