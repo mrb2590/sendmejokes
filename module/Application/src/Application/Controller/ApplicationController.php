@@ -13,6 +13,7 @@ use Application\Model\User;
 use Application\Model\Category;
 use Application\Model\Vote;
 use Application\Model\UserCategory;
+use Application\Model\UserExcludeCategory;
 use Application\Model\JokeCategory;
 use Application\Model\ViewUserCategory;
 use Application\Model\ViewJokeCategory;
@@ -46,6 +47,11 @@ class ApplicationController extends AbstractActionController
      * @var Application\Model\UserCategoriesTable
      */
     protected $userCategoriesTable;
+
+    /**
+     * @var Application\Model\UserExcludeCategoriesTable
+     */
+    protected $userExcludeCategoriesTable;
 
     /**
      * @var Application\Model\JokeCategoriesTable
@@ -120,6 +126,18 @@ class ApplicationController extends AbstractActionController
             $this->userCategoriesTable = $sm->get('Application\Model\UserCategoriesTable');
         }
         return $this->userCategoriesTable;
+    }
+
+    /**
+     * @return Application\Model\UserExcludeCategoriesTable
+     */
+    public function getUserExcludeCategoriesTable()
+    {
+        if (!$this->userExcludeCategoriesTable) {
+            $sm = $this->getServiceLocator();
+            $this->userExcludeCategoriesTable = $sm->get('Application\Model\UserExcludeCategoriesTable');
+        }
+        return $this->userExcludeCategoriesTable;
     }
 
     /**

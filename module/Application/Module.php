@@ -18,6 +18,8 @@ use Application\Model\Vote;
 use Application\Model\VoteTable;
 use Application\Model\UserCategory;
 use Application\Model\UserCategoriesTable;
+use Application\Model\UserExcludeCategory;
+use Application\Model\UserExcludeCategoriesTable;
 use Application\Model\JokeCategory;
 use Application\Model\JokeCategoriesTable;
 use Application\Model\ViewUserCategory;
@@ -176,6 +178,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new UserCategory());
                     return new TableGateway('user_categories', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Application\Model\UserExcludeCategoriesTable' =>  function($sm) {
+                    $tableGateway = $sm->get('UserExcludeCategoriesTableGateway');
+                    $table = new UserExcludeCategoriesTable($tableGateway);
+                    return $table;
+                },
+                'UserExcludeCategoriesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new UserExcludeCategory());
+                    return new TableGateway('user_exclude_categories', $dbAdapter, null, $resultSetPrototype);
                 },
                 'Application\Model\JokeCategoriesTable' =>  function($sm) {
                     $tableGateway = $sm->get('JokeCategoriesTableGateway');

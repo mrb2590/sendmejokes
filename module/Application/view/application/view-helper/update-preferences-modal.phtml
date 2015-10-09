@@ -14,6 +14,14 @@
                     <input type="hidden" name="email" value="">
                     <?php $i = 0 ?>
                     <?php foreach($categories as $category): ?>
+                        <?php if(isset($session->viewUserCategories)): ?>
+                            <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                    <?php $checked = ($viewUserCategory->name == $category->name) ? true : false ?>
+                            <?php endforeach ?>
+                            <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                    <?php $exclude = ($viewUserExcludeCategory->name == $category->name) ? true : false ?>
+                            <?php endforeach ?>
+                        <?php endif ?>
                         <?php if ($i % 4 === 0): ?>
                             <?php if ($i !== 0): ?>
                                 </div>
@@ -32,15 +40,8 @@
                                     ">
                                     <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                     <div class="checkbox-tile-hidden">
-                                         <input type="checkbox" name="category[<?php echo $category->name ?>]"
-                                            <?php if(isset($session->viewUserCategories)): ?>
-                                                <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
-                                                    <?php if($viewUserCategory->name == $category->name): ?>
-                                                        checked="true"
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            <?php endif ?>
-                                        value="<?php echo $category->cat_id ?>">
+                                         <input type="checkbox" name="category[<?php echo $category->name ?>]" <?php echo ($checked) ? 'checked="true"' ?> value="<?php echo $category->cat_id ?>" class="add-category">
+                                         <input type="checkbox" name="excludeCategory[<?php echo $category->name ?>]" <?php echo ($exclude) ? 'checked="true"' ?> value="<?php echo $category->cat_id ?>" class="exclude-category">
                                     </div><!-- /.checkbox-tile-hidden -->
                                 </div><!--  /.checkbox-tile -->
                             </div><!-- /.col -->

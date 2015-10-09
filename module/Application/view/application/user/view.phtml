@@ -9,10 +9,19 @@
                 <?php $i = 0 ?>
                 <?php foreach($categories as $category): ?>
                     <?php $match = false ?>
+                    <?php $excludeMatch = false ?>
                     <?php if(isset($session->viewUserCategories)): ?>
                         <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
                             <?php if($viewUserCategory->name == $category->name): ?>
                                 <?php $match = true ?>
+                                <?php continue ?>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
+                    <?php if(isset($session->userExcludeCategories)): ?>
+                        <?php foreach($session->userExcludeCategories as $userExcludeCategory): ?>
+                            <?php if($userExcludeCategory->cat_id == $category->cat_id): ?>
+                                <?php $excludeMatch = true ?>
                                 <?php continue ?>
                             <?php endif ?>
                         <?php endforeach ?>
@@ -24,10 +33,11 @@
                         <div class="row">
                     <?php endif; ?>
                         <div class="col-sm-3">
-                            <div class="checkbox-tile <?php echo ($match) ? 'checked' : '' ?>">
+                            <div class="checkbox-tile add-exclude <?php if($match): echo 'checked'; elseif($excludeMatch): echo 'exclude'; endif ?>">
                                 <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                 <div class="checkbox-tile-hidden">
-                                     <input type="checkbox" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                    <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                    <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" <?php echo ($excludeMatch) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
                                 </div><!-- /.checkbox-tile-hidden -->
                             </div><!--  /.checkbox-tile -->
                         </div><!-- /.col -->

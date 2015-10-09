@@ -464,7 +464,9 @@ function bindEventListeners() {
     *******************************************************************/
     $(document).on('click', '.checkbox-tile', function(e) {
         e.preventDefault();
-        toggleTile($(this));
+        var exclude = ($(this).hasClass('add-exclude')) ? true : false;
+        console.log(exclude);
+        toggleTile($(this), exclude);
     });
 
     /*******************************************************************
@@ -556,13 +558,20 @@ function alertModal(title, text) {
 /*******************************************************************
 * function - toggle checkbox tile
 *******************************************************************/
-function toggleTile(checkboxTile) {
+function toggleTile(checkboxTile, excludeFlag) {
     if (checkboxTile.hasClass('checked')) {
         checkboxTile.removeClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').prop('checked', false);
+        checkboxTile.children().children('input.add-category').prop('checked', false);
+        if (excludeFlag) {
+            checkboxTile.addClass('exclude');
+            checkboxTile.children().children('input.exclude-category').prop('checked', true);
+        }
+    } else if (excludeFlag && checkboxTile.hasClass('exclude')) {
+        checkboxTile.removeClass('exclude');
+        checkboxTile.children().children('input.exclude-category').prop('checked', false);
     } else {
         checkboxTile.addClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').prop('checked', true);
+        checkboxTile.children().children('input.add-category').prop('checked', true);
     }
 }
 
@@ -572,7 +581,7 @@ function toggleTile(checkboxTile) {
 function checkTile(checkboxTile) {
     if (!checkboxTile.hasClass('checked')) {
         checkboxTile.addClass('checked');
-        checkboxTile.children().children('input[type="checkbox"]').prop('checked', true);
+        checkboxTile.children().children('input.add-category').prop('checked', true);
     }
 }
 

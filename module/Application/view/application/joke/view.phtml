@@ -26,7 +26,7 @@
             </div><!-- /.row -->
         </div><!-- /.container -->
     <?php else: ?>
-        <div class="row masonry <?php if($totalOnPage == 1): ?>max-500<?php elseif($totalOnPage == 2): ?>max-783<?php elseif($totalOnPage == 3): ?>max-1049<?php elseif($totalOnPage == 4):?>max-1315<?php endif ?>">
+        <div class="row masonry">
             <?php foreach($jokes as $joke): ?>
                 <?php $joke->joke = trim(preg_replace('/[\r|\n]+/', '<br>', $joke->joke)) //replace newlines with HTML breaks ?>
                 <?php /*-- get total vote count for current joke --*/ ?>
@@ -91,7 +91,7 @@
                                 $emailSubject = '?subject=Check out this joke from SendMeJokes!';
                                 $emailBody = '&amp;body=' . $joke->joke . '%0A';
                                 $emailBody .= trim(preg_replace('/\s+/', ' ', $joke->answer)) . '%0A%0A';
-                                $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com';
+                                $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com/jokes';
                                 $email = $emailSubject . $emailBody;
                             ?>
                             <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope-o"></i></a>

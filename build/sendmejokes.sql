@@ -23,6 +23,15 @@ CREATE TABLE user_categories (
     FOREIGN KEY (cat_id)  REFERENCES category(cat_id)
 ) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
 
+CREATE TABLE user_exclude_categories (
+    id        INT(8)     NOT NULL    AUTO_INCREMENT,
+    user_id   CHAR(13)   NOT NULL,
+    cat_id    INT(8)     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (cat_id)  REFERENCES category(cat_id)
+) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
+
 CREATE TABLE joke (
     joke_id   INT(8)          NOT NULL    AUTO_INCREMENT,
     joke      VARCHAR(5000)   NOT NULL,

@@ -10,6 +10,7 @@ namespace Application\Controller;
 
 use Application\Model\User;
 use Application\Model\UserCategory;
+use Application\Model\UserExcludeCategory;
 use Application\Model\ViewUserCategory;
 use Application\Model\Vote;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -87,6 +88,16 @@ class UserController extends ApplicationController
             $i++;
         }
 
+        //save UserExcludeCategories
+        $userExcludeCategories = $this->getUserExcludeCategoriesTable()->getUserExcludeCategories($user);
+        $i = 0;
+        $this->session->userExcludeCategories = array();
+        foreach ($userExcludeCategories as $userExcludeCategory) {
+            $this->session->userExcludeCategories[$i] = new UserCategory();
+            $this->session->userExcludeCategories[$i] = $userExcludeCategory;
+            $i++;
+        }
+
         //save ViewUserCategories
         $viewUserCategories = $this->getViewUserCategoriesTable()->getUserCategories($user);
         $i = 0;
@@ -103,11 +114,7 @@ class UserController extends ApplicationController
      */
     public function destroyUserSession() {
         $this->session = new SessionContainer('user');
-        $this->session->auth = false;
-        unset($this->session->user);
-        unset($this->session->userCategories);
-        unset($this->session->viewUserCategories);
-        unset($this->session->userVotes);
+        $this->session->getManager()->getStorage()->clear('user');
     }
 
     /**
@@ -127,6 +134,7 @@ class UserController extends ApplicationController
         $password = $this->getRequest()->getPost('password');
         $password2 = $this->getRequest()->getPost('password2');
         $categories = $this->getRequest()->getPost('category');
+        $excludeCategories = $this->getRequest()->getPost('excludeCategory');
         $submit = $this->getRequest()->getPost('submit');
 
         $valid = false;
@@ -169,6 +177,16 @@ class UserController extends ApplicationController
                         $userCategory->user_id = $newUser->user_id;
                         $userCategory->cat_id = (int) $cat_id;
                         $this->getUserCategoriesTable()->addUserCategory($userCategory);
+                    }
+                }
+
+                //add user exclude categories to db
+                if (isset($excludeCategories)) {
+                    foreach ($excludeCategories as $name => $cat_id) {
+                        $userExcludeCategory = new UserExcludeCategory();
+                        $userExcludeCategory->user_id = $newUser->user_id;
+                        $userExcludeCategory->cat_id = (int) $cat_id;
+                        $this->getUserExcludeCategoriesTable()->addUserExcludeCategory($userExcludeCategory);
                     }
                 }
 
@@ -283,6 +301,7 @@ class UserController extends ApplicationController
         $deleteAccount = $this->getRequest()->getPost('delete-account');
         $submit = $this->getRequest()->getPost('submit');
         $categories = $this->getRequest()->getPost('category');
+        $excludeCategories = $this->getRequest()->getPost('excludeCategory');
 
         //validate
         if(!isset($this->session->user)) {
@@ -326,7 +345,8 @@ class UserController extends ApplicationController
         if ($valid) {
             if (isset($deleteAccount) && $deleteAccount == 1) {
                 //delete all categories first
-                $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);                
+                $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                 $this->getUserTable()->deleteUser($this->session->user->user_id);
                 $this->destroyUserSession();
                 $message = "Account deleted";
@@ -357,6 +377,8 @@ class UserController extends ApplicationController
 
                     //add user-categories to db
                     if ($categories != null) {
+                        //first delete all cats then replace
+                        $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                         foreach ($categories as $name => $cat_id) {
                             $userCategory = new UserCategory();
                             $userCategory->user_id = $updatedUser->user_id;
@@ -365,8 +387,25 @@ class UserController extends ApplicationController
                         }
                     }
 
+                    //add user-exclude-categories to db
+                    if ($excludeCategories != null) {
+                        //first delete all cats then replace
+                        $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                        foreach ($excludeCategories as $name => $cat_id) {
+                            $userExcludeCategory = new UserExcludeCategory();
+                            $userExcludeCategory->user_id = $updatedUser->user_id;
+                            $userExcludeCategory->cat_id = (int) $cat_id;
+                            $this->getUserExcludeCategoriesTable()->addUserExcludeCategory($userExcludeCategory);
+                        }
+                    }
+
                     $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
-                    $message = "Username updated";
+
+                    if ($username != '') {
+                        $message = "Username updated";
+                    } else {
+                        $message = "Success";
+                    }
                 } catch (\Exception $e) {
                     $message = $e->getMessage();
                 }

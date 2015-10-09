@@ -59,10 +59,11 @@
                             <div class="row">
                         <?php endif; ?>
                             <div class="col-sm-3">
-                                <div class="checkbox-tile">
+                                <div class="checkbox-tile add-exclude">
                                     <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                     <div class="checkbox-tile-hidden">
-                                        <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                        <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                        <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
                                     </div><!-- /.checkbox-tile-hidden -->
                                 </div><!--  /.checkbox-tile -->
                             </div><!-- /.col -->
