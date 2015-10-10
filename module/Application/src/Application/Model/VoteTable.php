@@ -52,8 +52,8 @@ class VoteTable
      */
     public function getVotesByJoke($joke_id)
     {
-        $joke_id  = (int) $joke_id;
         $resultSet = $this->tableGateway->select(array('joke_id' => $joke_id));
+        $resultSet->buffer();
         return $resultSet;
     }
 
