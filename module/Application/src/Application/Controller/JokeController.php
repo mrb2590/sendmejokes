@@ -27,6 +27,7 @@ class JokeController extends ApplicationController
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
+        $userVotes = array();
         $total = false;
         $jokes = false;
         $searchflag = false;
