@@ -23,6 +23,7 @@ class JokeController extends ApplicationController
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
+        $userVotes = (isset($this->session->user)) ? $this->getVoteTable()->getVotesByUser($this->session->user->user_id): false;
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
@@ -91,6 +92,7 @@ class JokeController extends ApplicationController
             'maxPages'       => $maxPages,
             'total'          => $total,
             'totalOnPage'    => $totalOnPage,
+            'userVotes'      => $userVotes,
         ));
     }
 
@@ -134,8 +136,7 @@ class JokeController extends ApplicationController
         }
 
         if ($valid) {
-
-            //update vote exists in session already, update it
+            //if vote exists in session already, update it
             $voteExists = false;
             $i = 0;
             foreach($this->session->userVotes as $key => $userVote) {
@@ -145,15 +146,65 @@ class JokeController extends ApplicationController
                 }
                 $i++;
             }
-
-            //if it doesnt exist is session, add it
+            //if it doesnt exist in session, add it
             if (!$voteExists) {
                 $this->session->userVotes[$i + 1] = $vote;
             }
-
             $this->getVoteTable()->vote($vote);
             $message = "Success";
         }
+
+        return new ViewModel(array(
+            'message' => $message
+        ));
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function emailVoteAction()
+    {
+        $key = $this->params()->fromQuery('k');
+        $email = $this->params()->fromQuery('email');
+        $joke_id = (int) $this->params()->fromQuery('joke_id');
+        $userVote = (int) $this->params()->fromQuery('vote');
+
+        //validate
+        if (!$this->validateInput($key, '')) {
+            $valid = false;
+            $message = "Invalid key";
+        } elseif (!$this->validateInput($email, 'email')) {
+            $valid = false;
+            $message = "Invalid email";
+        } elseif (!$this->validateInput($joke_id, '')) {
+            $valid = false;
+            $message = "Invalid joke ID";
+        } elseif (!$this->validateInput($userVote, '')) {
+            $valid = false;
+            $message = "Invalid vote";
+        } else {
+            //get user id from table and check agaisnt $key
+            $user = $this->getUserTable()->getUserByEmail($email);
+            if (hash('sha256', $user->user_id) != $key) {
+                $valid = false;
+                $message = "Invalid request";
+            } else {
+                $valid = true;
+            }
+        }
+
+        //if valid save the vote
+        if ($valid) {
+            $vote = new Vote();
+            $vote->joke_id = $joke_id;
+            $vote->user_id = $user->user_id;
+            $vote->vote = $userVote;
+            $this->getVoteTable()->vote($vote);
+            $message = "Your vote has been saved.";
+        }
+
+
+        //$message = var_export($user, true);
 
         return new ViewModel(array(
             'message' => $message

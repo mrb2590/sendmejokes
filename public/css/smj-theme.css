@@ -25,6 +25,9 @@ input::-moz-focus-inner {
 /*******************************************************************
 * ---HELPER CLASSES---
 *******************************************************************/
+.fixed-position {
+    position: fixed !important;
+}
 .text-blurred {
     color: transparent !important;
     text-shadow: rgba(0, 0, 0, 0.95) 0px 0px 10px !important;

@@ -116,15 +116,22 @@ class ConsoleController extends ApplicationController
 
     function sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote)
     {
+        $logoSource = 'http://www.sendmejokes.com/img/logo-light.png';
+        $key = hash('sha256', $user->user_id);
+        //build categories string
+        $categoriesString = '';
+        foreach ($categories as $index => $category) {
+            $categoriesString .= ($index != 0) ? " | " . $category->name : $category->name;
+        }
+        //build headers, to, & subject
         $headers  = 'From: SendMeJokes <jokes@sendmejokes.com>' . "\r\n";
         $headers .= 'Reply-To: SendMeJokes <jokes@sendmejokes.com>' . "\r\n";
         $headers .= 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
         $to       = $user->email;
         $subject  = "Daily Joke from SendMeJokes!";
+        //build message
         $message  = '';
-        $logoSource = 'http://www.sendmejokes.com/img/logo-light.png';
-
         $message .= '<html>';
         $message .= '<body style="background-color: #fff; padding: 20px; font-family: Arial;">';
         $message .=     '<div style="text-align:center; width:100%; margin-bottom:15px"><img class="logo-img" src="' . $logoSource . '" style="height:50px; width:auto"></div>';
@@ -134,19 +141,11 @@ class ConsoleController extends ApplicationController
         $message .=         ($joke->answer != null) ? '<p>' . $joke->answer . '</p>' : '';
         $message .=     '</div>';
         $message .=     '<div style="width:100%; height:50px; border:1px solid #333; padding:15px">';
-        $message .=         '<span style="float:left; width:50%">';
-
-        //display categories
-        $i = 0;
-        foreach ($categories as $category) {
-            $message .= ($i != 0) ? " | " . $category->name : $category->name;
-            $i++;
-        }
-        $message .=         '</span>';
+        $message .=         '<span style="float:left; width:50%">' . $categoriesString . '</span>';
         $message .=         '<span style="float:right; width:50%">';
-        $message .=             '<a href="http://www.sendmejokes.com/jokes/vote-from-email?joke_id=' . $joke->joke_id . '&vote=1">UpVote</a>';
+        $message .=             '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">UpVote</a>';
         $message .=             ' ' . $voteSum . ' ';
-        $message .=             '<a href="http://www.sendmejokes.com/jokes/vote-from-email?joke_id=' . $joke->joke_id . '&vote=-1">DownVote</a>';
+        $message .=             '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">DownVote</a>';
         $message .=         '</span>';
         $message .=     '</div>';
         $message .= '</body>';

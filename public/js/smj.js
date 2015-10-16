@@ -541,8 +541,10 @@ function hideSidebar() {
 function toggleHamburgerIcon() {
     if ($('.c-hamburger').hasClass('is-active')) {
         $('.c-hamburger').removeClass('is-active');
+        $('.browse-button').removeClass('fixed-position');
     } else {
         $('.c-hamburger').addClass('is-active');
+        $('.browse-button').addClass('fixed-position');
     }
 }
 
