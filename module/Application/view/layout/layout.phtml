@@ -23,18 +23,31 @@
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') 
         ?>
     </head>
-    <body>        
-        <?php echo $this->sidebar() ?>
-        
-        <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
-            <img class="logo-img" src="/img/logo-light.png">
-        </a>
+    <body>
+        <div class="main-nav">
+            <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
+                <img class="logo-img" src="/img/logo.png">
+            </a>
+            
+            <form id="search-form" method="GET" action="<?php echo $this->url('search') ?>" class="hidden-xs">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="search" class="form-control" type="text" placeholder="Find a joke" name="search" value="">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div><!-- /.input-group -->
+                </div><!-- /.form-group -->
+            </form>
 
-        <div class="browse-button">
-            <button class="c-hamburger c-hamburger--htx">
-                <span>toggle menu</span>
-            </button>
-        </div><!-- /.browse-button -->
+            <div class="browse-button">
+                <button class="c-hamburger c-hamburger--htx">
+                    <span>toggle menu</span>
+                </button>
+            </div><!-- /.browse-button -->
+        </div><!-- /.main-nav -->
+
+        <?php echo $this->sidebar() ?>
 
         <div class="main full-height container-fluid">
 

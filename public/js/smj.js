@@ -381,12 +381,14 @@ function bindEventListeners() {
             type: "GET",
             cache: false,
             beforeSend: function() {
-                $('#update-jokes-well form').addClass('text-center');
-                $('#update-jokes-well form').css('line-height', '224px');
-                $('#update-jokes-well form').html('<i class="fa fa-spinner fa-pulse lg-font"></i>');
+                $('#update-jokes-categories-well .panel-body').addClass('text-center');
+                $('#update-jokes-categories-well .panel-body').css('line-height', '224px');
+                $('#update-jokes-categories-well .panel-body').html('<i class="fa fa-spinner fa-pulse lg-font"></i>');
+                $('#update-jokes-well').hide();
+                $('#update-jokes-categories-well').show();
             },
             success: function(response) {
-                $('#update-jokes-well').html($('#update-jokes-well', response).html());
+                $('#update-jokes-categories-well').html($('#update-jokes-categories-well', response).html());
             }
         });
     });
@@ -421,6 +423,17 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
+    * click event - ajax call reset update joke categories form
+    *******************************************************************/
+    $(document).on('click', '#update-jc-back-btn', function(e) {
+        e.preventDefault();
+        $('#hidden_joke_id').val('');
+        $('#joke_id2').val('');
+        $('#update-jokes-categories-well').hide();
+        $('#update-jokes-well').show();
+    });
+
+    /*******************************************************************
     * scroll event - ajax call load more jokes 
     *******************************************************************/
     if (window.location.pathname.indexOf('/jokes') != -1 || window.location.pathname.indexOf('/search') != -1) {
@@ -429,12 +442,13 @@ function bindEventListeners() {
             if($(window).scrollTop() + $(window).height() == $(document).height()) {
                 if (+$('#page-number').val() < +$('#max-pages').val()) {
                     $('#joke-loader').html('<i class="fa fa-spinner fa-pulse"></i>');
+                    var currentPage = $('#page-number').val();
+                    $('#page-number').val(+$('#page-number').val() + 1);
                     $.ajax({
-                        url: window.location.pathname + '?page=' + (+$('#page-number').val() + 1),
+                        url: window.location.pathname + '?page=' + (+currentPage + 1),
                         type: "GET",
                         success: function(response) {
                             $('.masonry').last().after($('.masonry', response)[0].outerHTML);
-                            $('#page-number').val(+$('#page-number').val() + 1);
                             $('#joke-loader').html('');
                         }
                     });

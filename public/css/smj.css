@@ -10,7 +10,7 @@ html, body {
     -o-background-size: cover;
     background-size: cover;
     */
-    background-color: #6c48a2;
+    background-color: #e0f2f1;
     height: 100%;
 }
 
@@ -18,9 +18,10 @@ html, body {
 * ---LAYOUT - sidebar--
 ************************************************/
 .sidebar {
+    padding-top: 118px;
     float: right;
     height: 100%;
-    background-color: #473168;
+    background-color: #e0f2f1;
     position: fixed;
     right: 0;
     width: 0px;
@@ -41,7 +42,7 @@ html, body {
     .sidebar .sidebar-head {
         width: 300px;
         position: fixed;
-        color: #f9f7da;
+        color: #5a5d6b;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         opacity: 100;
         padding: 26px;
@@ -58,15 +59,12 @@ html, body {
             .sidebar .sidebar-head .user-option {
                 font-size: 12px;
                 display: block;
-                color: #f9f7da;
+                color: #5a5d6b;
             }
             .sidebar .sidebar-head .sign-in-link {
-                color: #f9f7da;
+                color: #5a5d6b;
                 font-size: 24px;
                 line-height: 66px;
-            }
-            #search-form {
-                margin-top: 15px;
             }
         .sidebar .sidebar-head.sidebar-head-hidden {
             opacity: 0;
@@ -74,23 +72,23 @@ html, body {
     .sidebar .list-group {
         margin-top: 170px; /* 170px with search bar, 118px without */
         position: fixed;
-        height: calc(100% - 118px);
+        height: 100%;
         width: 100%;
         overflow: auto;
         border-radius: 0;
-        border-top: 1px solid #f9f7da;
+        border-top: 1px solid #5a5d6b;
     }
         .sidebar .list-group .list-group-item {
             background-color: rgba(0, 0, 0, 0);
             border-radius: 0;
             border-left: none;
             border-right: none;
-            border-color: #f9f7da;
+            border-color: #5a5d6b;
             padding: 15px 30px;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
             cursor: pointer;
             font-size: 20px;
-            color: #f9f7da;
+            color: #5a5d6b;
             -webkit-transition: all 0.15s ease;
                -moz-transition: all 0.15s ease;
                 -ms-transition: all 0.15s ease;
@@ -101,8 +99,8 @@ html, body {
                 border-top: none;
             }
         .sidebar .list-group .list-group-item:hover {
-            background-color: #f9f7da;
-            color: #333;
+            background-color: #283593;
+            color: #fff;
         }
 /* keeps transformicon in place when scrolling */
 .icon-open {
@@ -130,17 +128,43 @@ html, body {
     margin-left: 15px;
 }
     .logo-anchor .logo-img {
-        padding: 15px 0;
-        height: 118px;
+        height: 64px;
+        padding: 5px 0;
         width: auto;
     }
 
 .browse-button {
     float: right;
-    margin-top: 10px;
-    position: absolute;
+    position: fixed;
     right: 0;
     z-index: 1000;
+}
+.c-hamburger span::after {
+    bottom: -14px;
+}
+.c-hamburger span::before {
+    top: -14px;
+}
+.c-hamburger span::before,
+.c-hamburger span::after {
+    background-color: #fff;
+    height: 6px;
+}
+.c-hamburger span {
+    background: #fff none repeat scroll 0 0;
+    height: 6px;
+    top: 29px;
+}
+.c-hamburger {
+    width: 80px;
+    height: 64px;
+}
+#search-form {
+    float: right;
+    margin-right: 77px;
+    margin-top: 15px;
+    position: relative;
+    width: 300px;
 }
 
 /*******************************************************************

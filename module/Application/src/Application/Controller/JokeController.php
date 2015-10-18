@@ -23,11 +23,10 @@ class JokeController extends ApplicationController
     public function viewAction()
     {
         $this->session = new SessionContainer('user');
-        $userVotes = (isset($this->session->user)) ? $this->getVoteTable()->getVotesByUser($this->session->user->user_id): false;
+        $userVotes = (isset($this->session->user)) ? $this->getVoteTable()->getVotesByUser($this->session->user->user_id): array();
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
-        $userVotes = array();
         $total = false;
         $jokes = false;
         $searchflag = false;
@@ -234,6 +233,7 @@ class JokeController extends ApplicationController
             try {
                 $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke_id);
                 $joke = $this->getJokeTable()->getJoke($joke_id);
+                $message = (!$joke) ? "Could not find joke with ID " . $joke_id : "Success";
             } catch (\Exception $e) {
                 $joke = false;
                 $jokeCategories = false;
