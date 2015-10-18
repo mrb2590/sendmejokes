@@ -237,8 +237,10 @@ class JokeController extends ApplicationController
             } catch (\Exception $e) {
                 $joke = false;
                 $jokeCategories = false;
-                $message = 'Unable to find joke';;
+                $message = 'Unable to find joke';
             }
+        } else {
+            $message = 'Invalid request';
         }
 
         return new ViewModel(array(
