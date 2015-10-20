@@ -26,8 +26,11 @@ input::-moz-focus-inner {
 /*******************************************************************
 * ---HELPER CLASSES---
 *******************************************************************/
+.bold {
+    font-weight: bold;
+}
 .offset-nav {
-    padding-top: 64px !important;
+    padding-top: 69px !important;
 }
 .fixed-position {
     position: fixed !important;
@@ -46,7 +49,13 @@ input::-moz-focus-inner {
     height: 100%;
 }
 .light {
-    color: #f9f7da;
+    color: #fff;
+}
+.dark-primary {
+    color: #009688;
+}
+.dark-secondary {
+    color: #673ab7;
 }
 .middle-align-out {
     position: relative;
@@ -197,12 +206,18 @@ input::-moz-focus-inner {
 /*******************************************************************
 * ---CHECKBOX TILES---
 *******************************************************************/
-.checkbox-tile {
+.checkbox-tile-table {
     width: 100%;
-    height: 50px;
-    border: 1px solid #6c48a2;
+}
+.checkbox-tile-row {
+    height: 100px;
+}
+.checkbox-tile {
+    background-clip: padding-box !important;
+    border: 5px solid #e0f2f1;
+    width: 25%;
+    height: 100px;
     background-color: #fff;
-    margin-bottom: 10px;
     text-align: center;
     cursor: pointer;
     -webkit-transition: all 0.1s ease;
@@ -217,21 +232,30 @@ input::-moz-focus-inner {
           -ms-user-select: none;
               user-select: none;
 }
-    .checkbox-tile .checkbox-tile-label {
-        line-height: 50px;
+.checkbox-tile:hover {
+    background-color: #e0f2f1;
+}
+@media (max-width: 400px) {
+    .checkbox-tile {
+        font-size: 10px;
+        height: 50px;
     }
+    .checkbox-tile-row {
+        height: 50px;
+    }
+}
     .checkbox-tile .checkbox-tile-hidden {
         display: none;
     }
 .checkbox-tile.checked {
-    border: 1px solid #673ab7;
-    background-color: #009688;
     color: #fff;
+    background: #009688 url('/img/fa-check-transparency.png') no-repeat 50% 50%;
+    background-size: 50%;
 }
 .checkbox-tile.exclude {
-    border: 1px solid #009688;
-    background-color: #673ab7;
     color: #fff;
+    background: #673ab7 url('/img/fa-times-transparency.png') no-repeat 50% 50%;
+    background-size: 50%;
 }
 
 /*******************************************************************
@@ -255,6 +279,11 @@ input::-moz-focus-inner {
     background-color: #fff;
     border-radius: 0;
     border-top: 1px solid #009688;
+}
+@media (max-width: 767px) {
+    .panel-heading h2 {
+        font-size: 24px;
+    }
 }
 .panel-default > .panel-heading {
 }
@@ -305,7 +334,7 @@ input::-moz-focus-inner {
 .form-control {
     background-color: #fff;
     background-image: none;
-    border: 1px solid #673ab7;
+    border: 1px solid #009688;
     border-radius: 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
     color: #555;
@@ -318,13 +347,21 @@ input::-moz-focus-inner {
     width: 100%;
 }
 .form-control:focus {
-    border: 1px solid #673ab7;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(103, 58, 183, 0.6);
+    border: 1px solid #009688;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 150, 136, 0.6);
     outline: 0 none;
 }
 label {
     font-weight: 400;
 }
+.input-group .input-group-addon {
+    border-radius: 0;
+    background-color: #e0f2f1;
+    border-color: #009688;
+}
+    .input-group .input-group-addon i {
+        color: #673ab7 !important;
+    }
 
 /*******************************************************************
 * ---BOOTSTRAP MODALS---
@@ -334,29 +371,33 @@ label {
 }
     .modal .modal-content {
         border-radius: 0;
-        background-color: #ddd;
+        background-color: #fff;
     }
         .modal .modal-content .modal-header {
-            border-bottom: 1px solid #6c48a2;
+            border-bottom: 5px solid #673ab7;
+            background-color: #009688;
         }
             .modal .modal-content .modal-header .modal-title {
                 text-align: center;
+                color: #fff;
+                font-weight: bold;
             }
         .modal .modal-content .modal-footer {
-            border-top: 1px solid #6c48a2;
+            border-top: 1px solid #009688;
+            background-color: #e0f2f1;
         }
     .modal .modal-alert {
         text-align: center;
         font-weight: bold;
         width: 100%;
         display: none;
-        color: #6c48a2;
+        color: #673ab7;
         padding-top: 10px;
     }
     .modal .forgot-password-link,
     .modal .need-account-link {
         font-size: 12px;
-        color: #6c48a2;
+        color: #673ab7;
         display: table;
     }
 #alert-modal .modal-body {
@@ -483,28 +524,40 @@ fieldset[disabled] .btn-default.active {
     color: #fff;
 }
 .btn-primary {
-    text-shadow: 0 1px 0 #333;
-    background-color: #6C48A2;
-    border-color: #fff;
+    background-color: #009688;
+    border: 1px solid #009688;
     border-radius: 0;
-    color: #fff;
+    color: #fff !important;
     -webkit-transition: all 0.2s ease;
        -moz-transition: all 0.2s ease;
         -ms-transition: all 0.2s ease;
          -o-transition: all 0.2s ease;
             transition: all 0.2s ease;
 }
+.btn-primary i {
+    color: #fff;
+}
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #473168;
-    border-color: #fff;
-    color: #fff;
+    background-color: #00796b;
+    border: 1px solid #00796b;
+}
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary.focus:active,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open > .dropdown-toggle.btn-primary.focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.open > .dropdown-toggle.btn-primary:hover {
+    background-color: #00695c;
+    border: 1px solid #80cbc4;
 }
 .btn-primary:active,
 .btn-primary.active {
-    background-color: #473168;
-    border-color: #fff;
-    color: #fff;
+    background-color: #00695c;
+    border: 1px solid #80cbc4;
 }
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -524,22 +577,8 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-    background-color: #473168;
-    border-color: #fff;
-    color: #fff;
-}
-.btn-primary.active.focus,
-.btn-primary.active:focus,
-.btn-primary.active:hover,
-.btn-primary.focus:active,
-.btn-primary:active:focus,
-.btn-primary:active:hover,
-.open > .dropdown-toggle.btn-primary.focus,
-.open > .dropdown-toggle.btn-primary:focus,
-.open > .dropdown-toggle.btn-primary:hover {
-    background-color: #473168;
-    border-color: #fff;
-    color: #fff;
+    background-color: #4527a0;
+    background-image: none;
 }
 .btn-success {
     background-image: -webkit-linear-gradient(top, #5cb85c 0%, #419641 100%);
@@ -762,9 +801,10 @@ fieldset[disabled] .btn-danger.active {
 .main-nav {
     position: fixed;
     width: 100%;
-    height: 64px;
+    height: 69px;
     background-color: #009688;
     z-index: 999;
+    border-bottom: 5px solid #673ab7;
 }
 
 /*******************************************************************
@@ -989,11 +1029,16 @@ fieldset[disabled] .btn-danger.active {
     text-align: center;
 }
     .page-header h1 {
+        color: #004d40;
         margin-top: 0;
     }
 
 .large-header {
     font-size: 100px;
+}
+
+h1 small {
+    color: #5a5d6b;
 }
 
 /*******************************************************************
@@ -1060,4 +1105,10 @@ fieldset[disabled] .btn-danger.active {
 }
 .fa.fa-envelope {
     color: #333;
+}
+.fa-cog.fa-spin {
+    animation: 6s linear 0s normal none infinite running fa-spin;
+}
+.fa-spinner {
+    color: #673ab7;
 }

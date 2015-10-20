@@ -1,114 +1,134 @@
-<div class="page-header">
-    <h1><?php echo $session->user->username ?></h1>
-</div><!-- /.page-header -->
-<div class="container">
+<div class="container-fluid offset-nav">
+    <div class="page-header">
+        <h1>My Preferences<br/><small><?php echo $session->user->username ?></small></h1>
+    </div><!-- /.page-header -->
     <form id="update-pref-form" action="/user/update-user" method="POST">
         <div class="row">
             <div class="col-sm-6">
-                <h4>Update which categories you'd like to recieve jokes from. Unchecking all will unsubscribe you from all emails, but your account will remain (so you can still vote on jokes!)</h4>
-                <?php $i = 0 ?>
-                <?php foreach($categories as $category): ?>
-                    <?php $match = false ?>
-                    <?php $excludeMatch = false ?>
-                    <?php if(isset($session->viewUserCategories)): ?>
-                        <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
-                            <?php if($viewUserCategory->name == $category->name): ?>
-                                <?php $match = true ?>
-                                <?php continue ?>
-                            <?php endif ?>
-                        <?php endforeach ?>
-                    <?php endif ?>
-                    <?php if(isset($session->userExcludeCategories)): ?>
-                        <?php foreach($session->userExcludeCategories as $userExcludeCategory): ?>
-                            <?php if($userExcludeCategory->cat_id == $category->cat_id): ?>
-                                <?php $excludeMatch = true ?>
-                                <?php continue ?>
-                            <?php endif ?>
-                        <?php endforeach ?>
-                    <?php endif ?>
-                    <?php if ($i % 4 === 0): ?>
-                        <?php if ($i !== 0): ?>
-                            </div>
-                        <?php endif; ?>
-                        <div class="row">
-                    <?php endif; ?>
-                        <div class="col-sm-3">
-                            <div class="checkbox-tile add-exclude <?php if($match): echo 'checked'; elseif($excludeMatch): echo 'exclude'; endif ?>">
-                                <span class="checkbox-tile-label"><?php echo $category->name ?></span>
-                                <div class="checkbox-tile-hidden">
-                                    <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
-                                    <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" <?php echo ($excludeMatch) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
-                                </div><!-- /.checkbox-tile-hidden -->
-                            </div><!--  /.checkbox-tile -->
-                        </div><!-- /.col -->
-                    <?php $i++ ?>
-                <?php endforeach; ?>
-                </div><!-- /.row -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Update Categories</h2>
+                        <p>You will be emailed jokes tagged with the categories you select. Since jokes may be tagged with more than one category, you may also choose to exclude jokes tagged with certain categories. To do this, click the category twice.</p>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table class="checkbox-tile-table">
+                            <?php $i = 0 ?>
+                            <?php foreach($categories as $category): ?>
+                                <?php $match = false ?>
+                                <?php $excludeMatch = false ?>
+                                <?php if(isset($session->viewUserCategories)): ?>
+                                    <?php foreach($session->viewUserCategories as $viewUserCategory): ?>
+                                        <?php if($viewUserCategory->name == $category->name): ?>
+                                            <?php $match = true ?>
+                                            <?php continue ?>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                                <?php if(isset($session->userExcludeCategories)): ?>
+                                    <?php foreach($session->userExcludeCategories as $userExcludeCategory): ?>
+                                        <?php if($userExcludeCategory->cat_id == $category->cat_id): ?>
+                                            <?php $excludeMatch = true ?>
+                                            <?php continue ?>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                                <?php if ($i % 4 === 0): ?>
+                                    <?php if ($i !== 0): ?>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <tr class="checkbox-tile-row">
+                                <?php endif; ?>
+                                    <td class="checkbox-tile add-exclude <?php if($match): echo 'checked'; elseif($excludeMatch): echo 'exclude'; endif ?>">
+                                        <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                        <div class="checkbox-tile-hidden">
+                                            <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                            <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" <?php echo ($excludeMatch) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                        </div><!-- /.checkbox-tile-hidden -->
+                                    </td><!--  /.checkbox-tile -->
+                                <?php $i++ ?>
+                            <?php endforeach; ?>
+                            </tr>
+                        </table>
+                    </div><!-- /.panel-body -->
+                    <div class="panel-footer text-right">
+                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                    </div><!-- /.panel-footer -->
+                </div><!-- /.panel -->
             </div><!-- /.col -->
             <div class="col-sm-6">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4>If you would like to update your email address</h4>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="email">New email address:</label>
-                            <input id="email" class="form-control" type="text" name="email" value="" placeholder="<?php echo $session->user->email ?>">
-                        </div>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="username">Update Username</label>
-                            <input id="username" class="form-control" type="text" name="username" value="" placeholder="<?php echo $session->user->username ?>">
-                        </div>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4>If you would like to update your password</h4>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="password-old">Old password:</label>
-                            <input id="password-old" class="form-control" type="password" name="password-old" value="" placeholder="Old password">
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="password">New password:</label>
-                            <input id="password" class="form-control" type="password" name="password" value="" placeholder="New password">
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label for="password2">Confirm new password:</label>
-                            <input id="password2" class="form-control" type="password" name="password2" value="" placeholder="Confirm new password">
-                        </div><!-- /.form-group -->
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4>Had enough jokes? You can delete your account here</h4>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="delete-account" name="delete-account" value="1"> Delete my account
-                            </label>
-                        </div><!-- /.checkbox -->
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="page-footer">
-                    <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
-                </div><!-- /.page-footer -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Update Email or Username</h2>
+                        <p>Update the email address we send jokes to</p>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="email">New email address:</label>
+                                    <input id="email" class="form-control" type="text" name="email" value="" placeholder="<?php echo $session->user->email ?>">
+                                </div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="username">Update Username</label>
+                                    <input id="username" class="form-control" type="text" name="username" value="" placeholder="<?php echo $session->user->username ?>">
+                                </div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.panel-body -->
+                    <div class="panel-footer text-right">
+                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                    </div><!-- /.panel-footer -->
+                </div><!-- /.panel -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Update Password</h2>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="password-old">Old password:</label>
+                                    <input id="password-old" class="form-control" type="password" name="password-old" value="" placeholder="Old password">
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="password">New password:</label>
+                                    <input id="password" class="form-control" type="password" name="password" value="" placeholder="New password">
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="password2">Confirm new password:</label>
+                                    <input id="password2" class="form-control" type="password" name="password2" value="" placeholder="Confirm new password">
+                                </div><!-- /.form-group -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.panel-body -->
+                    <div class="panel-footer text-right">
+                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                    </div><!-- /.panel-footer -->
+                </div><!-- /.panel -->
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Had enough jokes?</h2>
+                        <p>You can delete your account here</p>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="delete-account" name="delete-account" value="1"> Delete my account
+                                    </label>
+                                </div><!-- /.checkbox -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.panel-body -->
+                    <div class="panel-footer text-right">
+                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                    </div><!-- /.panel-footer -->
+                </div><!-- /.panel -->
             </div><!-- /.col -->
         </div><!-- /.row -->
     </form>

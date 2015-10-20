@@ -1,28 +1,38 @@
-<div class="sidebar">
-    <div class="sidebar-head-ex">
-        <div class="sidebar-head sidebar-head-hidden">
-            <?php if(isset($session->user->user_id)): ?>
-                <div class="username"><?php echo $session->user->username ?></div>
-                <a id="preferences-link" class="user-option" href="<?php echo $this->url('user', array('action' => 'view', 'username' => $session->user->username)) ?>"><i class="fa fa-cog fa-spin"> </i>My Preferences</a>
-                <?php if($session->user->email == 'mrb2590@gmail.com'): ?>
-                    <a id="add-joke-link" class="user-option" href="<?php echo $this->url('joke', array('action' => 'manage')) ?>"><i class="fa fa-database"></i> Manage Jokes</a>
-                <?php endif ?>
-                <a id="signout-link" class="user-option" href="#"><i class="fa fa-sign-in"></i> Sign Out</a>
-            <?php else: ?>
-                <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#"><i class="fa fa-sign-in"></i> Sign In</a>
+<div class="sidebar no-select">
+    <div class="sidebar-head sidebar-head-hidden">
+        <?php if(isset($session->user->user_id)): ?>
+            <span class="sidebar-head-item"><i class="fa fa-user fa-fw"></i> <span class="dark-primary bold"><?php echo $session->user->username ?></span></span>
+            <a id="preferences-link" class="sidebar-head-item" href="<?php echo $this->url('user', array('action' => 'view', 'username' => $session->user->username)) ?>">
+                <i class="fa fa-cog fa-spin fa-fw"></i>
+                <span class="dark-primary">My Preferences</span>
+            </a>
+            <?php if($session->user->email == 'mrb2590@gmail.com'): ?>
+                <a id="add-joke-link" class="sidebar-head-item" href="<?php echo $this->url('joke', array('action' => 'manage')) ?>">
+                    <i class="fa fa-database fa-fw"></i>
+                    <span class="dark-primary">Manage Jokes</span>
+                </a>
             <?php endif ?>
-            <form id="search-form" method="GET" action="<?php echo $this->url('search') ?>" class="hidden-sm hidden-md hidden-lg">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input id="search" class="form-control" type="text" placeholder="Find a joke" name="search" value="">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div><!-- /.input-group -->
-                </div><!-- /.form-group -->
-            </form>
-        </div><!-- /.sidebar-head -->
-    </div><!-- /.sidebar-head-ex -->
+            <a id="signout-link" class="sidebar-head-item" href="#">
+                <i class="fa fa-sign-in fa-fw"></i>
+                <span class="dark-primary">Sign Out</span>
+            </a>
+        <?php else: ?>
+            <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#">
+                <i class="fa fa-sign-in fa-fw"></i>
+                <span class="dark-primary">Sign In</span>
+            </a>
+        <?php endif ?>
+        <form id="search-form" method="GET" action="<?php echo $this->url('search') ?>" class="hidden-sm hidden-md hidden-lg sidebar-head-item">
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="search" class="form-control" type="text" placeholder="Find a joke" name="search" value="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div><!-- /.input-group -->
+            </div><!-- /.form-group -->
+        </form>
+    </div><!-- /.sidebar-head -->
     <div class="list-group">
         <a class="list-group-item" href="<?php echo $this->url('joke', array('action' => 'view')) ?>">View All</a>
         <?php foreach($categories as $category): ?>

@@ -444,8 +444,9 @@ function bindEventListeners() {
                     $('#joke-loader').html('<i class="fa fa-spinner fa-pulse"></i>');
                     var currentPage = $('#page-number').val();
                     $('#page-number').val(+$('#page-number').val() + 1);
+                    var q = (window.location.search == '') ? '?' : '&';
                     $.ajax({
-                        url: window.location.pathname + '?page=' + (+currentPage + 1),
+                        url: window.location.pathname + window.location.search + q + 'page=' + (+currentPage + 1),
                         type: "GET",
                         success: function(response) {
                             $('.masonry').last().after($('.masonry', response)[0].outerHTML);

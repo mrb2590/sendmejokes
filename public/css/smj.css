@@ -18,10 +18,12 @@ html, body {
 * ---LAYOUT - sidebar--
 ************************************************/
 .sidebar {
-    padding-top: 118px;
+    overflow: auto;
+    margin-top: 69px;
+    color: #fff;
     float: right;
-    height: 100%;
-    background-color: #e0f2f1;
+    height: calc(100% - 69px);
+    background-color: #fff;
     position: fixed;
     right: 0;
     width: 0px;
@@ -40,55 +42,48 @@ html, body {
         opacity: 100;
     }
     .sidebar .sidebar-head {
-        width: 300px;
-        position: fixed;
-        color: #5a5d6b;
+        white-space: nowrap;
+        width: 100%;
+        color: #673ab7;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         opacity: 100;
-        padding: 26px;
-        height: 170px; /* 170px with search bar, 118px without */
+        font-size: 20px;
+        padding: 10px 30px;
+        border-bottom: 5px solid #673ab7;
         -webkit-transition: all 0.6s ease;
            -moz-transition: all 0.6s ease;
             -ms-transition: all 0.6s ease;
              -o-transition: all 0.6s ease;
                 transition: all 0.6s ease;
     }
-            .sidebar .sidebar-head .username {
-                font-size: 22px;
-            }
-            .sidebar .sidebar-head .user-option {
-                font-size: 12px;
-                display: block;
-                color: #5a5d6b;
-            }
-            .sidebar .sidebar-head .sign-in-link {
-                color: #5a5d6b;
-                font-size: 24px;
-                line-height: 66px;
-            }
+    .sidebar .sidebar-head .sidebar-head-item {
+        display: block;
+    }
+        .sidebar .sidebar-head a,
+        .sidebar .sidebar-head i {
+            color: #673ab7;
+        }
         .sidebar .sidebar-head.sidebar-head-hidden {
             opacity: 0;
         }
     .sidebar .list-group {
-        margin-top: 170px; /* 170px with search bar, 118px without */
-        position: fixed;
-        height: 100%;
+        background-color: #009688;
         width: 100%;
-        overflow: auto;
         border-radius: 0;
-        border-top: 1px solid #5a5d6b;
+        margin: 0;
     }
         .sidebar .list-group .list-group-item {
-            background-color: rgba(0, 0, 0, 0);
+            white-space: nowrap;
+            background-color: #009688;
             border-radius: 0;
             border-left: none;
             border-right: none;
-            border-color: #5a5d6b;
-            padding: 15px 30px;
+            border-color: #e0f2f1;
+            padding: 10px 30px;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
             cursor: pointer;
             font-size: 20px;
-            color: #5a5d6b;
+            color: #fff;
             -webkit-transition: all 0.15s ease;
                -moz-transition: all 0.15s ease;
                 -ms-transition: all 0.15s ease;
@@ -99,8 +94,11 @@ html, body {
                 border-top: none;
             }
         .sidebar .list-group .list-group-item:hover {
-            background-color: #283593;
-            color: #fff;
+            background-color: #b2dfdb;
+            color: #009688;
+        }
+        .sidebar .list-group .list-group-item:active {
+            background-color: #80cbc4;
         }
 /* keeps transformicon in place when scrolling */
 .icon-open {

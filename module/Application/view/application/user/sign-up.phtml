@@ -1,9 +1,9 @@
 <div class="home middle-align-out">
-    <div class="middle-align-in">
-        <h1 class="light">Sign up for a laugh every day!</h1>
+    <div class="middle-align-in offset-nav">
+        <h1>Sign up for a laugh every day!</h1>
         <form id="sign-up-form-email">
             <div class="form-group">
-                <label for="email" class="light">Enter your email address</label>
+                <label for="email">Enter your email address</label>
                 <input type="text" class="form-control" name="email" id="email" value="">
             </div><!-- /.form-group -->
             <div class="form-group">
@@ -47,29 +47,30 @@
                     </div><!-- /.row -->
                     <div class="row">
                         <div class="col-sm-12">
-                            <h4>Choose which categories you'd like to recieve jokes from</h4>
+                            <h4>Choose your categories</h4>
+                            <p>You will be emailed jokes tagged with the categories you select. Since jokes may be tagged with more than one category, you may also choose to exclude jokes tagged with certain categories. To do this, click the category twice.</p>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
-                    <?php $i = 0 ?>
-                    <?php foreach($categories as $category): ?>
-                        <?php if ($i % 4 === 0): ?>
-                            <?php if ($i !== 0): ?>
-                                </div>
+                    <table class="checkbox-tile-table">
+                        <?php $i = 0 ?>
+                        <?php foreach($categories as $category): ?>
+                            <?php if ($i % 4 === 0): ?>
+                                <?php if ($i !== 0): ?>
+                                    </tr>
+                                <?php endif; ?>
+                                <tr class="checkbox-tile-row">
                             <?php endif; ?>
-                            <div class="row">
-                        <?php endif; ?>
-                            <div class="col-sm-3">
-                                <div class="checkbox-tile add-exclude">
+                                <td class="checkbox-tile add-exclude">
                                     <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                     <div class="checkbox-tile-hidden">
                                         <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
                                         <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
                                     </div><!-- /.checkbox-tile-hidden -->
-                                </div><!--  /.checkbox-tile -->
-                            </div><!-- /.col -->
-                        <?php $i++ ?>
-                    <?php endforeach; ?>
-                    </div><!-- /.row -->
+                                </td><!--  /.checkbox-tile -->
+                            <?php $i++ ?>
+                        <?php endforeach; ?>
+                        </div><!-- /.row -->
+                    </table>
                     <div class="row">
                         <div class="col-sm-12">
                             <h4>Create your password</h4>
@@ -89,7 +90,7 @@
                     </div><!-- /.row -->
                 </div><!-- /.modal-body -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     <button name="submit" type="submit" value="submit" class="btn btn-primary">Sign Me Up!</button>
                 </div><!-- /.modal-footer -->
             </div><!-- /.modal-content -->
