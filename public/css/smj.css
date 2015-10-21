@@ -15,108 +15,6 @@ html, body {
 }
 
 /************************************************
-* ---LAYOUT - sidebar--
-************************************************/
-.sidebar {
-    overflow: auto;
-    margin-top: 69px;
-    color: #fff;
-    float: right;
-    height: calc(100% - 69px);
-    background-color: #fff;
-    position: fixed;
-    right: 0;
-    width: 0px;
-    z-index: 900;
-    -webkit-box-shadow: 0 0 30px 1px #333;
-            box-shadow: 0 0 30px 1px #333;
-    -webkit-transition: all 0.6s ease;
-       -moz-transition: all 0.6s ease;
-        -ms-transition: all 0.6s ease;
-         -o-transition: all 0.6s ease;
-            transition: all 0.6s ease;
-}
-    .sidebar.sidebar-open {
-        width: 300px;
-        max-width: 100%;
-        opacity: 100;
-    }
-    .sidebar .sidebar-head {
-        white-space: nowrap;
-        width: 100%;
-        color: #673ab7;
-        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-        opacity: 100;
-        font-size: 20px;
-        padding: 10px 30px;
-        border-bottom: 5px solid #673ab7;
-        -webkit-transition: all 0.6s ease;
-           -moz-transition: all 0.6s ease;
-            -ms-transition: all 0.6s ease;
-             -o-transition: all 0.6s ease;
-                transition: all 0.6s ease;
-    }
-    .sidebar .sidebar-head .sidebar-head-item {
-        display: block;
-    }
-        .sidebar .sidebar-head a,
-        .sidebar .sidebar-head i {
-            color: #673ab7;
-        }
-        .sidebar .sidebar-head.sidebar-head-hidden {
-            opacity: 0;
-        }
-    .sidebar .list-group {
-        background-color: #009688;
-        width: 100%;
-        border-radius: 0;
-        margin: 0;
-    }
-        .sidebar .list-group .list-group-item {
-            white-space: nowrap;
-            background-color: #009688;
-            border-radius: 0;
-            border-left: none;
-            border-right: none;
-            border-color: #e0f2f1;
-            padding: 10px 30px;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-            cursor: pointer;
-            font-size: 20px;
-            color: #fff;
-            -webkit-transition: all 0.15s ease;
-               -moz-transition: all 0.15s ease;
-                -ms-transition: all 0.15s ease;
-                 -o-transition: all 0.15s ease;
-                    transition: all 0.15s ease;
-        }
-            .sidebar .list-group .list-group-item:first-child {
-                border-top: none;
-            }
-        .sidebar .list-group .list-group-item:hover {
-            background-color: #b2dfdb;
-            color: #009688;
-        }
-        .sidebar .list-group .list-group-item:active {
-            background-color: #80cbc4;
-        }
-/* keeps transformicon in place when scrolling */
-.icon-open {
-    position: fixed;
-    right: 0;
-}
-
-@media (max-width: 768px) { 
-    .sidebar.sidebar-open {
-        width: 100%;
-    }
-    .sidebar .sidebar-head {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-/************************************************
 * ---LAYOUT - logo & menu button--
 ************************************************/
 .logo-anchor {
@@ -163,6 +61,134 @@ html, body {
     margin-top: 15px;
     position: relative;
     width: 300px;
+}
+
+/************************************************
+* ---LAYOUT - sidebar--
+************************************************/
+.sidebar {
+    overflow: hidden;
+    margin-top: 69px;
+    color: #fff;
+    float: right;
+    height: calc(100% - 69px);
+    background-color: #fff;
+    position: fixed;
+    right: 0;
+    width: 0px;
+    z-index: 900;
+    -webkit-box-shadow: 0 0 30px 1px #333;
+            box-shadow: 0 0 30px 1px #333;
+    -webkit-transition: all 0.6s ease;
+       -moz-transition: all 0.6s ease;
+        -ms-transition: all 0.6s ease;
+         -o-transition: all 0.6s ease;
+            transition: all 0.6s ease;
+}
+    .sidebar .sidebar-head.sidebar-user {
+        line-height: 28px;
+    }
+    .sidebar.sidebar-open {
+        width: 300px;
+        max-width: 100%;
+        opacity: 100;
+    }
+    .sidebar .sidebar-head {
+        white-space: nowrap;
+        width: 100%;
+        height: 137px;
+        color: #673ab7;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+        opacity: 100;
+        font-size: 20px;
+        padding: 10px 30px;
+        border-bottom: 5px solid #673ab7;
+        -webkit-transition: all 0.6s ease;
+           -moz-transition: all 0.6s ease;
+            -ms-transition: all 0.6s ease;
+             -o-transition: all 0.6s ease;
+                transition: all 0.6s ease;
+    }
+        .sidebar-user .sidebar-head-item {
+            line-height: 36px;
+        }
+        .sidebar-head .sidebar-head-item {
+            display: block;
+            width: initial;
+        }
+        .sidebar .sidebar-head a,
+        .sidebar .sidebar-head i {
+            color: #673ab7;
+        }
+        .sidebar .sidebar-head.sidebar-head-hidden {
+            opacity: 0;
+        }
+    .sidebar .list-group {
+        overflow: auto;
+        background-color: #009688;
+        width: 100%;
+        height: calc(100% - 137px);
+        border-radius: 0;
+        margin: 0;
+    }
+        .sidebar .list-group .list-group-item {
+            white-space: nowrap;
+            background-color: #009688;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+            border-color: #e0f2f1;
+            padding: 10px 30px;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            font-size: 20px;
+            color: #fff;
+            -webkit-transition: all 0.15s ease;
+               -moz-transition: all 0.15s ease;
+                -ms-transition: all 0.15s ease;
+                 -o-transition: all 0.15s ease;
+                    transition: all 0.15s ease;
+        }
+            .sidebar .list-group .list-group-item:first-child {
+                border-top: none;
+            }
+        .sidebar .list-group .list-group-item:hover {
+            background-color: #b2dfdb;
+            color: #009688;
+        }
+        .sidebar .list-group .list-group-item:active {
+            background-color: #80cbc4;
+        }
+/* keeps transformicon in place when scrolling */
+.icon-open {
+    position: fixed;
+    right: 0;
+}
+
+@media (max-width: 768px) { 
+    .sidebar.sidebar-open {
+        width: 100%;
+    }
+    .sidebar .sidebar-head {
+        width: 100%;
+    }
+    .sidebar-head-item {
+        line-height: 60px;
+    }
+    .sidebar-user .sidebar-head-item {
+        line-height: 25px;
+    }
+    #search-form {
+        text-align: center;
+        width: 100%;
+        float: none;
+        margin: 0;
+        margin-top: 5px;
+        line-height: 35px;
+    }
+    .sidebar-user #search-form {
+        
+    }
 }
 
 /*******************************************************************

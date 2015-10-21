@@ -633,7 +633,7 @@ fieldset[disabled] .btn-success.active {
             transition: all 0.2s ease;
 }
 .btn-info i {
-    color: #fff;
+    color: #fff !important;
 }
 .btn-info:hover,
 .btn-info:focus {

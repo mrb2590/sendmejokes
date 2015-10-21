@@ -1,6 +1,6 @@
 <div class="sidebar no-select">
-    <div class="sidebar-head sidebar-head-hidden">
-        <?php if(isset($session->user->user_id)): ?>
+    <div class="sidebar-head sidebar-head-hidden <?php if($userSession): ?><?php echo 'sidebar-user' ?><?php endif ?>">
+        <?php if($userSession): ?>
             <span class="sidebar-head-item"><i class="fa fa-user fa-fw"></i> <span class="dark-primary bold"><?php echo $session->user->username ?></span></span>
             <a id="preferences-link" class="sidebar-head-item" href="<?php echo $this->url('user', array('action' => 'view', 'username' => $session->user->username)) ?>">
                 <i class="fa fa-cog fa-spin fa-fw"></i>
@@ -17,7 +17,7 @@
                 <span class="dark-primary">Sign Out</span>
             </a>
         <?php else: ?>
-            <a class="sign-in-link" data-toggle="modal" data-target="#signin-modal" href="#">
+            <a id="sign-in-link" class="sidebar-head-item" data-toggle="modal" data-target="#signin-modal" href="#">
                 <i class="fa fa-sign-in fa-fw"></i>
                 <span class="dark-primary">Sign In</span>
             </a>
