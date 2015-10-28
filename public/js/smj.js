@@ -11,17 +11,6 @@ $(document).ready(function() {
 *******************************************************************/
 function bindEventListeners() {
     /*******************************************************************
-    * bind joke categories popover
-    *******************************************************************/
-    $(document).popover({
-        selector: '.categories',
-        html: true,
-        placement: 'top',
-        content: 'blank',
-        trigger: 'focus'
-    });
-
-    /*******************************************************************
     * click event - opens/closes sidebar
     *******************************************************************/
     $(document).on('click', '.c-hamburger', function() {
@@ -313,23 +302,6 @@ function bindEventListeners() {
     });
 
     /*******************************************************************
-    * popover event - ajax call to get share buttons
-    *******************************************************************/
-    //$(document).on('inserted.bs.popover', '.share', function() {
-    //    var joke_id = $(this).attr('id');
-    //    $.ajax({
-    //        context: this,
-    //        url: '/jokes/get-share-buttons/',
-    //        data: 'joke_id=' + joke_id + '&submit=submit',
-    //        type: 'POST',
-    //        success: function(response) {
-    //            $(this).siblings('.popover').find('.popover-content').html(response)
-    //            FB.XFBML.parse(this.parentNode);
-    //        }
-    //    });
-    //});
-
-    /*******************************************************************
     * click event - show/blur joke answer
     *******************************************************************/
     $(document).on('click', '.joke-answer', function() {
@@ -338,14 +310,6 @@ function bindEventListeners() {
         } else {
             $(this).addClass('text-blurred');
         }
-    });
-
-    /*******************************************************************
-    * popover event - appends categories to popover for joke
-    *******************************************************************/
-    $(document).on('inserted.bs.popover', '.categories', function() {
-        var categories = $(this).siblings('.categories-popover').html();
-        $(this).siblings('.popover').find('.popover-content').html(categories);
     });
 
     /*******************************************************************

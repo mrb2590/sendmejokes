@@ -10,7 +10,7 @@ html, body {
     -o-background-size: cover;
     background-size: cover;
     */
-    background-color: #e0f2f1;
+    background-color: #fff;
     height: 100%;
 }
 
@@ -85,9 +85,6 @@ html, body {
          -o-transition: all 0.6s ease;
             transition: all 0.6s ease;
 }
-    .sidebar .sidebar-head.sidebar-user {
-        line-height: 28px;
-    }
     .sidebar.sidebar-open {
         width: 300px;
         max-width: 100%;
@@ -96,7 +93,7 @@ html, body {
     .sidebar .sidebar-head {
         white-space: nowrap;
         width: 100%;
-        height: 137px;
+        height: 56px;
         color: #673ab7;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         opacity: 100;
@@ -109,6 +106,17 @@ html, body {
              -o-transition: all 0.6s ease;
                 transition: all 0.6s ease;
     }
+    .sidebar .sidebar-head.sidebar-admin,
+    .sidebar .sidebar-head.sidebar-user {
+        line-height: 28px;
+    }
+    .sidebar .sidebar-head.sidebar-user {
+        height: 142px;
+    }
+    .sidebar .sidebar-head.sidebar-admin {
+        height: 170px;
+    }
+        .sidebar-admin .sidebar-head-item,
         .sidebar-user .sidebar-head-item {
             line-height: 36px;
         }
@@ -127,9 +135,15 @@ html, body {
         overflow: auto;
         background-color: #009688;
         width: 100%;
-        height: calc(100% - 137px);
+        height: calc(100% - 56px);
         border-radius: 0;
         margin: 0;
+    }
+    .sidebar .sidebar-user + .list-group {
+        height: calc(100% - 142px);
+    }
+    .sidebar .sidebar-admin + .list-group {
+        height: calc(100% - 170px);
     }
         .sidebar .list-group .list-group-item {
             white-space: nowrap;
@@ -175,6 +189,7 @@ html, body {
     .sidebar-head-item {
         line-height: 60px;
     }
+    .sidebar-admin .sidebar-head-item,
     .sidebar-user .sidebar-head-item {
         line-height: 25px;
     }
@@ -184,10 +199,19 @@ html, body {
         float: none;
         margin: 0;
         margin-top: 5px;
-        line-height: 35px;
+        line-height: normal;
     }
     .sidebar-user #search-form {
         
+    }
+    .sidebar .sidebar-head {
+        height: 142px;
+    }
+    .sidebar .sidebar-head + .list-group {
+        height: calc(100% - 142px);
+    }
+    .sidebar .sidebar-admin + .list-group {
+        height: calc(100% - 170px);
     }
 }
 
@@ -306,4 +330,8 @@ html, body {
         -ms-transition: all 0.6s ease;
          -o-transition: all 0.6s ease;
             transition: all 0.6s ease;
+}
+
+.joke-categories {
+    font-size: 12px;
 }

@@ -27,6 +27,7 @@ class JokeController extends ApplicationController
         $category = $this->params()->fromRoute('category');
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
+        $categories = $this->getCategoryTable()->fetchAll();
         $total = false;
         $jokes = false;
         $searchflag = false;
@@ -36,7 +37,7 @@ class JokeController extends ApplicationController
         $categoryObject = false;
         $l = $this->params()->fromQuery('limit');
         $p = $this->params()->fromQuery('page');
-        $limit = (isset($l)) ? (int) $l : 20;
+        $limit = (isset($l)) ? (int) $l : 10;
         $page = (isset($p)) ? (int) $p : 1;
 
         //filter by joke id or category if passed in route
@@ -93,6 +94,7 @@ class JokeController extends ApplicationController
             'total'          => $total,
             'totalOnPage'    => $totalOnPage,
             'userVotes'      => $userVotes,
+            'categories'     => $categories,
         ));
     }
 
@@ -396,7 +398,7 @@ class JokeController extends ApplicationController
         $valid = false;
 
         //only I can view this page muahahaha
-        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+        if (!isset($this->session->user->email) || $this->session->user->email != 'mrb2590@gmail.com') {
             $message = "Fail";
         } elseif ($submit != 'submit') {
             $message = "Invalid request";

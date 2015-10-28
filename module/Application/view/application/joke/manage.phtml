@@ -19,29 +19,29 @@
                             <textarea class="form-control" name="answer" id="answer" value="" placeholder="Answer"></textarea>
                         </div><!-- /.form-group -->
                         <div class="form-group">
-                            <?php $i = 0 ?>
+                            <table class="checkbox-tile-table">
+                                <?php $i = 0 ?>
                                 <?php foreach($categories as $category): ?>
-                                <?php if ($i % 4 === 0): ?>
-                                    <?php if ($i !== 0): ?>
-                                        </div>
+                                    <?php if ($i % 4 === 0): ?>
+                                        <?php if ($i !== 0): ?>
+                                            </tr>
+                                        <?php endif; ?>
+                                        <tr class="checkbox-tile-row">
                                     <?php endif; ?>
-                                    <div class="row">
-                                <?php endif; ?>
-                                    <div class="col-sm-3">
-                                        <div class="checkbox-tile">
+                                        <td class="checkbox-tile">
                                             <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                             <div class="checkbox-tile-hidden">
-                                                <input type="checkbox" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                                <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
                                             </div><!-- /.checkbox-tile-hidden -->
-                                        </div><!--  /.checkbox-tile -->
-                                    </div><!-- /.col -->
-                                <?php $i++ ?>
-                            <?php endforeach; ?>
-                            </div><!-- /.row -->
+                                        </td><!--  /.checkbox-tile -->
+                                    <?php $i++ ?>
+                                <?php endforeach; ?>
+                                </tr>
+                            </table>
                         </div><!-- /.form-group -->
                     </div><!-- /.panel-body -->
                     <div class="panel-footer text-right">
-                        <button type="submit" name="submit" class="btn btn-info">Add Joke</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Add Joke</button>
                     </div><!-- /.panel-footer -->
                 </form>
             </div><!-- /.panel -->
@@ -61,7 +61,7 @@
                                 </div><!-- /.form-group -->
                             </div><!-- /.panel-body -->
                             <div class="panel-footer text-right">
-                                <button type="submit" name="submit" class="btn btn-info">Remove Joke</button>
+                                <button type="submit" name="submit" class="btn btn-primary">Remove Joke</button>
                             </div><!-- /.panel-footer -->
                         </form>
                     </div><!-- /.panel -->
@@ -102,40 +102,40 @@
                                 <input type="hidden" name="hidden_joke_id" id="hidden_joke_id" value="<?php echo ($joke) ? $joke->joke_id : '' ?>">
                                 <?php if ($joke): ?>
                                     <div class="form-group">
-                                        <?php $i = 0 ?>
-                                        <?php foreach($categories as $category): ?>
-                                            <?php $match = false ?>
-                                            <?php if($jokeCategories): ?>
-                                                <?php foreach($jokeCategories as $jokeCategory): ?>
-                                                    <?php if($jokeCategory->cat_id == $category->cat_id):?>
-                                                        <?php $match = true ?>
-                                                        <?php continue ?>
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            <?php endif ?>
-                                            <?php if ($i % 4 === 0): ?>
-                                                <?php if ($i !== 0): ?>
-                                                    </div>
+                                        <table class="checkbox-tile-table">
+                                            <?php $i = 0 ?>
+                                            <?php foreach($categories as $category): ?>
+                                                <?php $match = false ?>
+                                                <?php if($jokeCategories): ?>
+                                                    <?php foreach($jokeCategories as $jokeCategory): ?>
+                                                        <?php if($jokeCategory->cat_id == $category->cat_id):?>
+                                                            <?php $match = true ?>
+                                                            <?php continue ?>
+                                                        <?php endif ?>
+                                                    <?php endforeach ?>
+                                                <?php endif ?>
+                                                <?php if ($i % 4 === 0): ?>
+                                                    <?php if ($i !== 0): ?>
+                                                        </tr>
+                                                    <?php endif; ?>
+                                                    <tr class="checkbox-tile-row">
                                                 <?php endif; ?>
-                                                <div class="row">
-                                            <?php endif; ?>
-                                                <div class="col-sm-3">
-                                                    <div class="checkbox-tile <?php echo ($match) ? 'checked' : '' ?>">
+                                                    <td class="checkbox-tile <?php echo ($match) ? 'checked' : '' ?>">
                                                         <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                                         <div class="checkbox-tile-hidden">
-                                                             <input type="checkbox" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                                            <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
                                                         </div><!-- /.checkbox-tile-hidden -->
-                                                    </div><!--  /.checkbox-tile -->
-                                                </div><!-- /.col -->
-                                            <?php $i++ ?>
-                                        <?php endforeach; ?>
-                                        </div><!-- /.row -->
+                                                    </td><!--  /.checkbox-tile -->
+                                                <?php $i++ ?>
+                                            <?php endforeach; ?>
+                                            </tr>
+                                        </table>
                                     </div><!-- /.form-group -->
                                 <?php endif ?>
                             </div><!-- /.panel-body -->
                             <div class="panel-footer text-right">
-                                <button type="button" id="update-jc-back-btn" class="btn btn-default">Back</button>
-                                <button type="submit" name="submit" class="btn btn-info">Update Joke Categories</button>
+                                <button type="button" id="update-jc-back-btn" class="btn btn-info">Back</button>
+                                <button type="submit" name="submit" class="btn btn-primary">Update Joke Categories</button>
                             </div><!-- /.panel-footer -->
                         </form>
                     </div><!-- /.panel -->
