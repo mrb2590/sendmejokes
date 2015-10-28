@@ -40,7 +40,7 @@ class UserController extends ApplicationController
 
         return new ViewModel(array(
             'session'    => $this->session,
-            'categories' => $categories
+            'categories' => $categories,
         ));
     }
 
@@ -50,8 +50,10 @@ class UserController extends ApplicationController
     public function signUpAction()
     {
         $categories = $this->getCategoryTable()->fetchAll();
+        $days = array('Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays');
         return new ViewModel(array(
-            'categories' => $categories
+            'categories' => $categories,
+            'days'       => $days,
         ));
     }
     

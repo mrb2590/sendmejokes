@@ -244,6 +244,9 @@ a:focus {
           -ms-user-select: none;
               user-select: none;
 }
+.checkbox-tile.checkbox-day {
+    width: 14.28%;
+}
 .checkbox-tile:hover {
     background-color: #e0f2f1;
 }
@@ -268,6 +271,9 @@ a:focus {
     color: #fff;
     background: #673ab7 url('/img/fa-times-transparency.png') no-repeat 50% 50%;
     background-size: 50%;
+}
+.checkbox-day .checkbox-tile-label {
+    font-size: 12px;
 }
 
 /*******************************************************************
