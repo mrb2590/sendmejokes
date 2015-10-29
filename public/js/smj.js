@@ -7,7 +7,7 @@ $(document).ready(function() {
 });
 
 /*******************************************************************
-* function to bind all event listeners
+* bind all event listeners
 *******************************************************************/
 function bindEventListeners() {
     /*******************************************************************
@@ -444,7 +444,6 @@ function bindEventListeners() {
     $(document).on('click', '.checkbox-tile', function(e) {
         e.preventDefault();
         var exclude = ($(this).hasClass('add-exclude')) ? true : false;
-        console.log(exclude);
         toggleTile($(this), exclude);
     });
 
@@ -455,6 +454,14 @@ function bindEventListeners() {
     *******************************************************************/
     $(document).on('hidden.bs.modal', '#signin-modal', function() {
         resetForgotPasswordForm();
+    });
+
+    /*******************************************************************
+    * click event - changes text of save button in user preferences
+    *******************************************************************/
+    $(document).on('click', '#delete-account-checkbox', function() {
+        var btnText = ($(this).is(':checked')) ? "Delete My Account" : "Save";
+        $('#update-user-btn').html(btnText);
     });
 }
 

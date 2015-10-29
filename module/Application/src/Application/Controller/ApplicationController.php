@@ -13,6 +13,7 @@ use Application\Model\User;
 use Application\Model\Category;
 use Application\Model\Vote;
 use Application\Model\UserCategory;
+use Application\Model\UserDay;
 use Application\Model\UserExcludeCategory;
 use Application\Model\JokeCategory;
 use Application\Model\ViewUserCategory;
@@ -50,6 +51,11 @@ class ApplicationController extends AbstractActionController
     protected $userCategoriesTable;
 
     /**
+     * @var Application\Model\UserDaysTable
+     */
+    protected $userDaysTable;
+
+    /**
      * @var Application\Model\UserExcludeCategoriesTable
      */
     protected $userExcludeCategoriesTable;
@@ -73,6 +79,11 @@ class ApplicationController extends AbstractActionController
      * @var Application\Model\UserSentJokesTable
      */
     protected $userSentJokesTable;
+
+    /**
+     * @var Array
+     */
+    public $days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 
     /**
      * @return Application\Model\JokeTable
@@ -132,6 +143,18 @@ class ApplicationController extends AbstractActionController
             $this->userCategoriesTable = $sm->get('Application\Model\UserCategoriesTable');
         }
         return $this->userCategoriesTable;
+    }
+
+    /**
+     * @return Application\Model\UserDaysTable
+     */
+    public function getUserDaysTable()
+    {
+        if (!$this->userDaysTable) {
+            $sm = $this->getServiceLocator();
+            $this->userDaysTable = $sm->get('Application\Model\UserDaysTable');
+        }
+        return $this->userDaysTable;
     }
 
     /**

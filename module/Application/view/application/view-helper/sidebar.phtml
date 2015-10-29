@@ -1,7 +1,10 @@
 <div class="sidebar no-select">
     <div class="sidebar-head sidebar-head-hidden <?php if(isset($session->user) && $session->user->email == 'mrb2590@gmail.com'): ?><?php echo 'sidebar-admin' ?><?php elseif($userSession): ?><?php echo 'sidebar-user' ?><?php endif ?>">
         <?php if($userSession): ?>
-            <span class="sidebar-head-item"><i class="fa fa-user fa-fw"></i> <span class="dark-primary bold"><?php echo $session->user->username ?></span></span>
+            <span id="username-item" class="sidebar-head-item">
+                <i class="fa fa-user fa-fw"></i>
+                <span class="dark-primary bold"><?php echo $session->user->username ?></span>
+            </span>
             <a id="preferences-link" class="sidebar-head-item" href="<?php echo $this->url('user', array('action' => 'view', 'username' => $session->user->username)) ?>">
                 <i class="fa fa-cog fa-spin fa-fw"></i>
                 <span class="dark-primary">My Preferences</span>

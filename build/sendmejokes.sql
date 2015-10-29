@@ -23,6 +23,14 @@ CREATE TABLE user_categories (
     FOREIGN KEY (cat_id)  REFERENCES category(cat_id)
 ) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
 
+CREATE TABLE user_days (
+    id        INT(8)        NOT NULL    AUTO_INCREMENT,
+    user_id   CHAR(13)      NOT NULL,
+    day       VARCHAR(10)   NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+) ENGINE=InnoDB   AUTO_INCREMENT=10000000   DEFAULT CHARSET=utf8;
+
 CREATE TABLE user_exclude_categories (
     id        INT(8)     NOT NULL    AUTO_INCREMENT,
     user_id   CHAR(13)   NOT NULL,

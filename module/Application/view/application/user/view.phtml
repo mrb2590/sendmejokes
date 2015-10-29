@@ -7,7 +7,7 @@
             <div class="col-sm-6">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h2>Update Categories</h2>
+                        <h2>Update categories</h2>
                         <p>You will be emailed jokes tagged with the categories you select. Since jokes may be tagged with more than one category, you may also choose to exclude jokes tagged with certain categories. To do this, click the category twice.</p>
                     </div><!-- /.panel-heading -->
                     <div class="panel-body">
@@ -50,15 +50,12 @@
                             </tr>
                         </table>
                     </div><!-- /.panel-body -->
-                    <div class="panel-footer text-right">
-                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
-                    </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h2>Update Email or Username</h2>
+                        <h2>Update email or username</h2>
                         <p>Update the email address we send jokes to</p>
                     </div><!-- /.panel-heading -->
                     <div class="panel-body">
@@ -79,13 +76,10 @@
                             </div><!-- /.col -->
                         </div><!-- /.row -->
                     </div><!-- /.panel-body -->
-                    <div class="panel-footer text-right">
-                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
-                    </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->
                 <div class="panel">
                     <div class="panel-heading">
-                        <h2>Update Password</h2>
+                        <h2>Update password</h2>
                     </div><!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="row">
@@ -105,10 +99,43 @@
                             </div><!-- /.col -->
                         </div><!-- /.row -->
                     </div><!-- /.panel-body -->
-                    <div class="panel-footer text-right">
-                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
-                    </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->
+            </div><!-- /.col --> 
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Update when you want jokes</h2>
+                        <p>Jokes are sent out around 9:00am EST. Unselecting all days of the week will unsubscribe you from joke emails.</p>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table class="checkbox-tile-table">
+                            <tr class="checkbox-tile-row">
+                                <?php foreach($days as $day): ?>
+                                    <?php $match = false ?>
+                                    <?php foreach ($session->userDays as $userDay): ?>
+                                        <?php $match = ($userDay->day == $day) ? true : $match ?>
+                                    <?php endforeach ?>
+                                    <td class="checkbox-tile checkbox-day hidden-xs hidden-sm <?php if($match): ?>checked<?php endif ?>">
+                                        <span class="checkbox-tile-label"><?php echo $day ?></span>
+                                        <div class="checkbox-tile-hidden">
+                                            <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>" <?php if($match): ?>checked="true"<?php endif ?>>
+                                        </div><!-- /.checkbox-tile-hidden -->
+                                    </td><!--  /.checkbox-tile -->
+                                    <td class="checkbox-tile checkbox-day hidden-lg hidden-md">
+                                        <span class="checkbox-tile-label"><?php echo $day[0] ?></span>
+                                        <div class="checkbox-tile-hidden">
+                                            <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>" <?php if($match): ?>checked="true"<?php endif ?>>
+                                        </div><!-- /.checkbox-tile-hidden -->
+                                    </td><!--  /.checkbox-tile -->
+                                <?php endforeach; ?>
+                            </tr>
+                        </table>
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!-- /.col -->
+            <div class="col-sm-6">
                 <div class="panel">
                     <div class="panel-heading">
                         <h2>Had enough jokes?</h2>
@@ -119,14 +146,20 @@
                             <div class="col-sm-12">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" id="delete-account" name="delete-account" value="1"> Delete my account
+                                        <input type="checkbox" id="delete-account-checkbox" name="delete-account" value="1"> Delete my account
                                     </label>
                                 </div><!-- /.checkbox -->
                             </div><!-- /.col -->
                         </div><!-- /.row -->
                     </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel">
                     <div class="panel-footer text-right">
-                        <button name="submit" type="submit" value="submit" class="btn btn-primary">Save</button>
+                        <button name="submit" type="submit" value="submit" id="update-user-btn" class="btn btn-primary">Save</button>
                     </div><!-- /.panel-footer -->
                 </div><!-- /.panel -->
             </div><!-- /.col -->

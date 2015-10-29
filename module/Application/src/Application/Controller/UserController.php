@@ -10,6 +10,7 @@ namespace Application\Controller;
 
 use Application\Model\User;
 use Application\Model\UserCategory;
+use Application\Model\UserDay;
 use Application\Model\UserExcludeCategory;
 use Application\Model\ViewUserCategory;
 use Application\Model\Vote;
@@ -41,6 +42,7 @@ class UserController extends ApplicationController
         return new ViewModel(array(
             'session'    => $this->session,
             'categories' => $categories,
+            'days'       => $this->days,
         ));
     }
 
@@ -50,10 +52,9 @@ class UserController extends ApplicationController
     public function signUpAction()
     {
         $categories = $this->getCategoryTable()->fetchAll();
-        $days = array('Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays');
         return new ViewModel(array(
             'categories' => $categories,
-            'days'       => $days,
+            'days'       => $this->days,
         ));
     }
     
@@ -87,6 +88,16 @@ class UserController extends ApplicationController
         foreach ($userCategories as $userCategory) {
             $this->session->userCategories[$i] = new UserCategory();
             $this->session->userCategories[$i] = $userCategory;
+            $i++;
+        }
+
+        //save UserDays
+        $userDays = $this->getUserDaysTable()->getUserDays($user);
+        $i = 0;
+        $this->session->userDays = array();
+        foreach ($userDays as $userDay) {
+            $this->session->userDays[$i] = new UserDay();
+            $this->session->userDays[$i] = $userDay;
             $i++;
         }
 
@@ -136,6 +147,7 @@ class UserController extends ApplicationController
         $password = $this->getRequest()->getPost('password');
         $password2 = $this->getRequest()->getPost('password2');
         $categories = $this->getRequest()->getPost('category');
+        $days = $this->getRequest()->getPost('days');
         $excludeCategories = $this->getRequest()->getPost('excludeCategory');
         $submit = $this->getRequest()->getPost('submit');
 
@@ -189,6 +201,16 @@ class UserController extends ApplicationController
                         $userExcludeCategory->user_id = $newUser->user_id;
                         $userExcludeCategory->cat_id = (int) $cat_id;
                         $this->getUserExcludeCategoriesTable()->addUserExcludeCategory($userExcludeCategory);
+                    }
+                }
+
+                //add user-days to db
+                if (isset($days)) {
+                    foreach ($days as $day) {
+                        $userDay = new UserDay();
+                        $userDay->user_id = $newUser->user_id;
+                        $userDay->day = $day;
+                        $this->getUserDaysTable()->addUserDay($userDay);
                     }
                 }
 
@@ -303,6 +325,7 @@ class UserController extends ApplicationController
         $deleteAccount = $this->getRequest()->getPost('delete-account');
         $submit = $this->getRequest()->getPost('submit');
         $categories = $this->getRequest()->getPost('category');
+        $days = $this->getRequest()->getPost('days');
         $excludeCategories = $this->getRequest()->getPost('excludeCategory');
 
         //validate
@@ -348,6 +371,7 @@ class UserController extends ApplicationController
             if (isset($deleteAccount) && $deleteAccount == 1) {
                 //delete all categories first
                 $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                $this->getUserDaysTable()->deleteUserDaysByUserId($this->session->user->user_id);
                 $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                 $this->getUserTable()->deleteUser($this->session->user->user_id);
                 $this->destroyUserSession();
@@ -377,37 +401,40 @@ class UserController extends ApplicationController
                     //first delete all user categories, then re-add them as per update form
                     $this->getUserCategoriesTable()->deleteCategoryByUserId($updatedUser->user_id);
 
-                    //add user-categories to db
-                    if ($categories != null) {
-                        //first delete all cats then replace
-                        $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
-                        foreach ($categories as $name => $cat_id) {
-                            $userCategory = new UserCategory();
-                            $userCategory->user_id = $updatedUser->user_id;
-                            $userCategory->cat_id = (int) $cat_id;
-                            $this->getUserCategoriesTable()->addUserCategory($userCategory);
-                        }
+                    $categories = ($categories == null) ? array() : $categories;
+                    //first delete all categoriess then replace
+                    $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                    foreach ($categories as $name => $cat_id) {
+                        $userCategory = new UserCategory();
+                        $userCategory->user_id = $updatedUser->user_id;
+                        $userCategory->cat_id = (int) $cat_id;
+                        $this->getUserCategoriesTable()->addUserCategory($userCategory);
                     }
 
-                    //add user-exclude-categories to db
-                    if ($excludeCategories != null) {
-                        //first delete all cats then replace
-                        $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
-                        foreach ($excludeCategories as $name => $cat_id) {
-                            $userExcludeCategory = new UserExcludeCategory();
-                            $userExcludeCategory->user_id = $updatedUser->user_id;
-                            $userExcludeCategory->cat_id = (int) $cat_id;
-                            $this->getUserExcludeCategoriesTable()->addUserExcludeCategory($userExcludeCategory);
-                        }
+                    $excludeCategories = ($excludeCategories == null) ? array() : $excludeCategories;
+                    //first delete all exclude categoriess then replace
+                    $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                    foreach ($excludeCategories as $name => $cat_id) {
+                        $userExcludeCategory = new UserExcludeCategory();
+                        $userExcludeCategory->user_id = $updatedUser->user_id;
+                        $userExcludeCategory->cat_id = (int) $cat_id;
+                        $this->getUserExcludeCategoriesTable()->addUserExcludeCategory($userExcludeCategory);
+                    }
+
+                    $days = ($days == null) ? array() : $days;
+                    var_dump($days);
+                    //first delete all user-days then replace
+                    $this->getUserDaysTable()->deleteUserDaysByUserId($this->session->user->user_id);
+                    foreach ($days as $day) {
+                        $userDay = new UserDay();
+                        $userDay->user_id = $updatedUser->user_id;
+                        $userDay->day = $day;
+                        $this->getUserDaysTable()->addUserDay($userDay);
                     }
 
                     $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
 
-                    if ($username != '') {
-                        $message = "Username updated";
-                    } else {
-                        $message = "Success";
-                    }
+                    $message = "Success";
                 } catch (\Exception $e) {
                     $message = $e->getMessage();
                 }
@@ -415,7 +442,7 @@ class UserController extends ApplicationController
         }
 
         return new ViewModel(array(
-            'message' => $message
+            'message' => $message,
         ));
     }
 
@@ -482,20 +509,21 @@ class UserController extends ApplicationController
                 }
 
                 if (isset($possibleHashedIds[$hashedID]) && $possibleHashedIds[$hashedID]) {
-                    $user->password = $this->getRequest()->getPost('password1');
+                    $user->password = $password1;
                     $user->email = null; //as to not update the email address, which will cause error saying it already exists
+                    $user->username = null; //as to not update the email address, which will cause error saying it already exists
                     $this->getUserTable()->updateUser($user);
                     $message = "Success";
                 } else {
-                    $message = "Make sure this link is not older than 15 minutes, otherwise it has expired. Submit reset password form again to resend email.";
+                    $message = "Make sure this link is not older than 15 minutes, otherwise it has expired. Submit the reset password form again to send a new email.";
                 }
             } else {
-                $message = "Make sure you are using the correct email address and the link from your reset password email";
+                $message = "Make sure you are using the correct email address and link from your reset password email";
             }
         }
 
         return new ViewModel(array(
-            'message' => $message
+            'message' => $message,
         ));
     }
 

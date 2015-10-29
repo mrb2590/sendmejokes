@@ -26,7 +26,7 @@
             </div><!-- /.row -->
         </div><!-- /.container -->
     <?php else: ?>
-        <div class="row masonry">
+        <div class="row masonry <?php if($totalOnPage < 6):?>less-than-six<?php endif ?> col-<?php echo $totalOnPage ?>">
             <?php foreach($jokes as $joke): ?>
                 <?php $joke->joke = trim(preg_replace('/[\r|\n]+/', '<br>', $joke->joke)) //replace newlines with HTML breaks ?>
                 <?php /*-- get total vote count for current joke --*/ ?>
@@ -71,7 +71,7 @@
                                     <?php endif ?>
                                 </p>
                             <?php endif ?>
-                            <p class="joke-categories">
+                            <span class="joke-categories">
                                 Categories:
                                 <span class="dark-secondary">
                                     <?php $i = 0 ?>
@@ -89,7 +89,7 @@
                                         <?php endif ?>
                                     <?php endforeach ?>
                                 </span>
-                            </p>
+                            </span>
                         </div><!-- /.panel-body -->
                         <div class="panel-footer no-select">
                             <?php
@@ -104,8 +104,9 @@
                                 $email = $emailSubject . $emailBody;
                             ?>
                             <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope-o"></i></a>
-                            <a class="share" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>"><i class="fa fa-link-out"></i></a><!-- changed name of fb icon to get past addBlock -->
-                            <a class="share" target="_blank" href="https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>"><i class="fa fa-link-out2"></i></a><!-- changed name of fb icon to get past addBlock -->
+                            <a class="share" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-link-out"></i></a><!-- changed name of fb icon to get past addBlock -->
+                            <a class="share" target="_blank" href="https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-link-out2"></i></a><!-- changed name of g+ icon to get past addBlock -->
+                            <a class="share" target="_blank" href="/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-external-link-square"></i></a>
                             <span class="pull-right">
                                 <i class="fa <?php echo $thumbsUp ?> vote up-vote"></i>
                                 <span class="vote-count"><?php echo $voteCount ?></span>

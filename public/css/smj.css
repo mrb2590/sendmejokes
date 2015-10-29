@@ -3,13 +3,6 @@
  *
  */
 html, body {
-    /*
-    background: url(images/bg.jpg) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    */
     background-color: #fff;
     height: 100%;
 }
@@ -123,7 +116,17 @@ html, body {
         .sidebar-head .sidebar-head-item {
             display: block;
             width: initial;
+            text-decoration: none;
         }
+        .sidebar-head #username-item.sidebar-head-item,
+        .sidebar-head #username-item.sidebar-head-item span:hover,
+        .sidebar-head #username-item.sidebar-head-item span:active {
+            text-decoration: none;
+        }
+            .sidebar-head-item span:hover,
+            .sidebar-head-item span:focus {
+                text-decoration: underline;
+            }
         .sidebar .sidebar-head a,
         .sidebar .sidebar-head i {
             color: #673ab7;
@@ -289,10 +292,33 @@ html, body {
        -moz-column-gap: 18px;
             column-gap: 18px;
 }
+.masonry.less-than-six {
+    text-align: center;
+}
+.masonry.col-1 {
+    -webkit-column-count: 1;
+       -moz-column-count: 1;
+            column-count: 1;
+}
+.masonry.col-2 {
+    -webkit-column-count: 2;
+       -moz-column-count: 2;
+            column-count: 2;
+}
+.masonry.col-3 {
+    -webkit-column-count: 3;
+       -moz-column-count: 3;
+            column-count: 3;
+}
+    .masonry.less-than-six .item {
+        max-width: 430px;
+        width: 100%; 
+    }
     .masonry .item {
+        text-align: left;
         display: inline-block;
-        padding:  .25rem;
-        width:  100%; 
+        padding: 0.25rem;
+        width: 100%; 
     }
     .masonry .panel-footer {
         font-size: 20px;
@@ -334,4 +360,15 @@ html, body {
 
 .joke-categories {
     font-size: 12px;
+}
+
+/*******************************************************************
+* ---USER PREFERENCES---
+*******************************************************************/
+#update-user-btn {
+    -webkit-transition: all 0.6s ease;
+       -moz-transition: all 0.6s ease;
+        -ms-transition: all 0.6s ease;
+         -o-transition: all 0.6s ease;
+            transition: all 0.6s ease;
 }
