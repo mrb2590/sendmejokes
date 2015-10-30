@@ -3,7 +3,7 @@
  *
  */
 html, body {
-    background-color: #fff;
+    background-color: #fafafa;
     height: 100%;
 }
 
@@ -87,12 +87,12 @@ html, body {
         white-space: nowrap;
         width: 100%;
         height: 56px;
-        color: #673ab7;
+        color: #2196f3;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         opacity: 100;
         font-size: 20px;
         padding: 10px 30px;
-        border-bottom: 5px solid #673ab7;
+        border-bottom: 5px solid #2196f3;
         -webkit-transition: all 0.6s ease;
            -moz-transition: all 0.6s ease;
             -ms-transition: all 0.6s ease;
@@ -129,14 +129,14 @@ html, body {
             }
         .sidebar .sidebar-head a,
         .sidebar .sidebar-head i {
-            color: #673ab7;
+            color: #2196f3;
         }
         .sidebar .sidebar-head.sidebar-head-hidden {
             opacity: 0;
         }
     .sidebar .list-group {
         overflow: auto;
-        background-color: #009688;
+        background-color: #212121;
         width: 100%;
         height: calc(100% - 56px);
         border-radius: 0;
@@ -150,7 +150,7 @@ html, body {
     }
         .sidebar .list-group .list-group-item {
             white-space: nowrap;
-            background-color: #009688;
+            background-color: #212121;
             border-radius: 0;
             border-left: none;
             border-right: none;
@@ -171,7 +171,7 @@ html, body {
             }
         .sidebar .list-group .list-group-item:hover {
             background-color: #b2dfdb;
-            color: #009688;
+            color: #212121;
         }
         .sidebar .list-group .list-group-item:active {
             background-color: #80cbc4;

@@ -76,14 +76,8 @@
                                 <span class="dark-secondary">
                                     <?php $i = 0 ?>
                                     <?php foreach($jokeCategories as $jokeCategory): ?>
-                                        <?php foreach($categories as $category): ?>
-                                            <?php if ($category->name == $jokeCategory->name): ?>
-                                                <?php $url_name = $category->url_name ?>
-                                                <?php continue ?>
-                                            <?php endif ?>
-                                        <?php endforeach ?>
                                         <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
-                                            <?php $link = '<a href="' . $this->url('joke', array('action' => 'view', 'category' => $url_name)) . '">' . $jokeCategory->name . '</a>' ?>
+                                            <?php $link = '<a href="' . $this->url('joke', array('action' => 'view', 'category' => $catArray[$jokeCategory->cat_id])) . '">' . $jokeCategory->name . '</a>' ?>
                                                 <?php echo ($i > 0) ? " | " . $link : $link ?>
                                             <?php $i++ ?>
                                         <?php endif ?>
@@ -103,7 +97,7 @@
                                 $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com/jokes';
                                 $email = $emailSubject . $emailBody;
                             ?>
-                            <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope-o"></i></a>
+                            <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope"></i></a>
                             <a class="share" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-link-out"></i></a><!-- changed name of fb icon to get past addBlock -->
                             <a class="share" target="_blank" href="https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-link-out2"></i></a><!-- changed name of g+ icon to get past addBlock -->
                             <a class="share" target="_blank" href="/jokes/view/<?php echo $joke->joke_id ?>/"><i class="fa fa-external-link-square"></i></a>

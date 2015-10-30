@@ -422,7 +422,7 @@ class UserController extends ApplicationController
                     }
 
                     $days = ($days == null) ? array() : $days;
-                    var_dump($days);
+                    
                     //first delete all user-days then replace
                     $this->getUserDaysTable()->deleteUserDaysByUserId($this->session->user->user_id);
                     foreach ($days as $day) {

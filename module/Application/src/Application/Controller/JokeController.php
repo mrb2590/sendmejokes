@@ -28,6 +28,9 @@ class JokeController extends ApplicationController
         $get_joke_id = $this->params()->fromRoute('joke_id');
         $search = $this->params()->fromQuery('search');
         $categories = $this->getCategoryTable()->fetchAll();
+        foreach ($categories as $tempCat) {
+            $catArray[$tempCat->cat_id] = $tempCat->url_name;
+        }
         $total = false;
         $jokes = false;
         $searchflag = false;
@@ -95,6 +98,7 @@ class JokeController extends ApplicationController
             'totalOnPage'    => $totalOnPage,
             'userVotes'      => $userVotes,
             'categories'     => $categories,
+            'catArray'       => $catArray,
         ));
     }
 
@@ -204,9 +208,6 @@ class JokeController extends ApplicationController
             $this->getVoteTable()->vote($vote);
             $message = "Your vote has been saved.";
         }
-
-
-        //$message = var_export($user, true);
 
         return new ViewModel(array(
             'message' => $message

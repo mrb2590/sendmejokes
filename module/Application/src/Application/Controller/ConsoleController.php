@@ -15,8 +15,13 @@ use Zend\Console\Request as ConsoleRequest;
 
 class ConsoleController extends ApplicationController
 {
+    /**
+     * example usage: php public/index.php emaildailyjoke -a
+     */
     public function emailDailyJokeAction()
     {
+        //get current day of week
+        $currentDay = date('l');
         // Make sure that we are running in a console and the user has not tricked our
         // application into running this action from a public web server.
         $request = $this->getRequest();
@@ -36,87 +41,99 @@ class ConsoleController extends ApplicationController
             foreach ($users as $user) {
                 echo "Username: " . $user->username . "\r\n";
                 echo "Email: " . $user->email . "\r\n";
-                $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
-
-                if ($userCategories->count() > 0) {
-                    $userExcludeCategories = $this->getUserExcludeCategoriesTable()->getUserExcludeCategories($user);
-                    $userSentJokes = $this->getUserSentJokesTable()->getUserSentJokes($user);
-                    $possibleJokes = array();
-
-                    //filter jokes by user categories
-                    foreach ($jokeCategories as $jokeCategory) {
-                        foreach ($userCategories as $userCategory) {
-                            if ($jokeCategory->cat_id == $userCategory->cat_id) {
-                                $possibleJokes[$jokeCategory->joke_id] = true;
-                                //echo "Possible Joke id: " . $jokeCategory->joke_id . "   cat id: " . $jokeCategory->cat_id . "\r\n";
-                            }
-                        }
-                    }
-                    //remove any jokes that have categories from user exclude categories table
-                    foreach ($jokeCategories as $jokeCategory) {
-                        foreach ($userExcludeCategories as $userExcludeCategory) {
-                            if ($jokeCategory->cat_id == $userExcludeCategory->cat_id) {
-                                if (isset($possibleJokes[$jokeCategory->joke_id])) {
-                                    unset($possibleJokes[$jokeCategory->joke_id]);
-                                    //echo "Removed Joke id: " . $jokeCategory->joke_id . "\r\n";
-                                }
-                            }
-                        }
-                    }
-                    $filteredJokes = $possibleJokes; //keep original filtered jokes incase the next filter removes them all
-                    //remove jokes that have recently been sent
-                    foreach ($jokeCategories as $jokeCategory) {
-                        foreach ($userSentJokes as $userSentJoke) {
-                            if (isset($possibleJokes[$userSentJoke->joke_id]) && (strtotime($userSentJoke->sent_on) >= (strtotime('-30 days')))) {
-                                unset($possibleJokes[$jokeCategory->joke_id]);
-                                //echo "Removed Joke id: " . $jokeCategory->joke_id . " because joke has been sent\r\n";
-                            }
-                        }
-                    }
-
-                    //get first joke from list of possible jokes
-                    if (!empty($possibleJokes)) {
-                        $joke = $this->getJokeTable()->getJoke(current(array_keys($possibleJokes)));
-                    } else {
-                        echo "***No jokes left after filtering recently sent jokes. Choosing a random one...\r\n";
-                        $keys = array_keys($filteredJokes);
-                        shuffle($keys);
-                        $joke = $this->getJokeTable()->getJoke(current($keys));
-                    }
-
-                    //get joke categories
-                    $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke->joke_id);
-                    //get category names
-                    foreach ($jokeCategories as $jokeCategory) {
-                        $categories[] = $this->getCategoryTable()->getCategory($jokeCategory->cat_id);
-                    }
-                    //get joke votes
-                    $votes = $this->getVoteTable()->getVotesByJoke($joke->joke_id);
-                    //sum up votes
-                    $voteSum = 0;
-                    foreach ($votes as $vote) {
-                        $voteSum += (int) $vote->vote;
-                        //get user's vote on this joke
-                        if ($vote->user_id == $user->user_id) {
-                            $userVote = ($vote->vote != null) ? $vote->vote : "0";
-                        }
-                    }
-
-                    //send email
-                    $this->sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote);
-                    echo "Daily Joke Sent\r\n\r\n";
-                } else {
-                    echo "User is unsubscribed from jokes\r\n\r\n";
+                //get user days skip user if no days selected
+                $userDays = $this->getUserDaysTable()->getUserDays($user);
+                $dayMatch = false;
+                foreach ($userDays as $userDay) {
+                    $dayMatch = ($userDay->day == $currentDay) ? true : $dayMatch;
                 }
+                if (!$dayMatch) {
+                    echo "User is not subscribed to recieve jokes on any days of the week\r\n\r\n";
+                    continue;
+                }
+                //get user categories and skip user if no categories are selected
+                $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
+                if ($userCategories->count() <= 0) {
+                    echo "User has selected today as one of their user-days, but is not subscribed to any categories\r\n\r\n";
+                    continue;
+                }
+
+                $userExcludeCategories = $this->getUserExcludeCategoriesTable()->getUserExcludeCategories($user);
+                $userSentJokes = $this->getUserSentJokesTable()->getUserSentJokes($user);
+                $possibleJokes = array();
+
+                //filter jokes by user categories
+                foreach ($jokeCategories as $jokeCategory) {
+                    foreach ($userCategories as $userCategory) {
+                        if ($jokeCategory->cat_id == $userCategory->cat_id) {
+                            $possibleJokes[$jokeCategory->joke_id] = true;
+                            //echo "Possible Joke id: " . $jokeCategory->joke_id . "   cat id: " . $jokeCategory->cat_id . "\r\n";
+                        }
+                    }
+                }
+                //remove any jokes that have categories from user exclude categories table
+                foreach ($jokeCategories as $jokeCategory) {
+                    foreach ($userExcludeCategories as $userExcludeCategory) {
+                        if ($jokeCategory->cat_id == $userExcludeCategory->cat_id) {
+                            if (isset($possibleJokes[$jokeCategory->joke_id])) {
+                                unset($possibleJokes[$jokeCategory->joke_id]);
+                                //echo "Removed Joke id: " . $jokeCategory->joke_id . "\r\n";
+                            }
+                        }
+                    }
+                }
+
+                $filteredJokes = $possibleJokes; //keep original filtered jokes incase the next filter removes them all
+
+                //remove jokes that have recently been sent
+                foreach ($jokeCategories as $jokeCategory) {
+                    foreach ($userSentJokes as $userSentJoke) {
+                        if (isset($possibleJokes[$userSentJoke->joke_id]) && (strtotime($userSentJoke->sent_on) >= (strtotime('-30 days')))) {
+                            unset($possibleJokes[$jokeCategory->joke_id]);
+                            //echo "Removed Joke id: " . $jokeCategory->joke_id . " because joke has been sent\r\n";
+                        }
+                    }
+                }
+
+                //get first joke from list of possible jokes
+                if (!empty($possibleJokes)) {
+                    $joke = $this->getJokeTable()->getJoke(current(array_keys($possibleJokes)));
+                } else {
+                    echo "***No jokes left after filtering recently sent jokes. Choosing a random one...\r\n";
+                    $keys = array_keys($filteredJokes);
+                    shuffle($keys);
+                    $joke = $this->getJokeTable()->getJoke(current($keys));
+                }
+
+                //get joke categories
+                $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke->joke_id);
+                //get category names
+                foreach ($jokeCategories as $jokeCategory) {
+                    $categories[] = $this->getCategoryTable()->getCategory($jokeCategory->cat_id);
+                }
+                //get joke votes
+                $votes = $this->getVoteTable()->getVotesByJoke($joke->joke_id);
+                //sum up votes
+                $voteSum = 0;
+                foreach ($votes as $vote) {
+                    $voteSum += (int) $vote->vote;
+                    //get user's vote on this joke
+                    if ($vote->user_id == $user->user_id) {
+                        $userVote = ($vote->vote != null) ? $vote->vote : "0";
+                    }
+                }
+
+                //send email
+                $this->sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote);
+                echo "Daily Joke Sent\r\n\r\n";
             }
         }
-
         return;
     }
 
     function sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote)
     {
-        $logoSource = 'http://www.sendmejokes.com/img/logo-light.png';
+        $logoSource = 'http://www.sendmejokes.com/img/logo.png';
         $key = hash('sha256', $user->user_id);
         //build categories string
         $categoriesString = '';

@@ -41,8 +41,8 @@
                                     <td class="checkbox-tile add-exclude <?php if($match): echo 'checked'; elseif($excludeMatch): echo 'exclude'; endif ?>">
                                         <span class="checkbox-tile-label"><?php echo $category->name ?></span>
                                         <div class="checkbox-tile-hidden">
-                                            <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php echo ($match) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
-                                            <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" <?php echo ($excludeMatch) ? 'checked="true"' : '' ?> value="<?php echo $category->cat_id ?>">
+                                            <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" <?php if($match): ?>checked="true"<?php endif ?> value="<?php echo $category->cat_id ?>">
+                                            <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" <?php if($excludeMatch): ?>checked="true"<?php endif ?> value="<?php echo $category->cat_id ?>">
                                         </div><!-- /.checkbox-tile-hidden -->
                                     </td><!--  /.checkbox-tile -->
                                 <?php $i++ ?>
@@ -117,16 +117,11 @@
                                     <?php foreach ($session->userDays as $userDay): ?>
                                         <?php $match = ($userDay->day == $day) ? true : $match ?>
                                     <?php endforeach ?>
-                                    <td class="checkbox-tile checkbox-day hidden-xs hidden-sm <?php if($match): ?>checked<?php endif ?>">
-                                        <span class="checkbox-tile-label"><?php echo $day ?></span>
+                                    <td class="checkbox-tile checkbox-day <?php if($match): ?>checked<?php endif ?>">
+                                        <span class="checkbox-tile-label hidden-xs hidden-sm"><?php echo $day ?></span>
+                                        <span class="checkbox-tile-label hidden-lg hidden-md"><?php echo $day[0] ?></span>
                                         <div class="checkbox-tile-hidden">
-                                            <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>" <?php if($match): ?>checked="true"<?php endif ?>>
-                                        </div><!-- /.checkbox-tile-hidden -->
-                                    </td><!--  /.checkbox-tile -->
-                                    <td class="checkbox-tile checkbox-day hidden-lg hidden-md">
-                                        <span class="checkbox-tile-label"><?php echo $day[0] ?></span>
-                                        <div class="checkbox-tile-hidden">
-                                            <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>" <?php if($match): ?>checked="true"<?php endif ?>>
+                                            <input type="checkbox" class="add-category" name="days[]" value="<?php echo $day ?>" <?php if($match): ?>checked="true"<?php endif ?>>
                                         </div><!-- /.checkbox-tile-hidden -->
                                     </td><!--  /.checkbox-tile -->
                                 <?php endforeach; ?>

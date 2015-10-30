@@ -56,14 +56,9 @@
                             <table class="checkbox-tile-table">
                                 <tr class="checkbox-tile-row">
                                     <?php foreach($days as $day): ?>
-                                        <td class="checkbox-tile checkbox-day hidden-xs">
-                                            <span class="checkbox-tile-label"><?php echo $day ?></span>
-                                            <div class="checkbox-tile-hidden">
-                                                <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>">
-                                            </div><!-- /.checkbox-tile-hidden -->
-                                        </td><!--  /.checkbox-tile -->
-                                        <td class="checkbox-tile checkbox-day hidden-lg hidden-md hidden-sm">
-                                            <span class="checkbox-tile-label"><?php echo $day[0] ?></span>
+                                        <td class="checkbox-tile checkbox-day">
+                                            <span class="checkbox-tile-label hidden-xs"><?php echo $day ?></span>
+                                            <span class="checkbox-tile-label hidden-lg hidden-md hidden-sm"><?php echo $day[0] ?></span>
                                             <div class="checkbox-tile-hidden">
                                                 <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>">
                                             </div><!-- /.checkbox-tile-hidden -->

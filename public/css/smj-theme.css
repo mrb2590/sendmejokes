@@ -40,7 +40,7 @@ input::-moz-focus-inner {
     text-shadow: rgba(0, 0, 0, 0.95) 0px 0px 10px !important;
 }
 .highlight {
-    color: #673ab7;
+    color: #2196f3;
     font-weight: 900;
 }
 .no-padding {
@@ -53,10 +53,10 @@ input::-moz-focus-inner {
     color: #fff;
 }
 .dark-primary {
-    color: #009688;
+    color: #212121;
 }
 .dark-secondary {
-    color: #673ab7;
+    color: #2196f3;
 }
 .middle-align-out {
     position: relative;
@@ -97,7 +97,7 @@ input::-moz-focus-inner {
 * ---ANCHORS---
 *******************************************************************/
 a {
-    color: #673ab7;
+    color: #2196f3;
 }
 a:hover,
 a:focus {
@@ -121,7 +121,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #009688; 
+        color: #212121; 
     }        
     100% {
         color: inherit;
@@ -132,7 +132,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #009688; 
+        color: #212121; 
     }        
     100% {
         color: inherit;
@@ -143,7 +143,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #009688; 
+        color: #212121; 
     }        
     100% {
         color: inherit;
@@ -154,7 +154,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #009688; 
+        color: #212121; 
     }        
     100% {
         color: inherit;
@@ -175,7 +175,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #673ab7; 
+        color: #2196f3; 
     }        
     100% {
         color: inherit;
@@ -186,7 +186,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #673ab7; 
+        color: #2196f3; 
     }        
     100% {
         color: inherit;
@@ -197,7 +197,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #673ab7; 
+        color: #2196f3; 
     }        
     100% {
         color: inherit;
@@ -208,7 +208,7 @@ a:focus {
         color: inherit; 
     }
     30% { 
-        color: #673ab7; 
+        color: #2196f3; 
     }        
     100% {
         color: inherit;
@@ -264,12 +264,12 @@ a:focus {
     }
 .checkbox-tile.checked {
     color: #fff;
-    background: #009688 url('/img/fa-check-transparency.png') no-repeat 50% 50%;
+    background: #212121 url('/img/fa-check-transparency.png') no-repeat 50% 50%;
     background-size: 50%;
 }
 .checkbox-tile.exclude {
     color: #fff;
-    background: #673ab7 url('/img/fa-times-transparency.png') no-repeat 50% 50%;
+    background: #2196f3 url('/img/fa-times-transparency.png') no-repeat 50% 50%;
     background-size: 50%;
 }
 .checkbox-day .checkbox-tile-label {
@@ -284,19 +284,19 @@ a:focus {
 }
 .panel {
     color: #333;
-    background-color: #e0f2f1;
+    background-color: #e0e0e0;
     border: 0;
     border-radius: 0;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
             box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
 .panel-heading {
-    border-bottom: 1px solid #009688;
+    border-bottom: 1px solid #212121;
 }
 .panel-footer {
-    background-color: #b2dfdb;
+    background-color: #bdbdbd;
     border-radius: 0;
-    border-top: 1px solid #009688;
+    border-top: 1px solid #212121;
 }
 @media (max-width: 767px) {
     .panel-heading h2 {
@@ -352,7 +352,7 @@ a:focus {
 .form-control {
     background-color: #fff;
     background-image: none;
-    border: 1px solid #009688;
+    border: 1px solid #212121;
     border-radius: 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
     color: #555;
@@ -365,7 +365,7 @@ a:focus {
     width: 100%;
 }
 .form-control:focus {
-    border: 1px solid #009688;
+    border: 1px solid #212121;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 150, 136, 0.6);
     outline: 0 none;
 }
@@ -375,10 +375,10 @@ label {
 .input-group .input-group-addon {
     border-radius: 0;
     background-color: #e0f2f1;
-    border-color: #009688;
+    border-color: #212121;
 }
     .input-group .input-group-addon i {
-        color: #673ab7 !important;
+        color: #2196f3 !important;
     }
 
 /*******************************************************************
@@ -392,8 +392,8 @@ label {
         background-color: #fff;
     }
         .modal .modal-content .modal-header {
-            border-bottom: 5px solid #673ab7;
-            background-color: #009688;
+            border-bottom: 5px solid #2196f3;
+            background-color: #212121;
         }
             .modal .modal-content .modal-header .modal-title {
                 text-align: center;
@@ -401,7 +401,7 @@ label {
                 font-weight: bold;
             }
         .modal .modal-content .modal-footer {
-            border-top: 1px solid #009688;
+            border-top: 1px solid #212121;
             background-color: #e0f2f1;
         }
     .modal .modal-alert {
@@ -409,13 +409,13 @@ label {
         font-weight: bold;
         width: 100%;
         display: none;
-        color: #673ab7;
+        color: #2196f3;
         padding-top: 10px;
     }
     .modal .forgot-password-link,
     .modal .need-account-link {
         font-size: 12px;
-        color: #673ab7;
+        color: #2196f3;
         display: table;
     }
 #alert-modal .modal-body {
@@ -542,8 +542,8 @@ fieldset[disabled] .btn-default.active {
     color: #fff;
 }
 .btn-primary {
-    background-color: #009688;
-    border: 1px solid #009688;
+    background-color: #212121;
+    border: 1px solid #212121;
     border-radius: 0;
     color: #fff !important;
     -webkit-transition: all 0.2s ease;
@@ -640,8 +640,8 @@ fieldset[disabled] .btn-success.active {
     background-image: none;
 }
 .btn-info {
-    background-color: #673ab7;
-    border: 1px solid #673ab7;
+    background-color: #2196f3;
+    border: 1px solid #2196f3;
     border-radius: 0;
     color: #fff !important;
     -webkit-transition: all 0.2s ease;
@@ -795,9 +795,9 @@ fieldset[disabled] .btn-danger.active {
     position: fixed;
     width: 100%;
     height: 69px;
-    background-color: #009688;
+    background-color: #212121;
     z-index: 999;
-    border-bottom: 5px solid #673ab7;
+    border-bottom: 5px solid #2196f3;
 }
 
 /*******************************************************************
@@ -1071,14 +1071,14 @@ h1 small {
     color: #333;
 }
 .fa.fa-thumbs-up {
-    color: #009688;
+    color: #212121;
 }
 .fa.fa-thumbs-down {
-    color: #673ab7;
+    color: #2196f3;
 }
 .fa-cog.fa-spin {
     animation: 6s linear 0s normal none infinite running fa-spin;
 }
 .fa-spinner {
-    color: #673ab7;
+    color: #2196f3;
 }
