@@ -9,6 +9,7 @@
 namespace Application\Controller;
 
 use Application\Model\Vote;
+use Application\Model\UserSentJoke;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Console\Request as ConsoleRequest;
@@ -41,20 +42,27 @@ class ConsoleController extends ApplicationController
             foreach ($users as $user) {
                 echo "Username: " . $user->username . "\r\n";
                 echo "Email: " . $user->email . "\r\n";
+
                 //get user days skip user if no days selected
                 $userDays = $this->getUserDaysTable()->getUserDays($user);
-                $dayMatch = false;
-                foreach ($userDays as $userDay) {
-                    $dayMatch = ($userDay->day == $currentDay) ? true : $dayMatch;
-                }
-                if (!$dayMatch) {
-                    echo "User is not subscribed to recieve jokes on any days of the week\r\n\r\n";
-                    continue;
-                }
-                //get user categories and skip user if no categories are selected
-                $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
-                if ($userCategories->count() <= 0) {
-                    echo "User has selected today as one of their user-days, but is not subscribed to any categories\r\n\r\n";
+
+                if ($userDays) {
+                    $dayMatch = false;
+                    foreach ($userDays as $userDay) {
+                        $dayMatch = ($userDay->day == $currentDay) ? true : $dayMatch;
+                    }
+                    if (!$dayMatch) {
+                        echo "User is not subscribed to recieve jokes on " . $currentDay . "s\r\n\r\n";
+                        continue;
+                    }
+                    //get user categories and skip user if no categories are selected
+                    $userCategories = $this->getUserCategoriesTable()->getUserCategories($user);
+                    if ($userCategories->count() <= 0) {
+                        echo "User has selected today as one of their user-days, but is not subscribed to any categories\r\n\r\n";
+                        continue;
+                    }
+                } else {
+                    echo "User is not subscribed for any days of the week\r\n\r\n";
                     continue;
                 }
 
@@ -71,6 +79,7 @@ class ConsoleController extends ApplicationController
                         }
                     }
                 }
+
                 //remove any jokes that have categories from user exclude categories table
                 foreach ($jokeCategories as $jokeCategory) {
                     foreach ($userExcludeCategories as $userExcludeCategory) {
@@ -115,17 +124,24 @@ class ConsoleController extends ApplicationController
                 $votes = $this->getVoteTable()->getVotesByJoke($joke->joke_id);
                 //sum up votes
                 $voteSum = 0;
+                $userVote = "0";
                 foreach ($votes as $vote) {
                     $voteSum += (int) $vote->vote;
                     //get user's vote on this joke
                     if ($vote->user_id == $user->user_id) {
-                        $userVote = ($vote->vote != null) ? $vote->vote : "0";
+                        $userVote = $vote->vote;
                     }
                 }
 
+                //add to sent jokes table
+                $sentJoke = new UserSentJoke();
+                $sentJoke->joke_id = $joke->joke_id;
+                $sentJoke->user_id = $user->user_id;
+                $this->getUserSentJokesTable()->addUserSentJoke($sentJoke);
+
                 //send email
                 $this->sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote);
-                echo "Daily Joke Sent\r\n\r\n";
+                echo "Daily Joke Sent. Joke ID: " . $joke->joke_id . "\r\n\r\n";
             }
         }
         return;

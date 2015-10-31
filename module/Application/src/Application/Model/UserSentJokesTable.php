@@ -9,6 +9,7 @@
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Application\Model\UserSentJoke;
 
 class UserSentJokesTable
 {
@@ -44,5 +45,18 @@ class UserSentJokesTable
         $resultSet = $this->tableGateway->select();
         $resultSet->buffer();
         return $resultSet;
+    }
+
+    /**
+     * @param Application\Model\UserSentJoke
+     */
+    public function addUserSentJoke(UserSentJoke $userSentJoke)
+    {
+        $data = array(
+            'joke_id' => $userSentJoke->joke_id,
+            'user_id'  => $userSentJoke->user_id,
+        );
+
+        $this->tableGateway->insert($data);
     }
 }

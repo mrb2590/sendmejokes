@@ -460,8 +460,15 @@ function bindEventListeners() {
     * click event - changes text of save button in user preferences
     *******************************************************************/
     $(document).on('click', '#delete-account-checkbox', function() {
-        var btnText = ($(this).is(':checked')) ? "Delete My Account" : "Save";
-        $('#update-user-btn').html(btnText);
+        if ($(this).is(':checked')) {
+            $('#update-user-btn').html("Delete My Account");
+            $('#update-user-btn').addClass("btn-danger");
+            $('#update-user-btn').removeClass("btn-success");
+        } else {
+            $('#update-user-btn').html("Save");
+            $('#update-user-btn').addClass("btn-success");
+            $('#update-user-btn').removeClass("btn-danger");
+        }
     });
 }
 

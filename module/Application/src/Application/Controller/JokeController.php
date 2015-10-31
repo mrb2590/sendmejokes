@@ -232,18 +232,20 @@ class JokeController extends ApplicationController
         $joke = false;
         $joke_id = $this->params()->fromQuery('joke_id');
 
-        if($this->validateInput($joke_id, '')) {
-            try {
-                $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke_id);
-                $joke = $this->getJokeTable()->getJoke($joke_id);
-                $message = (!$joke) ? "Could not find joke with ID " . $joke_id : "Success";
-            } catch (\Exception $e) {
-                $joke = false;
-                $jokeCategories = false;
-                $message = 'Unable to find joke';
+        if ($joke_id) {
+            if($this->validateInput($joke_id, '')) {
+                try {
+                    $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke_id);
+                    $joke = $this->getJokeTable()->getJoke($joke_id);
+                    $message = (!$joke) ? "Could not find joke with ID " . $joke_id : "Success";
+                } catch (\Exception $e) {
+                    $joke = false;
+                    $jokeCategories = false;
+                    $message = 'Unable to find joke';
+                }
+            } else {
+                $message = 'Invalid request';
             }
-        } else {
-            $message = 'Invalid request';
         }
 
         return new ViewModel(array(

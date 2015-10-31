@@ -57,7 +57,7 @@
                         <div class="panel-body no-select">
                             <p class="joke">
                                 <?php if($searchflag): ?>
-                                    <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->joke) ?>
+                                    <?php echo preg_replace("/".$search."/i", "<span class=\"highlight\">$0</span>", $joke->joke) ?>
                                 <?php else: ?>
                                     <?php echo $joke->joke ?>
                                 <?php endif ?>
@@ -65,7 +65,7 @@
                             <?php if ($joke->answer): ?>
                                 <p class="joke-answer text-blurred">
                                     <?php if($searchflag): ?>
-                                        <?php echo str_ireplace($search, '<span class="highlight">' . $search . '</span>', $joke->answer) ?>
+                                        <?php echo preg_replace("/".$search."/i", "<span class=\"highlight\">$0</span>", $joke->answer) ?>
                                     <?php else: ?>
                                         <?php echo $joke->answer ?>
                                     <?php endif ?>
