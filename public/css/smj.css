@@ -314,7 +314,7 @@ html, body {
             column-count: 3;
 }
     .masonry.less-than-six .item {
-        max-width: 430px;
+        max-width: 600px;
         width: 100%; 
     }
     .masonry .item {

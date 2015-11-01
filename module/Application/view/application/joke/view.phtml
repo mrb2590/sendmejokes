@@ -70,16 +70,14 @@
                             <?php endif ?>
                             <span class="joke-categories">
                                 Categories:
-                                <span class="dark-secondary">
-                                    <?php $i = 0 ?>
-                                    <?php foreach($jokeCategories as $jokeCategory): ?>
-                                        <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
-                                            <?php $link = '<a href="' . $this->url('joke', array('action' => 'view', 'category' => $catArray[$jokeCategory->cat_id])) . '">' . $jokeCategory->name . '</a>' ?>
-                                                <?php echo ($i > 0) ? " | " . $link : $link ?>
-                                            <?php $i++ ?>
-                                        <?php endif ?>
-                                    <?php endforeach ?>
-                                </span>
+                                <?php $i = 0 ?>
+                                <?php foreach($jokeCategories as $jokeCategory): ?>
+                                    <?php if($jokeCategory->joke_id == $joke->joke_id): ?>
+                                        <?php $link = '<a href="' . $this->url('joke', array('action' => 'view', 'category' => $catArray[$jokeCategory->cat_id])) . '">' . $jokeCategory->name . '</a>' ?>
+                                            <?php echo ($i > 0) ? " | " . $link : $link ?>
+                                        <?php $i++ ?>
+                                    <?php endif ?>
+                                <?php endforeach ?>
                             </span>
                         </div><!-- /.panel-body -->
                         <div class="panel-footer no-select">

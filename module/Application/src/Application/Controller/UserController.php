@@ -378,6 +378,7 @@ class UserController extends ApplicationController
                 $message = "Account deleted";
             } else {
                 $updateUser = false;
+                $updateUsernameFlag = ($username != '') ? true : false;
                 
                 //update email, username, or password if input was not blank
                 if ($email != '' || $password != '' || $username != '') {
@@ -434,7 +435,7 @@ class UserController extends ApplicationController
 
                     $this->saveUserSession($updatedUser); //update session with new categories/email/password etc..
 
-                    $message = "Success";
+                    $message = ($updateUsernameFlag) ? "Username updated" : "Success";
                 } catch (\Exception $e) {
                     $message = $e->getMessage();
                 }
