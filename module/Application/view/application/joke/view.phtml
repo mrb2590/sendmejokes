@@ -1,17 +1,14 @@
 <div class="container-fluid no-padding offset-nav">
     <div class="page-header">
-        <h1>Jokes
-            <?php if(!$jokeflag): ?>
-                <br/>
-                <small>
-                    <?php if($searchflag): ?>
-                        <?php echo 'Seach results for "<span class="highlight">' . $search . '</span>"'?>
-                    <?php elseif($categoryObject): ?>
-                        <?php echo $categoryObject->name ?>
-                    <?php else: ?>
-                        <?php echo "All Jokes" ?>
-                    <?php endif ?>
-                </small>
+        <h1>
+            <?php if($searchflag): ?>
+                <?php echo 'Seach results for "<span class="highlight">' . $search . '</span>"'?>
+            <?php elseif($jokeflag): ?>
+                <?php echo "Joke #" . $jokes[0]->joke_id ?>
+            <?php elseif($categoryObject): ?>
+                <?php echo $categoryObject->name ?>
+            <?php else: ?>
+                <?php echo "All Jokes" ?>
             <?php endif ?>
         </h1>
     </div><!-- /.page-header -->
