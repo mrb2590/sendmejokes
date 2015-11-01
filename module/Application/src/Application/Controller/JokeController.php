@@ -134,7 +134,7 @@ class JokeController extends ApplicationController
         } elseif (!$this->validateInput($vote->user_id, '')) {
             $valid = false;
             $message = "No user";
-        } elseif (!$this->validateInput($vote->vote, '')) {
+        } elseif (!$this->validateInput($vote->vote, 'vote')) {
             $valid = false;
             $message = "Missing vote";
         } else {
@@ -185,7 +185,7 @@ class JokeController extends ApplicationController
         } elseif (!$this->validateInput($joke_id, '')) {
             $valid = false;
             $message = "Invalid joke ID";
-        } elseif (!$this->validateInput($userVote, '')) {
+        } elseif (!$this->validateInput($userVote, 'vote')) {
             $valid = false;
             $message = "Invalid vote";
         } else {

@@ -246,6 +246,10 @@ class ApplicationController extends AbstractActionController
                     $input = utf8_decode($input);
                     $valid = (strlen($input) >= 6 && strlen($input) <= 16);
                     break;
+                case 'vote':
+                    $input = utf8_decode($input);
+                    $valid = ($input == "0" || $input == "1" || $input = "-1");
+                    break;
             }
         }
 

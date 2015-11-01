@@ -127,10 +127,6 @@ html, body {
             .sidebar-head-item span:focus {
                 text-decoration: underline;
             }
-        .sidebar .sidebar-head a,
-        .sidebar .sidebar-head i {
-            color: #2196f3;
-        }
         .sidebar .sidebar-head.sidebar-head-hidden {
             opacity: 0;
         }
@@ -244,7 +240,7 @@ html, body {
         max-width: 320px;
     }
 
-.home .btn-primary {
+.home .btn-info {
     width: 100%;
 }
 

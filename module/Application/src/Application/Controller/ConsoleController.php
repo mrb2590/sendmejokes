@@ -98,7 +98,7 @@ class ConsoleController extends ApplicationController
                 foreach ($jokeCategories as $jokeCategory) {
                     foreach ($userSentJokes as $userSentJoke) {
                         if (isset($possibleJokes[$userSentJoke->joke_id]) && (strtotime($userSentJoke->sent_on) >= (strtotime('-30 days')))) {
-                            unset($possibleJokes[$jokeCategory->joke_id]);
+                            unset($possibleJokes[$userSentJoke->joke_id]);
                             //echo "Removed Joke id: " . $jokeCategory->joke_id . " because joke has been sent\r\n";
                         }
                     }
@@ -163,67 +163,102 @@ class ConsoleController extends ApplicationController
         $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
         $to       = $user->email;
         $subject  = "Daily Joke from SendMeJokes!";
+
+        //build categories string
+        $categoriesString = '';
+        $i = 0;
+        foreach ($categories as $category) {
+            $anchor = '<a href="http://dev.sendmejokes.com/jokes/view/' . $category->url_name . '/" style="color:#2196F3">' . $category->name . '</a>';
+            $categoriesString .= ($i == 0) ? $anchor : '| ' . $anchor;
+            $i++;
+        }
+
+        //build mailto link
+        $mailTojoke = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->joke));
+        $mailTojoke = preg_replace('/"/', '%22', $mailTojoke);
+        $mailToAnswer = trim(preg_replace('/[\r|\n|\r\n]+/', '%0A', $joke->answer));
+        $mailToAnswer = preg_replace('/"/', '%22', $mailToAnswer);
+        $mailToSubject = '?subject=Check out this joke from SendMeJokes!';
+        $mailToBody = '&amp;body=' . $mailTojoke . '%0A';
+        $mailToBody .= trim(preg_replace('/\s+/', ' ', $mailToAnswer)) . '%0A%0A';
+        $mailToBody .= 'See more at http:%2F%2Fwww.sendmejokes.com/jokes/';
+        $mailTo = $mailToSubject . $mailToBody;
+
+        //build fb share link
+        $fbShareLink = 'https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
+        //build g+ share link
+        $gpShareLink = 'https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
+        //build smj share link
+        $smjShareLink = 'http://dev.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
+
+        //build voting icon links
+        $key = hash('sha256', $user->user_id);
+        if ($userVote == "0") {
+            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
+            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor .= '</a>';
+            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
+            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor .= '</a>';
+        } elseif ($userVote == "1") {
+            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
+            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor .= '</a>';
+            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
+            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor .= '</a>';
+        } else {
+            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
+            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor .= '</a>';
+            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
+            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor .= '</a>';
+        }
+
+        //build optout link
+        $optoutLink = "http://dev.sendmejokes.com/user/unsubscribe/?k=" . hash('sha256', $user->email);
+
         //build message
         $message  = '';
         $message .= '<html>';
-        $message .= '<body style="background-color: #fff; padding: 20px; font-family: Arial;">';
-        $message .=     '<div style="text-align:center; width:100%; margin-bottom:15px"><img class="logo-img" src="' . $logoSource . '" style="height:50px; width:auto"></div>';
-        $message .=     '<p style="width:100%; text-align:center">Daily Joke!</p>';
-        $message .=     '<div style="text-align:center; width:100%; border:1px solid #333; padding:15px">';
-        $message .=         '<p>' . $joke->joke . '</p>';
-        $message .=         ($joke->answer != null) ? '<p>' . $joke->answer . '</p>' : '';
-        $message .=     '</div>';
-        $message .=     '<div style="width:100%; height:50px; border:1px solid #333; padding:15px">';
-        $message .=         '<span style="float:left; width:50%">' . $categoriesString . '</span>';
-        $message .=         '<span style="float:right; width:50%">';
-        $message .=             '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">UpVote</a>';
-        $message .=             ' ' . $voteSum . ' ';
-        $message .=             '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">DownVote</a>';
-        $message .=         '</span>';
-        $message .=     '</div>';
+        $message .= '<body style="color:#333333;background-color:#E5E5E5;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;">';
+        $message .=     '<div class="panel" style="width:100%;max-width:600px;background-color:#FFFFFF;border:1px solid #D8D8D8;margin:0 auto;">';
+        $message .=         '<div class="panel-heading" style="background-color:#333333;color:#FFFFFF;padding:10px;border-bottom:5px solid #2196F3;text-align:center;font-size:22px;">';
+        $message .=             '<img src="http://dev.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>';
+        $message .=             '<br/>';
+        $message .=             'The Joke of the Day #' . $joke->joke_id . ' ';
+        $message .=         '</div><!-- /.panel-heading -->';
+        $message .=         '<div class="panel-body" style="padding:20px;">';
+        $message .=             '<p class="joke">' . $joke->joke . '</p>';
+        $message .=             '<p class="answer" style="font-weight:bold">' . $joke->answer . '</p>';
+        $message .=             '<p class="categories" style="font-size:12px">';
+        $message .=                 'Categories: ' . $categoriesString;
+        $message .=             '</p>';
+        $message .=         '</div><!-- /.panel-body -->';
+        $message .=         '<div class="panel-footer" style="border-top:1px solid #333;background-color:#F5F5F5;padding:20px;">';
+        $message .=             '<a href="mailto:' . $mailTo . '"><img src="http://dev.sendmejokes.com/img/icon_envelope.png" height="20" style="height:20px;width:auto;"/></a>';
+        $message .=             '<a href="' . $fbShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_link_out.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<a href="' . $gpShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_link_out2.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<a href="' . $smjShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_external_link.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<span style="float:right">';
+        $message .=                 $upVoteAnchor . '<span style="font-size:20px;">' . $voteSum . '</span>' . $downVoteAnchor;
+        $message .=             '</span>';
+        $message .=         '</div><!-- /.panel-footer -->';
+        $message .=     '</div><!-- /.panel -->';
+        $message .=     '<div class="disclaimer" style="width:100%;max-width:600px;margin:0 auto;font-size:12px;text-align:center;">';
+        $message .=         '<p style="color:#333333;padding:10px;">';
+        $message .=             'The Joke of the Day is sent on the days you choose, around 9:00am EST. ';
+        $message .=             'Unsubscribe from the Joke of the Day by <a href="' . $optoutLink . '" style="color:#2196F3">clicking here</a> ';
+        $message .=             'or signing into your account and unchecking all categories or unchecking all days of the week. ';
+        $message .=             'If you do not want to recieve jokes of a cetain category, sign into your account ';
+        $message .=             '<a href="http://dev.sendmejokes.com/" style="color:#2196F3">here</a> and update your joke preferences. ';
+        $message .=             'The Joke of the Day is meant for fun and in no way to be taken seriously.';
+        $message .=         '</p>';
+        $message .=     '</div><!-- /.disclaimer -->';
         $message .= '</body>';
         $message .= '</html>';
 
-        $message=
-        '
-<html>
-<head>
-</head>
-<body style="color:#333333;background-color:#E5E5E5;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;">
-    <div class="panel" style="width:100%;max-width:600px;background-color:#FFFFFF;border:1px solid #D8D8D8;margin:0 auto;">
-        <div class="panel-heading" style="background-color:#333333;color:#FFFFFF;padding:10px;border-bottom:5px solid #2196F3;text-align:center;font-size:22px;">
-            <img src="http://dev.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>
-            <br/>
-            The Joke of the Day
-        </div><!-- /.panel-heading -->
-        <div class="panel-body" style="padding:20px;">
-            <p class="joke">Why did the chicken cross the road?</p>
-            <p class="answer" style="font-weight:bold">To get to the other side.</p>
-            <p class="categories" style="font-size:12px">
-                Categories: 
-                <a href="http://dev.sendmejokes.com/jokes/view/all-ages/" style="color:#2196F3">All Ages</a>
-                | <a href="http://dev.sendmejokes.com/jokes/view/animal/" style="color:#2196F3">Animal</a>
-            </p>
-        </div><!-- /.panel-body -->
-        <div class="panel-footer" style="border-top:1px solid #333;background-color:#F5F5F5;padding:20px;">
-            <a href=""><img src="http://dev.sendmejokes.com/img/icon_envelope.png" height="20" style="height:20px;width:auto;"/></a>
-            <a href=""><img src="http://dev.sendmejokes.com/img/icon_link_out.png" height="20" style="height:20px;width:auto;"/></a>
-            <a href=""><img src="http://dev.sendmejokes.com/img/icon_link_out2.png" height="20" style="height:20px;width:auto;"/></a>
-            <a href=""><img src="http://dev.sendmejokes.com/img/icon_external_link.png" height="20" style="height:20px;width:auto;"/></a>
-            <span style="float:right">
-                <a href=""><img src="http://dev.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/></a>
-                <span style="font-size:20px;">21</span>
-                <a href=""><img src="http://dev.sendmejokes.com/img/icon_thumbs_down.png" height="20" style="height:20px;width:auto;"/></a>
-            </span>
-        </div><!-- /.panel-footer -->
-    </div><!-- /.panel -->
-    <div class="disclaimer" style="width:100%;max-width:600px;margin:0 auto;font-size:12px;text-align:center;">
-        <p style="padding:10px;">The Joke of the Day is sent on the days you choose, around 9:00am EST. Unsubscribe from the Joke of the Day by <a href="" style="color:#2196F3">clicking here</a> or signing into your account and unchecking all categories or unchecking all days of the week. If you do not want to recieve jokes of a cetain category, sign into your account <a href="http://dev.sendmejokes.com/" style="color:#2196F3">here</a> and update your joke preferences. The Joke of the Day is meant for fun and in no way to be taken seriously.</p>
-    </div><!-- /.disclaimer -->
-</body>
-</html>
-        '
-;
         mail($to, $subject, $message, $headers);
     }
 }

@@ -89,7 +89,7 @@
                                 $emailSubject = '?subject=Check out this joke from SendMeJokes!';
                                 $emailBody = '&amp;body=' . $joke->joke . '%0A';
                                 $emailBody .= trim(preg_replace('/\s+/', ' ', $joke->answer)) . '%0A%0A';
-                                $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com/jokes';
+                                $emailBody .= 'See more at http:%2F%2Fwww.sendmejokes.com/jokes/';
                                 $email = $emailSubject . $emailBody;
                             ?>
                             <a class="share" href="mailto:<?php echo $email ?>"><i class="fa fa-envelope"></i></a>
