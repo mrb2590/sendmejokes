@@ -590,4 +590,46 @@ class UserController extends ApplicationController
             'message' => $message
         ));
     }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function unsubscribeAction()
+    {
+        $valid = false;
+        $key = $this->params()->fromQuery('k');
+        $email = $this->params()->fromQuery('email');
+        //validate
+        if (!$this->validateInput($key, '')) {
+            $valid = false;
+            $message = "Invalid request";
+        } elseif (!$this->validateInput($email, 'email')) {
+            $valid = false;
+            $message = "Invalid request";
+        } else {
+            $valid = true;
+        }
+        if ($valid) {
+            $user = new User();
+            $user = $this->getUserTable()->getUserByEmail($email);
+            if ($user) {
+                $validKey = hash('sha256', $user->email . $user->user_id);
+                if ($validKey == $key) {
+                    //remove all user categories
+                    $this->getUserCategoriesTable()->deleteCategoryByUserId($user->user_id);
+                    //remove all user days
+                    $this->getUserDaysTable()->deleteUserDaysByUserId($user->user_id);
+                    $message = "You have been unsubscribed from The Joke of the Day";
+                } else {
+                    $message = "Invalid key - Make sure you are using the link from your email. If you are having trouble unsubscribing, send an email to mike@sendmejokes.com";
+                }
+            } else {
+                $message = "Invalid email address - Make sure you are using the link from your email. If you are having trouble unsubscribing, send an email to mike@sendmejokes.com";
+            }
+        }
+
+        return new ViewModel(array(
+            'message' => $message,
+        ));
+    }
 }

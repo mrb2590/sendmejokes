@@ -217,7 +217,7 @@ class ConsoleController extends ApplicationController
         }
 
         //build optout link
-        $optoutLink = "http://dev.sendmejokes.com/user/unsubscribe/?k=" . hash('sha256', $user->email);
+        $optoutLink = "http://dev.sendmejokes.com/user/unsubscribe/?k=" . hash('sha256', $user->email . $user->user_id) . '&email=' . $user->email;
 
         //build message
         $message  = '';
