@@ -448,6 +448,14 @@ label {
             transition: all 0.2s ease;
 
 }
+.btn-default:hover,
+.btn-primary:hover,
+.btn-success:hover,
+.btn-info:hover,
+.btn-warning:hover,
+.btn-danger:hover {
+    border: 1px solid #333;
+}
 .btn-default:active,
 .btn-primary:active,
 .btn-success:active,

@@ -68,10 +68,10 @@ class UserCategoriesTable
     }
 
     /**
-     * @param int(8) 
+     * @param string 
      */
     public function deleteCategoryByUserId($user_id)
     {
-        $this->tableGateway->delete(array('user_id' => (int) $user_id));
+        $this->tableGateway->delete(array('user_id' => $user_id));
     }
 }

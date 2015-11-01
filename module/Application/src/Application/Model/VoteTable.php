@@ -71,11 +71,11 @@ class VoteTable
     }
 
     /**
-     * @param int(8)
+     * @param string
      */
     public function removeVotesByUser($user_id)
     {
-        $this->tableGateway->delete(array('user_id' => (int) $user_id));
+        $this->tableGateway->delete(array('user_id' => $user_id));
     }
 
     /**

@@ -370,8 +370,8 @@ class UserController extends ApplicationController
         if ($valid) {
             if (isset($deleteAccount) && $deleteAccount == 1) {
                 //delete all categories first
-                $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                 $this->getUserDaysTable()->deleteUserDaysByUserId($this->session->user->user_id);
+                $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                 $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
                 $this->getUserTable()->deleteUser($this->session->user->user_id);
                 $this->destroyUserSession();
@@ -404,7 +404,7 @@ class UserController extends ApplicationController
 
                     $categories = ($categories == null) ? array() : $categories;
                     //first delete all categoriess then replace
-                    $this->getUserCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                    $this->getUserCategoriesTable()->deleteCategoryByUserId($updatedUser->user_id);
                     foreach ($categories as $name => $cat_id) {
                         $userCategory = new UserCategory();
                         $userCategory->user_id = $updatedUser->user_id;
@@ -414,7 +414,7 @@ class UserController extends ApplicationController
 
                     $excludeCategories = ($excludeCategories == null) ? array() : $excludeCategories;
                     //first delete all exclude categoriess then replace
-                    $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($this->session->user->user_id);
+                    $this->getUserExcludeCategoriesTable()->deleteCategoryByUserId($updatedUser->user_id);
                     foreach ($excludeCategories as $name => $cat_id) {
                         $userExcludeCategory = new UserExcludeCategory();
                         $userExcludeCategory->user_id = $updatedUser->user_id;
@@ -425,7 +425,7 @@ class UserController extends ApplicationController
                     $days = ($days == null) ? array() : $days;
                     
                     //first delete all user-days then replace
-                    $this->getUserDaysTable()->deleteUserDaysByUserId($this->session->user->user_id);
+                    $this->getUserDaysTable()->deleteUserDaysByUserId($updatedUser->user_id);
                     foreach ($days as $day) {
                         $userDay = new UserDay();
                         $userDay->user_id = $updatedUser->user_id;
