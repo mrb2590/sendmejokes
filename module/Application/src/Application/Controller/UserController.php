@@ -565,20 +565,26 @@ class UserController extends ApplicationController
                 $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
                 $headers .= 'From: SendMeJokes <reset-password@sendmejokes.com>' . "\r\n";
                 $headers .= 'Reply-To: SendMeJokes <reset-password@sendmejokes.com>' . "\r\n";
-
-                $body =  '<html>';
-                $body .= '<body style="background-color: #fff; padding: 20px; font-family: Courier;">';
-                $body .=    '<div style="width: 100%;">';
-                $body .=        '<div style="background-color: #cc4646;">';
-                $body .=            '<div style="color: #fff; text-align: center; font-size: 16px; height: 40px; line-height: 40px;">Reset Password</div>';
-                $body .=        '</div>';
-                $body .=        '<div style="padding: 20px; background-color: #eee; font-size: 14px;">';
-                $body .=            '<p>If you have not requested to reset your password, then ignore this email.</p>';
-                $body .=            '<p>Otherwise click the link below to reset your password.</p>';
+                
+                $body  = '<html>';
+                $body .= '<body style="color:#333333;background-color:#E5E5E5;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;">';
+                $body .=     '<div class="panel" style="width:100%;max-width:600px;background-color:#FFFFFF;border:1px solid #D8D8D8;margin:0 auto;">';
+                $body .=         '<div class="panel-heading" style="background-color:#333333;color:#FFFFFF;padding:10px;border-bottom:5px solid #2196F3;text-align:center;font-size:22px;">';
+                $body .=             '<img src="http://www.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>';
+                $body .=             '<br/>';
+                $body .=             'Reset Password ';
+                $body .=         '</div><!-- /.panel-heading -->';
+                $body .=         '<div class="panel-body" style="padding:20px;">';
+                $body .=            '<p>If you have not requested to reset your password, then ignore this email. This does not mean you account is at risk; anyone can send this email.</p>';
+                $body .=            '<p>However, if you do intend to reset your passowrd, click the link below.</p>';
                 $body .=            '<p><a href="http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form/' . $hashedID . '/">http://' . $_SERVER['HTTP_HOST'] . '/user/reset-password-form/' . $hashedID . '/</a></p>';
                 $body .=            '<p>This link will expire 15 minutes after this email was sent.</p>';
-                $body .=         '</div>';
-                $body .=     '</div>';
+                $body .=         '</div><!-- /.panel-body -->';
+                $body .=         '<div class="panel-footer" style="border-top:1px solid #333;background-color:#F5F5F5;padding:20px;text-align:center;">';
+                $body .=             '<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.sendmejokes.com/jokes/"><img src="http://www.sendmejokes.com/img/icon_link_out.png" height="20" style="height:20px;width:auto;"/></a>';
+                $body .=             '<a href="https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/"><img src="http://www.sendmejokes.com/img/icon_link_out2.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+                $body .=         '</div><!-- /.panel-footer -->';
+                $body .=     '</div><!-- /.panel -->';
                 $body .= '</body>';
                 $body .= '</html>';
 
