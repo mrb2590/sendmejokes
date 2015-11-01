@@ -46,7 +46,7 @@ function bindEventListeners() {
     $(document).on('submit', '#signin-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/sign-in',
+            url: '/user/sign-in/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -74,7 +74,7 @@ function bindEventListeners() {
     $(document).on('click', '#signout-link', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/sign-out',
+            url: '/user/sign-out/',
             beforeSend: function() {
                 $('html, body, input, textarea').css('cursor', 'progress');
             },
@@ -90,7 +90,7 @@ function bindEventListeners() {
     $(document).on('submit', '#sign-up-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/create-user',
+            url: '/user/create-user/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -127,7 +127,7 @@ function bindEventListeners() {
     $(document).on('submit', '#update-pref-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/update-user',
+            url: '/user/update-user/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -169,7 +169,7 @@ function bindEventListeners() {
     $(document).on('submit', '#reset-password-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/reset-password',
+            url: '/user/reset-password/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -195,7 +195,7 @@ function bindEventListeners() {
     $(document).on('submit', '#send-reset-password-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/user/send-reset-password-email',
+            url: '/user/send-reset-password-email/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -262,7 +262,7 @@ function bindEventListeners() {
         voteCountObject.html(voteCount); //update vote count in DOM
         var voteBox = $(this);
         $.ajax({
-            url: '/jokes/vote',
+            url: '/jokes/vote/',
             data: "submit=submit&vote=" + vote + "&joke_id=" + jokeID,
             type: "POST",
             success: function(response) {
@@ -283,7 +283,7 @@ function bindEventListeners() {
     $(document).on('submit', '#add-joke-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/jokes/add',
+            url: '/jokes/add/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
@@ -318,7 +318,7 @@ function bindEventListeners() {
     $(document).on('submit', '#remove-joke-form', function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/jokes/remove',
+            url: '/jokes/remove/',
             data: $(this).serialize() + "&submit=submit",
             type: "POST",
             beforeSend: function() {
