@@ -13,126 +13,135 @@
     </div><!-- /.middle-align-in -->
 </div><!-- /.middle-align-out -->
 
-<form id="sign-up-pref-form" action="/user/create-user" method="POST">
-    <div id="home-signup-modal" class="modal fade" data-backdrop="static">
+
+<div id="home-signup-modal" class="modal fade" data-backdrop="static">
+    <form id="sign-up-pref-form" action="/user/create-user" method="POST">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Sign Up</h4>
                 </div><!-- /.modal-header -->
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>This is the email we will send jokes to</h4>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <input id="email-modal" class="form-control" type="text" value="" name="email" placeholder="Email">
-                            </div><!-- /.form-group -->
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Create a username</h4>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <input id="username" class="form-control" type="text" value="" name="username" placeholder="Username">
-                            </div><!-- /.form-group -->
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Choose when you want your jokes</h4>
-                            <p>Jokes will only be sent to you on the days you want them.</p>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="checkbox-tile-table">
-                                <tr class="checkbox-tile-row">
-                                    <?php foreach($days as $day): ?>
-                                        <td class="checkbox-tile checkbox-day">
-                                            <span class="checkbox-tile-label hidden-xs"><?php echo $day ?></span>
-                                            <span class="checkbox-tile-label hidden-lg hidden-md hidden-sm"><?php echo $day[0] ?></span>
-                                            <div class="checkbox-tile-hidden">
-                                                <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>">
-                                            </div><!-- /.checkbox-tile-hidden -->
-                                        </td><!--  /.checkbox-tile -->
-                                    <?php endforeach; ?>
-                                </tr>
-                            </table>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Choose your categories</h4>
-                            <p>You will be emailed jokes tagged with the categories you select. Since jokes may be tagged with more than one category, you may also choose to exclude jokes tagged with certain categories. To do this, click the category twice.</p>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="checkbox-tile-table">
-                                <?php $i = 0 ?>
-                                <?php foreach($categories as $category): ?>
-                                    <?php if ($i % 4 === 0): ?>
-                                        <?php if ($i !== 0): ?>
-                                            </tr>
+                    <?php if(isset($session->user)): ?>
+                        <p class="text-center">You must sign out first if you would like to create a new account</p>
+                    <?php else: ?>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>This is the email we will send jokes to</h4>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input id="email-modal" class="form-control" type="text" value="" name="email" placeholder="Email">
+                                </div><!-- /.form-group -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Create a username</h4>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input id="username" class="form-control" type="text" value="" name="username" placeholder="Username">
+                                </div><!-- /.form-group -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Choose when you want your jokes</h4>
+                                <p>Jokes will only be sent to you on the days you want them.</p>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="checkbox-tile-table">
+                                    <tr class="checkbox-tile-row">
+                                        <?php foreach($days as $day): ?>
+                                            <td class="checkbox-tile checkbox-day">
+                                                <span class="checkbox-tile-label hidden-xs"><?php echo $day ?></span>
+                                                <span class="checkbox-tile-label hidden-lg hidden-md hidden-sm"><?php echo $day[0] ?></span>
+                                                <div class="checkbox-tile-hidden">
+                                                    <input type="checkbox" class="add-category" name="days[<?php echo $day ?>]" value="<?php echo $day ?>">
+                                                </div><!-- /.checkbox-tile-hidden -->
+                                            </td><!--  /.checkbox-tile -->
+                                        <?php endforeach; ?>
+                                    </tr>
+                                </table>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Choose your categories</h4>
+                                <p>You will be emailed jokes tagged with the categories you select. Since jokes may be tagged with more than one category, you may also choose to exclude jokes tagged with certain categories. To do this, click the category twice.</p>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="checkbox-tile-table">
+                                    <?php $i = 0 ?>
+                                    <?php foreach($categories as $category): ?>
+                                        <?php if ($i % 4 === 0): ?>
+                                            <?php if ($i !== 0): ?>
+                                                </tr>
+                                            <?php endif; ?>
+                                            <tr class="checkbox-tile-row">
                                         <?php endif; ?>
-                                        <tr class="checkbox-tile-row">
-                                    <?php endif; ?>
-                                        <td class="checkbox-tile add-exclude">
-                                            <span class="checkbox-tile-label"><?php echo $category->name ?></span>
-                                            <div class="checkbox-tile-hidden">
-                                                <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
-                                                <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
-                                            </div><!-- /.checkbox-tile-hidden -->
-                                        </td><!--  /.checkbox-tile -->
-                                    <?php $i++ ?>
-                                <?php endforeach; ?>
-                                </tr>
-                            </table>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Create your password</h4>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <input id="password" class="form-control" type="password" value="" name="password" placeholder="Password">
-                            </div><!-- /.form-group -->
-                            <div class="form-group">
-                                <label for="password2">Confirm password:</label>
-                                <input id="password2" class="form-control" type="password" value="" name="password2" placeholder="Confirm password">
-                            </div><!-- /.form-group -->
-                            <div class="modal-alert">text</div>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
+                                            <td class="checkbox-tile add-exclude">
+                                                <span class="checkbox-tile-label"><?php echo $category->name ?></span>
+                                                <div class="checkbox-tile-hidden">
+                                                    <input type="checkbox" class="add-category" name="category[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                                    <input type="checkbox" class="exclude-category" name="excludeCategory[<?php echo $category->name ?>]" value="<?php echo $category->cat_id ?>">
+                                                </div><!-- /.checkbox-tile-hidden -->
+                                            </td><!--  /.checkbox-tile -->
+                                        <?php $i++ ?>
+                                    <?php endforeach; ?>
+                                    </tr>
+                                </table>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Create your password</h4>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input id="password" class="form-control" type="password" value="" name="password" placeholder="Password">
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="password2">Confirm password:</label>
+                                    <input id="password2" class="form-control" type="password" value="" name="password2" placeholder="Confirm password">
+                                </div><!-- /.form-group -->
+                                <div class="modal-alert">text</div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    <?php endif ?>
                 </div><!-- /.modal-body -->
                 <div class="modal-footer">
-                    <div class="row" -->
-                        <div class="col-sm-12">
-                            <p class="disclaimer">By clicking the "Sign Me Up!" button, you agree to be recieve emails from SendMeJokes.com at the email address you provide. You may unsubscribe or delete your account at any time.</p>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
+                    <?php if(!isset($session->user)): ?>
+                        <div class="row" -->
+                            <div class="col-sm-12">
+                                <p class="disclaimer">By clicking the "Sign Me Up!" button, you agree to be recieve emails from SendMeJokes.com at the email address you provide. You may unsubscribe or delete your account at any time.</p>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    <?php endif ?>
                     <div class="row">
                         <div class="col-sm-12">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button name="submit" type="submit" value="submit" class="btn btn-success">Sign Me Up!</button>
+                            <?php if(!isset($session->user)): ?>
+                                <button name="submit" type="submit" value="submit" class="btn btn-success">Sign Me Up!</button>
+                            <?php endif ?>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.modal-footer -->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</form>
+    </form>
+</div><!-- /.modal -->
 
 <div id="home-thankyou-modal" class="modal fade">
     <div class="modal-dialog modal-sm">

@@ -51,10 +51,12 @@ class UserController extends ApplicationController
      */
     public function signUpAction()
     {
+        $this->session = new SessionContainer('user');
         $categories = $this->getCategoryTable()->fetchAll();
         return new ViewModel(array(
             'categories' => $categories,
             'days'       => $this->days,
+            'session'    => $this->session,
         ));
     }
     

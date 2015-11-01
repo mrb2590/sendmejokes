@@ -168,7 +168,7 @@ class ConsoleController extends ApplicationController
         $categoriesString = '';
         $i = 0;
         foreach ($categories as $category) {
-            $anchor = '<a href="http://dev.sendmejokes.com/jokes/view/' . $category->url_name . '/" style="color:#2196F3">' . $category->name . '</a>';
+            $anchor = '<a href="http://www.sendmejokes.com/jokes/view/' . $category->url_name . '/" style="color:#2196F3">' . $category->name . '</a>';
             $categoriesString .= ($i == 0) ? $anchor : '| ' . $anchor;
             $i++;
         }
@@ -189,35 +189,35 @@ class ConsoleController extends ApplicationController
         //build g+ share link
         $gpShareLink = 'https://plus.google.com/share?url=http%3A//www.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
         //build smj share link
-        $smjShareLink = 'http://dev.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
+        $smjShareLink = 'http://www.sendmejokes.com/jokes/view/' . $joke->joke_id . '/';
 
         //build voting icon links
         $key = hash('sha256', $user->user_id);
         if ($userVote == "0") {
-            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
-            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
+            $upVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
             $upVoteAnchor .= '</a>';
-            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
-            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
+            $downVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
             $downVoteAnchor .= '</a>';
         } elseif ($userVote == "1") {
-            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
-            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
+            $upVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_up.png" height="20" style="height:20px;width:auto;"/>';
             $upVoteAnchor .= '</a>';
-            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
-            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=-1">';
+            $downVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_o_down.png" height="20" style="height:20px;width:auto;"/>';
             $downVoteAnchor .= '</a>';
         } else {
-            $upVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
-            $upVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
+            $upVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=1">';
+            $upVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_o_up.png" height="20" style="height:20px;width:auto;"/>';
             $upVoteAnchor .= '</a>';
-            $downVoteAnchor  = '<a href="http://dev.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
-            $downVoteAnchor .=     '<img src="http://dev.sendmejokes.com/img/icon_thumbs_down.png" height="20" style="height:20px;width:auto;"/>';
+            $downVoteAnchor  = '<a href="http://www.sendmejokes.com/jokes/email-vote?joke_id=' . $joke->joke_id . '&email=' . $user->email . '&k=' . $key . '&vote=0">';
+            $downVoteAnchor .=     '<img src="http://www.sendmejokes.com/img/icon_thumbs_down.png" height="20" style="height:20px;width:auto;"/>';
             $downVoteAnchor .= '</a>';
         }
 
         //build optout link
-        $optoutLink = "http://dev.sendmejokes.com/user/unsubscribe/?k=" . hash('sha256', $user->email . $user->user_id) . '&email=' . $user->email;
+        $optoutLink = "http://www.sendmejokes.com/user/unsubscribe/?k=" . hash('sha256', $user->email . $user->user_id) . '&email=' . $user->email;
 
         //build message
         $message  = '';
@@ -225,7 +225,7 @@ class ConsoleController extends ApplicationController
         $message .= '<body style="color:#333333;background-color:#E5E5E5;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;">';
         $message .=     '<div class="panel" style="width:100%;max-width:600px;background-color:#FFFFFF;border:1px solid #D8D8D8;margin:0 auto;">';
         $message .=         '<div class="panel-heading" style="background-color:#333333;color:#FFFFFF;padding:10px;border-bottom:5px solid #2196F3;text-align:center;font-size:22px;">';
-        $message .=             '<img src="http://dev.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>';
+        $message .=             '<img src="http://www.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>';
         $message .=             '<br/>';
         $message .=             'The Joke of the Day #' . $joke->joke_id . ' ';
         $message .=         '</div><!-- /.panel-heading -->';
@@ -237,10 +237,10 @@ class ConsoleController extends ApplicationController
         $message .=             '</p>';
         $message .=         '</div><!-- /.panel-body -->';
         $message .=         '<div class="panel-footer" style="border-top:1px solid #333;background-color:#F5F5F5;padding:20px;">';
-        $message .=             '<a href="mailto:' . $mailTo . '"><img src="http://dev.sendmejokes.com/img/icon_envelope.png" height="20" style="height:20px;width:auto;"/></a>';
-        $message .=             '<a href="' . $fbShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_link_out.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
-        $message .=             '<a href="' . $gpShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_link_out2.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
-        $message .=             '<a href="' . $smjShareLink . '"><img src="http://dev.sendmejokes.com/img/icon_external_link.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<a href="mailto:' . $mailTo . '"><img src="http://www.sendmejokes.com/img/icon_envelope.png" height="20" style="height:20px;width:auto;"/></a>';
+        $message .=             '<a href="' . $fbShareLink . '"><img src="http://www.sendmejokes.com/img/icon_link_out.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<a href="' . $gpShareLink . '"><img src="http://www.sendmejokes.com/img/icon_link_out2.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
+        $message .=             '<a href="' . $smjShareLink . '"><img src="http://www.sendmejokes.com/img/icon_external_link.png" height="20" style="height:20px;width:auto;margin-left:5px;"/></a>';
         $message .=             '<span style="float:right">';
         $message .=                 $upVoteAnchor . '<span style="font-size:20px;">' . $voteSum . '</span>' . $downVoteAnchor;
         $message .=             '</span>';
@@ -252,7 +252,7 @@ class ConsoleController extends ApplicationController
         $message .=             'Unsubscribe from the Joke of the Day by <a href="' . $optoutLink . '" style="color:#2196F3">clicking here</a> ';
         $message .=             'or signing into your account and unchecking all categories or unchecking all days of the week. ';
         $message .=             'If you do not want to recieve jokes of a cetain category, sign into your account ';
-        $message .=             '<a href="http://dev.sendmejokes.com/" style="color:#2196F3">here</a> and update your joke preferences. ';
+        $message .=             '<a href="http://www.sendmejokes.com/" style="color:#2196F3">here</a> and update your joke preferences. ';
         $message .=             'The Joke of the Day is meant for fun and in no way to be taken seriously.';
         $message .=         '</p>';
         $message .=     '</div><!-- /.disclaimer -->';
