@@ -218,14 +218,6 @@ class ApplicationController extends AbstractActionController
     }
 
     /**
-     * @return Zend\View\Model\ViewModel
-     */
-    public function comingSoonAction()
-    {
-        return new ViewModel();
-    }
-
-    /**
      * @param string $input
      * @param string $type
      * @return boolean
@@ -254,5 +246,21 @@ class ApplicationController extends AbstractActionController
         }
 
         return $valid;
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function comingSoonAction()
+    {
+        return new ViewModel();
+    }
+
+    /**
+     * @return Zend\View\Model\ViewModel
+     */
+    public function privacyAction()
+    {
+        return new ViewModel();
     }
 }
