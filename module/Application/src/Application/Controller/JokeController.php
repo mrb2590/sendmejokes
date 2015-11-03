@@ -320,7 +320,7 @@ class JokeController extends ApplicationController
         $valid = false;
 
         //only I can view this page muahahaha
-        if (!isset($this->session->user->user_id) || $this->session->user->user_id != '10000000') {
+        if (!isset($this->session->user->email) || $this->session->user->email != 'mrb2590@gmail.com') {
             $message = "Fail";
         } elseif ($submit != 'submit') {
             $message = "Invalid request";
@@ -332,6 +332,7 @@ class JokeController extends ApplicationController
         }
 
         if ($valid) {
+            $this->getJokeCategoriesTable()->deleteJokeCategoriesByJoke($joke_id);
             $this->getJokeTable()->deleteJoke($joke_id);
         }
 
