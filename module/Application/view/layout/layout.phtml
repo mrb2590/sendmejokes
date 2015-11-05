@@ -32,7 +32,7 @@
             ga('create', 'UA-50026015-3', 'auto');
             ga('send', 'pageview');
         </script>
-        
+
         <div class="main-nav">
             <a class="logo-anchor" href="<?php echo $this->url('home') ?>">
                 <img class="logo-img" src="/img/logo.png">
@@ -62,7 +62,9 @@
 
             <?php echo $this->content ?>
 
-            <div class="page-footer">SendMeJokes &copy; 2015 | <a href="/privacy/">Privacy Policy</a></div><!-- /.page-footer -->
+            <div class="page-footer" <?php if($_SERVER['REQUEST_URI'] == '/'): ?>style="margin-top:-60px;"<?php endif ?>>
+                SendMeJokes &copy; 2015 | <a href="/privacy/">Privacy Policy</a>
+            </div><!-- /.page-footer -->
 
             <form id="signin-form">
                 <div id="signin-modal" class="modal fade">
