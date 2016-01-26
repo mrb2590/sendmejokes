@@ -76,7 +76,11 @@ class JokeTable
             $select->limit($limit)->offset($offset);
         });
         $resultSet->buffer();
-        return $resultSet;
+        foreach ($resultSet as $result) {
+            $jokes[] = $result;
+        }
+        shuffle($jokes);
+        return $jokes;
     }
 
     /**
