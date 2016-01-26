@@ -97,7 +97,7 @@ class ConsoleController extends ApplicationController
                 //remove jokes that have recently been sent
                 foreach ($jokeCategories as $jokeCategory) {
                     foreach ($userSentJokes as $userSentJoke) {
-                        if (isset($possibleJokes[$userSentJoke->joke_id]) && (strtotime($userSentJoke->sent_on) >= (strtotime('-30 days')))) {
+                        if (isset($possibleJokes[$userSentJoke->joke_id]) && (strtotime($userSentJoke->sent_on) >= (strtotime('-180 days')))) {
                             unset($possibleJokes[$userSentJoke->joke_id]);
                             //echo "Removed Joke id: " . $jokeCategory->joke_id . " because joke has been sent\r\n";
                         }
