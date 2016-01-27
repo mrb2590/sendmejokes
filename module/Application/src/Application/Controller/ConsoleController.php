@@ -115,9 +115,9 @@ class ConsoleController extends ApplicationController
                 }
 
                 //get joke categories
-                $jokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke->joke_id);
+                $currentJokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke->joke_id);
                 //get category names
-                foreach ($jokeCategories as $jokeCategory) {
+                foreach ($currentJokeCategories as $jokeCategory) {
                     $categories[] = $this->getCategoryTable()->getCategory($jokeCategory->cat_id);
                 }
                 //get joke votes
