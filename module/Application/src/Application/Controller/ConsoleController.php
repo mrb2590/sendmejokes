@@ -117,9 +117,10 @@ class ConsoleController extends ApplicationController
                 //get joke categories
                 $currentJokeCategories = $this->getJokeCategoriesTable()->getJokeCategoriesByJokeId($joke->joke_id);
                 //get category names
-                foreach ($currentJokeCategories as $jokeCategory) {
-                    $categories[] = $this->getCategoryTable()->getCategory($jokeCategory->cat_id);
+                foreach ($currentJokeCategories as $currentJokeCategory) {
+                    $jodCategories[] = $this->getCategoryTable()->getCategory($currentJokeCategory->cat_id);
                 }
+
                 //get joke votes
                 $votes = $this->getVoteTable()->getVotesByJoke($joke->joke_id);
                 //sum up votes
@@ -137,11 +138,18 @@ class ConsoleController extends ApplicationController
                 $sentJoke = new UserSentJoke();
                 $sentJoke->joke_id = $joke->joke_id;
                 $sentJoke->user_id = $user->user_id;
-                $this->getUserSentJokesTable()->addUserSentJoke($sentJoke);
+                //$this->getUserSentJokesTable()->addUserSentJoke($sentJoke);
 
                 //send email
-                $this->sendDailyJokeEmail($user, $joke, $categories, $voteSum, $userVote);
+                $this->sendDailyJokeEmail($user, $joke, $jodCategories, $voteSum, $userVote);
                 echo "Daily Joke Sent. Joke ID: " . $joke->joke_id . "\r\n\r\n";
+                unset($joke);
+                unset($currentJokeCategories);
+                unset($userExcludeCategories);
+                unset($userSentJokes);
+                unset($possibleJokes);
+                unset($filteredJokes);
+                unset($jodCategories);
             }
         }
         return;
@@ -225,7 +233,7 @@ class ConsoleController extends ApplicationController
         $message .= '<body style="color:#333333;background-color:#E5E5E5;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;">';
         $message .=     '<div class="panel" style="width:100%;max-width:600px;background-color:#FFFFFF;border:1px solid #D8D8D8;margin:0 auto;">';
         $message .=         '<div class="panel-heading" style="background-color:#333333;color:#FFFFFF;padding:10px;border-bottom:5px solid #2196F3;text-align:center;font-size:22px;">';
-        $message .=             '<img src="http://www.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/>';
+        $message .=             '<a href="http://www.sendmejokes.com"><img src="http://www.sendmejokes.com/img/logo.png" height="50" style="height:50px;width:auto;"/></a>';
         $message .=             '<br/>';
         $message .=             'The Joke of the Day #' . $joke->joke_id . ' ';
         $message .=         '</div><!-- /.panel-heading -->';
