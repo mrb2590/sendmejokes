@@ -138,7 +138,7 @@ class ConsoleController extends ApplicationController
                 $sentJoke = new UserSentJoke();
                 $sentJoke->joke_id = $joke->joke_id;
                 $sentJoke->user_id = $user->user_id;
-                //$this->getUserSentJokesTable()->addUserSentJoke($sentJoke);
+                $this->getUserSentJokesTable()->addUserSentJoke($sentJoke);
 
                 //send email
                 $this->sendDailyJokeEmail($user, $joke, $jodCategories, $voteSum, $userVote);
