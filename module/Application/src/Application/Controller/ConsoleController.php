@@ -177,7 +177,7 @@ class ConsoleController extends ApplicationController
         $i = 0;
         foreach ($categories as $category) {
             $anchor = '<a href="http://www.sendmejokes.com/jokes/view/' . $category->url_name . '/" style="color:#2196F3">' . $category->name . '</a>';
-            $categoriesString .= ($i == 0) ? $anchor : '| ' . $anchor;
+            $categoriesString .= ($i == 0) ? $anchor : ' | ' . $anchor;
             $i++;
         }
 
