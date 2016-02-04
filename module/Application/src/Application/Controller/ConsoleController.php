@@ -238,8 +238,8 @@ class ConsoleController extends ApplicationController
         $message .=             'The Joke of the Day #' . $joke->joke_id . ' ';
         $message .=         '</div><!-- /.panel-heading -->';
         $message .=         '<div class="panel-body" style="padding:20px;">';
-        $message .=             '<p class="joke">' . $joke->joke . '</p>';
-        $message .=             '<p class="answer" style="font-weight:bold">' . $joke->answer . '</p>';
+        $message .=             '<p class="joke" style="font-weight:bold">' . $joke->joke . '</p>';
+        $message .=             '<p class="answer" style="font-style:italic">' . $joke->answer . '</p>';
         $message .=             '<p class="categories" style="font-size:12px">';
         $message .=                 'Categories: ' . $categoriesString;
         $message .=             '</p>';
