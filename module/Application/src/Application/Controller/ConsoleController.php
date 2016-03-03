@@ -106,7 +106,10 @@ class ConsoleController extends ApplicationController
 
                 //get first joke from list of possible jokes
                 if (!empty($possibleJokes)) {
+                    shuffle($possibleJokes);
                     $joke = $this->getJokeTable()->getJoke(current(array_keys($possibleJokes)));
+                    var_dump($joke);
+                    exit;
                 } else {
                     echo "***No jokes left after filtering recently sent jokes. Choosing a random one...\r\n";
                     $keys = array_keys($filteredJokes);
@@ -267,6 +270,6 @@ class ConsoleController extends ApplicationController
         $message .= '</body>';
         $message .= '</html>';
 
-        mail($to, $subject, $message, $headers);
+        //mail($to, $subject, $message, $headers);
     }
 }
