@@ -1,5 +1,5 @@
 <?php
-/**
+/** 
  * SendMeJokes (http://www.sendmejokes.com/)
  *
  * @author    Mike Buonomo <mike@sendmjokes.com>
